@@ -25,3 +25,8 @@ map {
 .scroll {
     height: 100%;
 }
+
+#error {
+    font-size:20px;
+    color:red;
+}
