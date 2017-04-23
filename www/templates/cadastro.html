@@ -1,0 +1,29 @@
+<ion-view>
+    <ion-content class="fundo padding">
+        <div class="list">
+
+            <label class="item item-input">
+                <span class="input-label">NOME</span>
+                <input ng-model="usuario.nome" type="text">
+            </label>
+
+            <label class="item item-input">
+                <span class="input-label">E-MAIL</span>
+                <input ng-model="usuario.email" type="text">
+            </label>
+
+            <label class="item item-input">
+                <span class="input-label">SENHA</span>
+                <input ng-model="usuario.senha" type="text">
+            </label>
+
+            <label class="item item-input">
+                <span class="input-label">CONFIRMAR SENHA</span>
+                <input ng-model="usuario.confirmaSenha" type="text">
+            </label>
+            {{error}}
+
+            <button class="button button-full button-positive" ng-click="createContact(usuario)">FINALIZAR</button>
+        </div>
+    </ion-content>
+</ion-view>

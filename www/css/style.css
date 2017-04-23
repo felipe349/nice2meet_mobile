@@ -1,1 +1,27 @@
 /* Empty. Add your own CSS if you like */
+
+.fundo {
+    background-color: #C5FBFB;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.icon{
+    width:100%;
+}
+
+.button-nature{
+    background-color:#40C6C6;
+    color:white;
+}
+
+map {
+    display: block;
+    width: 100%;
+    height: 70%;
+}
+
+.scroll {
+    height: 100%;
+}
