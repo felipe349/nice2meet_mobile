@@ -37,13 +37,14 @@
   </head>
   <body ng-app="nice2meet">
 
-    <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Nice2Meet</h1>
-      </ion-header-bar>
-      <!-- Onde a view é exibida -->
-      <ion-nav-view></ion-nav-view>
-      <!-- Onde a view é exibida -->
-    </ion-pane>
+    <!-- Barra de Navegação -->
+    <ion-nav-bar class="bar-stable">
+      <ion-nav-back-button>
+      </ion-nav-back-button>
+    </ion-nav-bar>
+
+    <!-- Onde a view é exibida -->
+    <ion-nav-view></ion-nav-view>
+
   </body>
 </html>
