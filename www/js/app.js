@@ -31,7 +31,8 @@ angular.module('nice2meet', ['ionic'])
 
   $stateProvider.state('login',{
     url:'/',
-    templateUrl: 'templates/login.html'
+    templateUrl: 'templates/login.html',
+    controller : 'loginCtrl'
   })
   
   .state('home',{
@@ -41,7 +42,8 @@ angular.module('nice2meet', ['ionic'])
   
   .state('cadastro',{
     url:'/cadastro',
-    templateUrl: 'templates/cadastro.html'
+    templateUrl: 'templates/cadastro.html',
+    controller : 'CadastroCtrl'
   });
 
   $urlRouterProvider.otherwise('/');
