@@ -1,37 +1,36 @@
 <ion-view>
     <ion-content class="fundo">
-
-        <div style="height: 60%">
-            <img src="../img/mappa_google.png" class="icon">
-        </div>
-
-        <div style="height: 15%;">
-            <div class="list">
-                <center>
-                    <label class="item item-input">
-                        <span class="input-label">Usuário</span>
-                        <input type="text" ng-model="usuario">
-                    </label>
-                    <label class="item item-input">
-                        <span class="input-label">Senha</span>
-                        <input type="password" ng-model="senha">
-                    </label>
-                </center>
+        <div ng-controller="loginCtrl">
+            <div style="height: 60%">
+                <img src="../img/mappa_google.png" class="icon">
             </div>
-        </div>
 
-        <div style="height: 10%;">
-            <div ng-controller="AppLoginModalCtrl">
-                <a href="/#/home" class="button button-full button-nature">
+            <div style="height: 15%;">
+                <div class="list">
+                    <center>
+                        <label class="item item-input">
+                            <span class="input-label">Usuário</span>
+                            <input type="text" ng-model="usuario">
+                        </label>
+                        <label class="item item-input">
+                            <span class="input-label">Senha</span>
+                            <input type="password" ng-model="senha">
+                        </label>
+                    </center>
+                </div>
+            </div>
+            
+            <div style="height: 10%;">
+                <button class="button button-full button-nature" ng-click="login()">
                         ENTRAR
-                </a>
+                </button>
             </div>
+        </div>
 
-            <div ng-controller="AppCriarUsuarioCtrl">
-                <a href="/#/cadastro" class="button button-full button-nature">
-                        CRIAR CONTA
-                </a>
-            </div>
+        <div ng-controller="">
+            <a href="/#/cadastro" class="button button-full button-nature">
+                    CRIAR CONTA
+            </a>
         </div>
 
     </ion-content>
