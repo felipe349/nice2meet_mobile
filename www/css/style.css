@@ -7,19 +7,19 @@
     background-position: center;
 }
 
-.icon{
-    width:100%;
+.icon {
+    width: 100%;
 }
 
-.button-nature{
-    background-color:#40C6C6;
-    color:white;
+.button-nature {
+    background-color: #40C6C6;
+    color: white;
 }
 
 map {
     display: block;
     width: 100%;
-    height: 70%;
+    height: 60%;
 }
 
 .scroll {
@@ -27,6 +27,12 @@ map {
 }
 
 #error {
-    font-size:20px;
-    color:red;
+    font-size: 20px;
+    color: red;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
