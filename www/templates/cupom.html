@@ -1,0 +1,63 @@
+<ion-view view-title="CUPOM">
+    <ion-content class="fundo">
+        <ion-side-menus>
+            <!-- Left menu -->
+            <ion-side-menu side="left">
+                <ion-content scroll="false">
+                    <div class="list">
+
+                        <a class="item" href="#">
+                            <div>
+                                <img src="../img/avatar.png" style="border-radius: 70px; position: relative; float: left; width: 20%; height: 20%;">
+                                <span style="padding: 20px">
+                                        USUÁRIO
+                            </span>
+                                <br>
+                                <br>
+                                <span style="padding: 20px">
+                                        PONTOS
+                            </span>
+                            </div>
+                        </a>
+
+                        <ion-item nav-clear menu-close ui-sref="home">
+                            <i class="icon ion-navigate"></i> Mapa Turístico
+                        </ion-item>
+
+                        <ion-item nav-clear menu-close style="color: lightslategray">
+                            <i class="icon ion-pricetags"></i> Cupons
+                        </ion-item>
+
+                        <ion-item nav-clear menu-close ui-sref="ajuda">
+                            <i class="icon ion-help-circled"></i> Ajuda
+                        </ion-item>
+
+                        <ion-item nav-clear menu-close ui-sref="quiz">
+                            <i class="icon ion-help-circled"></i> Quiz
+                        </ion-item>
+
+                        <ion-item nav-clear menu-close ui-sref="login" style="color: red">
+                            <i class="icon ion-android-walk"></i>
+                            <span>Sair</span>
+                        </ion-item>
+                    </div>
+                </ion-content>
+            </ion-side-menu>
+
+            <ion-side-menu-content class="fundo padding">
+
+                <ion-content scroll="false">
+                    <ion-header-bar class="bar-header bar-positive">
+                        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+			              </button>
+                    </ion-header-bar>
+
+                    <div style="height: 25px"></div>
+
+
+
+                </ion-content>
+            </ion-side-menu-content>
+        </ion-side-menus>
+    </ion-content>
+</ion-view>

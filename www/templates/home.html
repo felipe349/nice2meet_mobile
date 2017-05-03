@@ -1,102 +1,93 @@
-<ion-view>
-    <!-- <ion-nav-bar class="bar-positive">
-        <ion-nav-back-button>
-        </ion-nav-back-button>
-        <ion-nav-title>Home</ion-nav-title>
-    </ion-nav-bar>
--->
-
-    <ion-side-menus>
-        <!-- Left menu -->
-        <ion-side-menu side="left">
-            <ion-header-bar align-title="left" class="bar-balanced">
-                <!--<h1 class="title" style="align-content: center">SUBMENU</h1>-->
-                <button menu-toggle="left" class="button button-icon icon ion-chevron-left"></button>
-            </ion-header-bar>
-
-            <ion-content scroll="false">
-                <div class="list">
-
-                    <a class="item" href="#">
-                        <div>
-                            <img src="../img/avatar.png" style="border-radius: 70px; position: relative; float: left; width: 20%; height: 20%;">
-                            <span style="padding: 20px">
-                                        USUÁRIO
-                                        </span>
-                            </br>
-                            </br>
-                            <span style="padding: 20px">
-                                        PONTOS
-                                    </span>
-                        </div>
-                    </a>
-
-                    <a class="item item-icon-left" href="#">
-                        <i class="icon ion-navigate"></i> Mapa Turístico
-                    </a>
-
-                    <a class="item item-icon-left" href="#">
-                        <i class="icon ion-pricetags"></i> Cupons
-                    </a>
-
-                    <a class="item item-icon-left" href="#">
-                        <i class="icon ion-help-circled"></i> Ajuda
-                    </a>
-
-                    <a class="item item-icon-left" href="#" style="color: red">
-                        <i class="icon ion-android-walk"></i>
-                        <span>Sair</span>
-                    </a>
-                </div>
-            </ion-content>
-
-        </ion-side-menu>
-
-        <ion-side-menu-content class="fundo padding" ng-controller="MapCtrl">
-
-            <ion-header-bar align-title="left" class="bar-positive">
-                <button menu-toggle="left" class="button button-icon icon ion-navicon" style="width: 25%"> MENU</button>
-            </ion-header-bar>
+<ion-view view-title="HOME">
 
 
+    <ion-content class="fundo">
+        <ion-side-menus>
+            <!-- Left menu -->
+            <ion-side-menu side="left">
 
-            <div>
+
                 <ion-content scroll="false">
-                    <div class="padding">
-                        <div class="card">
-                            <div class="item item-text-wrap">
+                    <div class="list">
+
+                        <a class="item" href="#">
+                            <div>
+                                <img src="../img/avatar.png" style="border-radius: 70px; position: relative; float: left; width: 20%; height: 20%;">
+                                <span style="padding: 20px">
+                                        USUÁRIO
+                            </span>
+                                <br>
+                                <br>
+                                <span style="padding: 20px">
+                                        PONTOS
+                            </span>
+                            </div>
+                        </a>
+
+                        <ion-item nav-clear menu-close style="color: lightslategray">
+                            <i class="icon ion-navigate"></i> Mapa Turístico
+                        </ion-item>
+
+                        <ion-item nav-clear menu-close ui-sref="cupom">
+                            <i class="icon ion-pricetags"></i> Cupons
+                        </ion-item>
+
+                        <ion-item nav-clear menu-close ui-sref="ajuda">
+                            <i class="icon ion-help-circled"></i> Ajuda
+                        </ion-item>
+
+                        <ion-item nav-clear menu-close ui-sref="quiz">
+                            <i class="icon ion-help-circled"></i> Quiz
+                        </ion-item>
+
+                        <ion-item nav-clear menu-close ui-sref="login" style="color: red">
+                            <i class="icon ion-android-walk"></i>
+                            <span>Sair</span>
+                        </ion-item>
+                    </div>
+                </ion-content>
+            </ion-side-menu>
+
+            <ion-side-menu-content class="fundo padding">
+
+                <ion-content scroll="false">
+                    <ion-header-bar class="bar-positive">
+                        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+			              </button>
+                        <h1 class="title ">ENCONTRE OS PONTOS!</h1>
+                    </ion-header-bar>
+
+                    <div style="height: 25px "></div>
+                    <div class="padding ">
+                        <div class="card ">
+                            <div class="item item-text-wrap ">
                                 <div>
-                                    <img src="../img/avatar.png" style="border-radius: 70px; position: relative; float: left; width: 20%; height: 20%;">
+                                    <img src="../img/avatar.png " style="border-radius: 70px; position: relative; float: left; width: 20%; height: 20%; ">
                                 </div>
-                                <div style="height: 80px;">
-                                    <span style="padding: 20px">
+                                <div style="height: 80px; ">
+                                    <span style="padding: 20px ">
                                         USUÁRIO
                                     </span>
 
                                 </div>
-                                <div style="height: 40px;">
+                                <div style="height: 40px; ">
                                     <hr>
-                                    <span style="position: relative; top: 7px;">
+                                    <span style="position: relative; top: 7px; ">
                                         PONTOS
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <map on-create="mapCreated(map)"></map>
+                    <map on-create="mapCreated(map) "></map>
                 </ion-content>
 
 
 
 
-                <ion-footer-bar class="bar-stable">
-                    <a ng-click="centerOnMe()" class="button button-icon icon ion-navigate"></a>
+                <ion-footer-bar class="bar-stable ">
+                    <a ng-click="centerOnMe() " class="button button-icon icon ion-navigate "></a>
                 </ion-footer-bar>
-            </div>
 
-
-        </ion-side-menu-content>
-
-    </ion-side-menus>
-
+    </ion-content>
 </ion-view>

@@ -3,9 +3,9 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('nice2meet', ['ionic'])
+var appNice = angular.module('nice2meet', ['ionic'])
 
-.run(function($ionicPlatform) {
+appNice.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
         if (window.cordova && window.cordova.plugins.Keyboard) {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -27,25 +27,44 @@ angular.module('nice2meet', ['ionic'])
 // AQUI SÃO CONFIGURADAS AS ROTAS
 //===============================
 
-.config(function($stateProvider, $urlRouterProvider) {
+appNice.config(function($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('login', {
-        url: '/',
+        url: '/login',
         templateUrl: 'templates/login.html',
-        controller: 'loginCtrl'
+        controller: 'LoginCtrl'
     })
 
     .state('home', {
         url: '/home',
-        templateUrl: 'templates/home.html'
+        templateUrl: 'templates/home.html',
+        controller: 'HomeCtrl'
     })
 
     .state('cadastro', {
         url: '/cadastro',
         templateUrl: 'templates/cadastro.html',
         controller: 'CadastroCtrl'
+    })
+
+    .state('cupom', {
+        url: '/cupom',
+        templateUrl: 'templates/cupom.html',
+        controller: 'CupomCtrl'
+    })
+
+    .state('ajuda', {
+        url: '/ajuda',
+        templateUrl: 'templates/ajuda.html',
+        controller: 'AjudaCtrl'
+    })
+
+    .state('quiz', {
+        url: '/quiz',
+        templateUrl: 'templates/quiz.html',
+        controller: 'QuizCtrl'
     });
 
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/login');
 });
 //====================================

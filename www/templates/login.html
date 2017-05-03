@@ -1,11 +1,11 @@
 <ion-view>
-    <!-- Não precisa ter essa barra na tela de Login, mas estou deixando aqui -->
-    <ion-header-bar align-title="left" class="bar-positive">
-        <h1 class="title" style="align-content: center">Nice2Meet</h1>
-    </ion-header-bar>
 
     <ion-content class="fundo">
-        <div ng-controller="loginCtrl" style="height: 100%">
+        <ion-header-bar align-title="left" class="bar-positive">
+            <h1 class="title" style="align-content: center">Nice2Meet</h1>
+        </ion-header-bar>
+
+        <div ng-controller="LoginCtrl" style="height: 100%">
             <div style="position: absolute">
                 <img src="../img/mappa_google.png" class="icon">
             </div>
@@ -35,9 +35,11 @@
                 </div>
 
                 <div ng-controller="">
-                    <a href="/#/cadastro" class="button button-full button-nature">
+                    <a href="/#/cadastro">
+                        <button class="button button-full button-nature">
                     CRIAR CONTA
-            </a>
+                    </button>
+                    </a>
                 </div>
             </div>
         </div>

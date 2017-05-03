@@ -1,0 +1,24 @@
+{
+    "perguntas": [{
+            "Pergunta": "Netuno é o deus grego que representa...",
+            "Correta": "as Águas e o Oceano",
+            "Errada1": "a Luz e o Sol",
+            "Errada2": "as Árvores e a Floresta",
+            "Errada3": "os outros deuses gregos"
+        },
+        {
+            "Pergunta": "Iemanjá também é conhecida como...",
+            "Correta": "Dona Janaína",
+            "Errada1": "Senhora do Mar",
+            "Errada2": "Senhora Orixá",
+            "Errada3": "Egba"
+        },
+        {
+            "Pergunta": "Em que ano o Forte de Itaipú se abriu ao público?",
+            "Correta": "1994",
+            "Errada1": "1903",
+            "Errada2": "1930",
+            "Errada3": "1986"
+        }
+    ]
+}

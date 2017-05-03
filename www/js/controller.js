@@ -1,6 +1,6 @@
 angular.module('nice2meet')
 
-.controller('loginCtrl', function($scope, $location) {
+.controller('LoginCtrl', function($scope, $location) {
     $scope.login = function() {
         if ($scope.usuario == undefined || $scope.senha == undefined) {
             $scope.erro = "Por favor, preencher login e senha";
@@ -36,7 +36,9 @@ angular.module('nice2meet')
 
 
 
-.controller('MapCtrl', function($scope, $ionicLoading) {
+
+.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location) {
+
     $scope.mapCreated = function(map) {
         $scope.map = map;
     };
@@ -60,4 +62,27 @@ angular.module('nice2meet')
             alert('Unable to get location: ' + error.message);
         });
     };
+
+})
+
+
+.controller('QuizCtrl', function($scope, $http) {
+
+    $http.get("json/perguntas.json").then(function(response) {
+        $scope.asPerguntas = response.data.perguntas;
+    });
+
+})
+
+
+.controller('AjudaCtrl', function($scope, $http) {
+
+
+
+})
+
+.controller('CupomCtrl', function($scope, $http) {
+
+
+
 });
