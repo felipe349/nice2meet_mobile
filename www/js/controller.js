@@ -9,8 +9,8 @@ angular.module('nice2meet')
                 method: "POST",
                 url: "http://projeto-nice2meet-barbaromatrix.c9users.io/api/loginTurista",
                 data: usuario
-            }).success(function(retorno) {
-                console.log(retorno);
+            }).success(function(sucess) {
+                console.log(sucess);
             }).error(function(error){
                 console.log(error);
             });
