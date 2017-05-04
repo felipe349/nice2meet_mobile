@@ -18,20 +18,20 @@
                     <center>
                         <label class="item item-input">
                             <span class="input-label">Usuário</span>
-                            <input type="text" ng-model="usuario">
+                            <input type="text" ng-model="usuario.login">
                         </label>
                         <label class="item item-input">
                             <span class="input-label">Senha</span>
-                            <input type="password" ng-model="senha">
+                            <input type="password" ng-model="usuario.senha">
                         </label>
                     </center>
                 </div>
 
                 <span id="error">{{erro}}</span>
                 <div>
-                    <button class="button button-full button-nature" ng-click="login()">
+                    <button class="button button-full button-nature" ng-click="login(usuario)">
                         ENTRAR
-                </button>
+                    </button>
                 </div>
 
                 <div ng-controller="">

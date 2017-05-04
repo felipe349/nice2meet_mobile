@@ -1,12 +1,21 @@
 angular.module('nice2meet')
 
 .controller('LoginCtrl', function($scope, $location) {
-    $scope.login = function() {
+    $scope.login = function(u) {
         if ($scope.usuario == undefined || $scope.senha == undefined) {
             $scope.erro = "Por favor, preencher login e senha";
         } else {
+            $http({
+                method: "POST",
+                url: "http://projeto-nice2meet-barbaromatrix.c9users.io/api/loginTurista",
+                data: usuario
+            }).success(function(retorno) {
+                console.log(retorno);
+            }).error(function(error){
+                console.log(error);
+            });
+            
             $scope.erro = "";
-
             $location.url();
             $location.url('/home')
         }
