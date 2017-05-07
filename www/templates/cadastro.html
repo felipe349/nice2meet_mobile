@@ -8,38 +8,40 @@
 
     <ion-content class="fundo padding">
         <div class="list">
+            <form name="cadastro" ng-click="cadastrarTurista(usuario)">
+                <label class="item item-input">
+                    <input placeholder="Nome" maxlength="150" name="nm_turista" ng-model="usuario.nm_turista" type="text" required>
+                </label>
+                <span ng-show="cadastro.nm_turista.$touched && cadastro.nm_turista.$invalid" id="error">O campo é obrigatório.</span>
 
-            <label class="item item-input">
-                <span class="input-label">NOME</span>
-                <input ng-model="usuario.nm_turista" type="text">
-            </label>
+                <label class="item item-input">
+                    <input placeholder="CPF" ng-model="usuario.cd_cpf" type="text" maxlength="11" required>
+                </label>
+                <span ng-show="cadastro.dataNasc.$touched && cadastro.dataNasc.$invalid" id="error">O campo é obrigatório.</span>
+                <span id="error">{{errorCPF}}</span>
 
-            <label class="item item-input">
-                <span class="input-label">CPF</span>
-                <input ng-model="usuario.cd_cpf" type="text">
-            </label>
+                <label class="item item-input">
+                    <input placeholder="Data de Nascimento" type="text" onfocus="(this.type='date')" name="dataNasc" ng-model="usuario.dt_nascimento" required>
+                </label>
+                <span ng-show="cadastro.dataNasc.$touched && cadastro.dataNasc.$invalid" id="error">O campo é obrigatório.</span>
 
-            <label class="item item-input">
-                <span class="input-label">Data de nascimento</span>
-                <input ng-model="usuario.dt_nacimento" type="text">
-            </label>
+                <label class="item item-input">
+                    <input placeholder="Email" maxlength="150" name="email" ng-model="usuario.email" type="email" required>
+                </label>
+                <span ng-show="cadastro.email.$touched && cadastro.email.$invalid" id="error">Insira um email válido.</span>
 
-            <label class="item item-input">
-                <span class="input-label">E-MAIL</span>
-                <input ng-model="usuario.email" type="text">
-            </label>
+                <label class="item item-input">
+                    <input placeholder="Senha" maxlength="150" ng-model="usuario.password" name="senha" type="password" required>
+                </label>
+                <span ng-show="cadastro.senha.$touched && cadastro.senha.$invalid" id="error">O campo é obrigatório.</span>
 
-            <label class="item item-input">
-                <span class="input-label">SENHA</span>
-                <input ng-model="usuario.password" type="password">
-            </label>
-
-            <label class="item item-input">
-                <span class="input-label">CONFIRMAR SENHA</span>
-                <input ng-model="usuario.confirmaSenha" type="password">
-            </label>
-
-            <button class="button button-full button-positive" ng-click="cadastrarTurista(usuario)">FINALIZAR</button>
+                <label class="item item-input">
+                    <input placeholder="Confirmar Senha" maxlength="150" ng-model="usuario.confirmaSenha" name="conSenha" type="password" ng-pattern="(senha)" required>
+                </label>
+                <span ng-show="cadastro.conSenha.$touched && cadastro.conSenha.$invalid" id="error">O campo é obrigatório.</span>
+                <span id="error">{{erro}}</span>
+                <button class="button button-full button-positive" type="submit">FINALIZAR</button>
+            </form>
         </div>
     </ion-content>
 </ion-view>
