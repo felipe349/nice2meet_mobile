@@ -28,16 +28,16 @@
                             <i class="icon ion-navigate"></i> Mapa Turístico
                         </ion-item>
 
+                        <ion-item nav-clear menu-close ui-sref="pontosturisticos">
+                            <i class="icon ion-pricetags"></i> Pontos Turísticos
+                        </ion-item>
+
                         <ion-item nav-clear menu-close ui-sref="cupom">
                             <i class="icon ion-pricetags"></i> Cupons
                         </ion-item>
 
                         <ion-item nav-clear menu-close ui-sref="ajuda">
                             <i class="icon ion-help-circled"></i> Ajuda
-                        </ion-item>
-
-                        <ion-item nav-clear menu-close ui-sref="quiz">
-                            <i class="icon ion-help-circled"></i> Quiz
                         </ion-item>
 
                         <ion-item nav-clear menu-close ui-sref="login" style="color: red">
@@ -57,29 +57,9 @@
                         <h1 class="title ">ENCONTRE OS PONTOS!</h1>
                     </ion-header-bar>
 
-                    <div style="height: 25px "></div>
-                    <div class="padding ">
-                        <div class="card ">
-                            <div class="item item-text-wrap ">
-                                <div>
-                                    <img src="../img/avatar.png " style="border-radius: 70px; position: relative; float: left; width: 20%; height: 20%; ">
-                                </div>
-                                <div style="height: 80px; ">
-                                    <span style="padding: 20px ">
-                                        USUÁRIO
-                                    </span>
-
-                                </div>
-                                <div style="height: 40px; ">
-                                    <hr>
-                                    <span style="position: relative; top: 7px; ">
-                                        PONTOS
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <map on-create="mapCreated(map) "></map>
+                    <div style="height: 35px "></div>
+                    
+                    <map on-create="mapCreated(map)" style="height: 95%; width: 100%"></map>
                 </ion-content>
 
 

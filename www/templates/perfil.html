@@ -1,8 +1,12 @@
-<ion-view view-title="CUPOM">
+<ion-view view-title="HOME">
+
+
     <ion-content class="fundo">
         <ion-side-menus>
             <!-- Left menu -->
             <ion-side-menu side="left">
+
+
                 <ion-content scroll="false">
                     <div class="list">
 
@@ -20,11 +24,11 @@
                             </div>
                         </a>
 
-                        <ion-item nav-clear menu-close ui-sref="home">
+                        <ion-item nav-clear menu-close style="color: lightslategray">
                             <i class="icon ion-navigate"></i> Mapa Turístico
                         </ion-item>
 
-                        <ion-item nav-clear menu-close style="color: lightslategray" >
+                        <ion-item nav-clear menu-close ui-sref="cupom">
                             <i class="icon ion-pricetags"></i> Cupons
                         </ion-item>
 
@@ -43,43 +47,23 @@
             <ion-side-menu-content class="fundo padding">
 
                 <ion-content scroll="false">
-                    <ion-header-bar class="bar-header bar-positive">
+                    <ion-header-bar class="bar-positive">
                         <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
 			              </button>
+                        <h1 class="title ">ENCONTRE OS PONTOS!</h1>
                     </ion-header-bar>
 
-                    <div style="height: 25px"></div>
-                    <br>
-                    <div class="list">
-
-                        <br>
-                        <div class="bar bar-header item-input-inset">
-                          <label class="item-input-wrapper">
-                            <i class="icon ion-ios-search placeholder-icon"></i>
-                            <input type="search" placeholder="Search">
-                          </label>
-                        </div>
-                        <br>
-
-                        <a class="item item-icon-left" href="#">
-                            <i class="icon ion-pricetags"></i>
-                            Netuno
-                            <span class="badge badge-assertive">12:15h</span>
-                          </a>
-                          <a class="item item-icon-left" href="#">
-                            <i class="icon ion-pricetags"></i>
-                            Iemanja
-                            <span class="badge badge-assertive">16:59h</span>
-                          </a>
-                          <a class="item item-icon-left" href="#">
-                            <i class="icon ion-pricetags" ></i>
-                            Forte
-                            <span class="badge badge-assertive">23:12h</span>
-                        </a>
-
-                    </div>
+                    <div style="height: 35px "></div>
+                    
+                    <map on-create="mapCreated(map)" style="height: 95%; width: 100%"></map>
                 </ion-content>
-            </ion-side-menu-content>
-        </ion-side-menus>
+
+
+
+
+                <ion-footer-bar class="bar-stable ">
+                    <a ng-click="centerOnMe() " class="button button-icon icon ion-navigate "></a>
+                </ion-footer-bar>
+
     </ion-content>
 </ion-view>
