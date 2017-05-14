@@ -7,7 +7,7 @@
 
         <div ng-controller="LoginCtrl" style="height: 100%">
             <div style="position: absolute">
-                <img src="../img/mappa_google.png" class="icon">
+                <img src="../img/mappa_google.png" class="logologin">
             </div>
 
             <div style="height: 60%;">
@@ -17,12 +17,10 @@
                 <div class="list">
                     <center>
                         <label class="item item-input">
-                            <span class="input-label">Usuário</span>
-                            <input type="text" ng-model="usuario.login">
+                            <input type="text" placeholder="Login" ng-model="usuario.login" class="centralizar">
                         </label>
                         <label class="item item-input">
-                            <span class="input-label">Senha</span>
-                            <input type="password" ng-model="usuario.senha">
+                            <input type="password" placeholder="Senha" ng-model="usuario.senha" class="centralizar">
                         </label>
                     </center>
                 </div>

@@ -1,8 +1,9 @@
 angular.module('nice2meet')
+//
 
 .controller('LoginCtrl', function($scope, $location) {
     $scope.login = function(u) {
-        if ($scope.usuario == undefined || $scope.senha == undefined) {
+        /* if ($scope.usuario == undefined || $scope.senha == undefined) {
             $scope.erro = "Por favor, preencher login e senha";
         } else {
             $http({
@@ -14,11 +15,11 @@ angular.module('nice2meet')
             }).error(function(error){
                 console.log(error);
             });
-            
+            */
             $scope.erro = "";
             $location.url();
             $location.url('/home')
-        }
+        //}
     }
 })
 
@@ -143,8 +144,37 @@ angular.module('nice2meet')
 
 })
 
-.controller('CupomCtrl', function($scope, $http) {
+.controller('CupomCtrl', function($scope, $http, $ionicPopup) {
+    $scope.showConfirm = function() {
+         var confirmPopup = $ionicPopup.confirm({
+           title: 'Deseja validar o cupom?',
+           template: 'Deseja ganhar um sorvete?'
+         });
+         confirmPopup.then(function(res) {
+           if(res) {
+             console.log('You are sure');
+           } else {
+             console.log('You are not sure');
+           }
+         });
+    }; 
+    $scope.noMoreItemsAvailable = false;
+  
+  $scope.loadMore = function() {
+    $scope.items.push({ id: $scope.items.length});
+   
+    if ( $scope.items.length == 99 ) {
+      $scope.noMoreItemsAvailable = true;
+    }
+    $scope.$broadcast('scroll.infiniteScrollComplete');
+  };
+  
+  $scope.items = [];
+})
+
+/*.controller('PontosTuristicosCtrl', function($scope, $http) {
 
 
 
-});
+});*/
+

@@ -47,6 +47,12 @@ appNice.config(function($stateProvider, $urlRouterProvider) {
         controller: 'CadastroCtrl'
     })
 
+    .state('pontosturisticos', {
+        url: '/pontosturisticos',
+        templateUrl: 'templates/pontosturisticos.html',
+        controller: 'PontosTuristicosCtrl'
+    })
+
     .state('cupom', {
         url: '/cupom',
         templateUrl: 'templates/cupom.html',
@@ -68,3 +74,4 @@ appNice.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/login');
 });
 //====================================
+
