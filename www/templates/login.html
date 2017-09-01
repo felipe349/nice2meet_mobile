@@ -1,0 +1,46 @@
+    <ion-view ng-app="nice2meet" >
+
+    <ion-content class="signup-background" scroll="false">
+        
+
+        <div ng-controller="LoginCtrl" style="height:100%;">
+            
+                        
+                            <div class="centralizar" style="margin-top:35%;">
+                                <i class="tittle-login">Nice2meet</i>
+                            </div>
+
+            <div style="height: 13%;">
+            </div>
+            
+                <div class="container-login">
+                    <div class="list">
+                        <center>
+                            <label class="item item-input item-login">
+                                <input type="text" placeholder="Login" ng-model="usuario.login" class="centralizar" >
+                            </label>
+                            <label class="item item-input item-login">
+                                <input type="password" placeholder="Senha" ng-model="usuario.senha" class="centralizar">
+                            </label>
+                        </center>
+                    </div>
+
+                    <span id="error">{{erro}}</span>
+                    <div>
+                        <div class="row">
+                            <div class="col text-center">
+                                <button class="button button-login" ng-click="login(usuario)">LOGIN</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="frase-cadastrar">
+                        Não tem conta ainda?
+                        <a class="link-cadastrar" ng-click="cadastro()">
+                            Cadastre-se
+                        </a>
+                    </div>
+                </div>
+            
+        </div>
+    </ion-content>
+</ion-view>

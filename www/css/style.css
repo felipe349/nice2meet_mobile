@@ -1,0 +1,264 @@
+.fundo {
+    background-color: #BEE7F9;
+    
+}
+
+.header-nice{
+    background-color: rgba(15, 17, 58, 0.9) !important;
+    position: relative;
+    border-bottom: 0px solid #fff !important;
+}
+
+.signup-background {
+    background-image: url('../img/bg4.jpg');
+    background-size: auto 100%; 
+    background-position: right;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position:center;
+}
+.tittle-login{
+    color: rgba(255,255,255,0.8);
+    position: relative;
+    font-size: 40px;
+    text-shadow:0px 1px 1px rgba(255,255,255,1);
+    font-style:bold;
+}
+.fundo2{
+    background-color: white;
+}
+.logologin {
+    width: 80%;
+    margin:10%;
+}
+
+.button-nature {
+    background-color: #40C6C6;
+    color: white;
+}
+
+.button-login{
+    background-color: rgba(33, 150, 243, 0.5);
+    border-radius: 300px;
+    width: 85%;
+    padding: 0px;
+    margin-top: 0px;
+    color:white;
+
+}
+
+.button-login:hover{
+    color: #fff;
+}
+
+.centralizar{
+    text-align: center !important;
+}
+
+#map {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.scroll {
+    height: 100%;
+}
+
+#error {
+    font-size: 20px;
+    color: red;
+}
+
+#footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.button-m {
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    width: 100px;
+    height: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.titulo-mapa {
+    border: none;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.img_avatar, .img_ponto {
+    border: 0px solid #ddd;
+    border-radius: 8px;
+    padding: 0px;
+    width: 250px;
+}
+
+.item-login input:focus{
+    
+}
+
+.item-login input{
+    border: 1px solid white;
+    border-radius: 200px;
+    background-color: #fff;
+    margin: 0;
+    margin-top: 0px; 
+    height: 40px !important;
+    padding-right: 0px;
+}
+
+.item-login{
+    border: 0px;
+    height: 60px !important;
+    padding-left: 0px !important;
+    background-color: transparent;
+    max-width: 80%;
+    margin-top: 0px;
+}
+
+
+.item_cpm{
+    margin-bottom: 5px;
+}
+
+.tabs{
+    background-color: rgba(15, 17, 58, 0.9);
+
+    border-top: 0px solid #fff;
+}
+
+.tab-item{
+    color:#bbb;
+    background-color: transparent;
+
+
+}
+.tab-item {
+    -webkit-transform: scale(0.9);
+       -moz-transform: scale(0.9);
+        -ms-transform: scale(0.9);
+         -o-transform: scale(0.9);
+            transform: scale(0.9);
+            transition:0.4s;
+}
+.tab-item.tab-item-active {
+    position: relative;
+    color: #fff;
+    overflow: hidden;
+}
+
+.tab-item.tab-item-active {
+    -webkit-transform: scale(1.1);
+       -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+         -o-transform: scale(1.1);
+            transform: scale(1.1);
+            transition:0.4s;
+}
+
+.gmnoprint a, 
+.gmnoprint span, 
+.gm-style-cc, 
+.gmnoprint div {
+    display: none;
+}
+.gm-style-cc { 
+    display:none; }
+
+.icon-pontos{
+    font-size: 150%;
+    color: #444;
+
+}
+
+.pontos:after{
+    position: absolute;
+    content: ' ';
+    width: 100%;
+    height: 50%;
+    top: 0;
+    left: 0;
+
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+
+    background: -moz-linear-gradient(top, rgba(255,255,255,0.7) 0%, rgba(255,255,255,.1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.7)), color-stop(100%,rgba(255,255,255,.1)));
+    background: linear-gradient(top, rgba(255,255,255,0.7) 0%,rgba(255,255,255,.1) 100%);
+}
+
+
+.modal{
+    box-shadow: 0 16px 20px rgba(0,0,0,.4);
+    border-radius: 10px;
+}
+
+.modal-wrapper{
+  position:absolute !important;
+  width: 80%;
+  height:50%;
+  top:0 !important; 
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin: auto !important;
+}
+.modal .backdrop{
+  display:block !important;
+}
+
+.criar-rota{
+    margin-top: 0 !important;
+}
+
+.button-pontos, .button-pontos:hover{
+    position: absolute;
+    margin-top: 1%;
+    right: 7px;
+    background-color: rgba(15, 17, 58, 0.7);
+    z-index: 99;
+    font-size: 25px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    font-style: bold;
+}
+
+.button-pontos:active, .button-pontos:focus{
+    color: #aaa;
+    background-color: rgba(15, 17, 58, 0.7);
+    -webkit-transform: scale(1.1);
+       -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+         -o-transform: scale(1.1);
+            transform: scale(1.1);
+            transition:0.4s;
+}
+
+
+.frase-cadastrar{
+    color: #fff;
+
+    text-align: center;
+}
+.link-cadastrar{
+
+    color: #fff;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+

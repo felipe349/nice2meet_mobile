@@ -1,0 +1,11 @@
+{
+  "name": "nice2meet2",
+  "app_id": "80e8b3bd",
+  "type": "ionic1",
+  "watchPatterns": [
+    "scss/**/*"
+  ],
+  "integrations": {
+    "cordova": {}
+  }
+}
