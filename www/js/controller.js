@@ -10,8 +10,8 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http) {
             $scope.erro = u.senha;
         } else {
             $http({
-                method: "POST",
-                url: "https://nice2meettcc.herokuapp.com/api/auth/login",
+                method: "post",
+                url: "https://nice2meet-claiohm.c9users.io/api/auth/login",
                 data: {
                         email : "claiohm@gmail.com",
                         password : "123456"

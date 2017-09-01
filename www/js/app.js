@@ -28,9 +28,15 @@ appNice.run(function($ionicPlatform) {
 // AQUI SÃO CONFIGURADAS AS ROTAS
 //===============================
 
-appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
-$ionicConfigProvider.tabs.position('bottom');
-$ionicConfigProvider.tabs.style('standard');
+appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
+
+    $httpProvider.defaults.headers.common = {};
+    $httpProvider.defaults.headers.post = {};
+    $httpProvider.defaults.headers.put = {};
+    $httpProvider.defaults.headers.patch = {};
+    
+    $ionicConfigProvider.tabs.position('bottom');
+    $ionicConfigProvider.tabs.style('standard');
 
     $stateProvider.state('login', {
         url: '/login',
