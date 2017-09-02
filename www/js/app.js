@@ -30,11 +30,7 @@ appNice.run(function($ionicPlatform) {
 
 appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
 
-    $httpProvider.defaults.headers.common = {};
-    $httpProvider.defaults.headers.post = {};
-    $httpProvider.defaults.headers.put = {};
-    $httpProvider.defaults.headers.patch = {};
-    
+
     $ionicConfigProvider.tabs.position('bottom');
     $ionicConfigProvider.tabs.style('standard');
 

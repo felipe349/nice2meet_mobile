@@ -11,17 +11,18 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http) {
         } else {
             $http({
                 method: "post",
-                url: "https://nice2meet-claiohm.c9users.io/api/auth/login",
+                url: "http://nice2meettcc.herokuapp.com/api/auth/login",
                 data: {
                         email : "claiohm@gmail.com",
                         password : "123456"
                 }
-            }).success(function(sucess) {
-                console.log(sucess);
-                $scope.erro = "";
-                $location.url();
-                $location.path('/home');
-                document.getElementById('idTabs').style.display='block'; 
+            }).success(function(success) {
+                if(success.success == 1) {
+                    $scope.erro = "";
+                    $location.url();
+                    $location.path('/home');
+                    document.getElementById('idTabs').style.display='block';
+                }
             }).error(function(error){
                 console.log(error);
                 $scope.erro = u;
