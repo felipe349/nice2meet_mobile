@@ -66,8 +66,9 @@
 }
 
 #error {
+    text-align: center;
     font-size: 20px;
-    color: red;
+    color: white;
 }
 
 #footer {
