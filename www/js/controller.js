@@ -6,15 +6,15 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http) {
     
     document.getElementById('idTabs').style.display='none';
     $scope.login = function(u) {
-         if (u.login == undefined || u.senha == undefined) {
-            $scope.erro = u.senha;
+         if (u == undefined || u.login == undefined || u.senha == undefined) {
+            $scope.erro = "Digite o login e senha.";
         } else {
             $http({
                 method: "post",
                 url: "http://nice2meettcc.herokuapp.com/api/auth/login",
                 data: {
-                        email : "claiohm@gmail.com",
-                        password : "123456"
+                        email : u.login,
+                        password : u.senha
                 }
             }).success(function(success) {
                 if(success.success == 1) {
@@ -25,7 +25,7 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http) {
                 }
             }).error(function(error){
                 console.log(error);
-                $scope.erro = u;
+                $scope.erro = "Login ou senha invalido.";
             });
             
 
@@ -134,8 +134,6 @@ var perguntasQuiz = {};
 appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, $cordovaGeolocation, $ionicPopup, $ionicSideMenuDelegate, $ionicModal) {
 
 
-
-    
 
   $ionicModal.fromTemplateUrl('templates/modal.html', {
     scope: $scope
