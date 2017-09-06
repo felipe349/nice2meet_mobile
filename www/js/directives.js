@@ -8,12 +8,6 @@ angular.module('nice2meet')
         },
         link: function($scope, $element, $attr, $location, $http) {
             function initialize() {
-                var latlongPraiaGrande = { lat: -24.0295078, lng: -46.4740969 };
-                var locations = [
-                    { "lat": -24.0295078, "lgn": -46.4740969 },
-                    { "lat": -24.0360845, "lgn": -46.4915432 },
-                    { "lat": -23.999416, "lgn": -46.4119249 }
-                ]
                 var myStyle = [
        {
          featureType: "administrative",
@@ -50,7 +44,6 @@ angular.module('nice2meet')
        mapTypeControlOptions: {
          mapTypeIds: ['mystyle', google.maps.MapTypeId.ROADMAP, google.maps.MapTypeId.TERRAIN]
        },
-       center: latlongPraiaGrande,
        zoom: 17,
        mapTypeId: 'mystyle'
      });

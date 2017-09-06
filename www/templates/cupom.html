@@ -15,7 +15,7 @@
 
                     
                     
-                    <div class="list">
+                    <div class="list" >
 
                         
                         <div class="bar bar-header item-input-inset">
@@ -26,7 +26,7 @@
                         </div>
                         
                         <br>
-                        <div>
+                        <div  >
                           <a class="item item-icon-left item_cpm" ng-model="Cupom1"  ng-click="Cupom1 = !Cupom1;">
                             <i class="icon ion-pricetags"></i>
                             Netuno
@@ -49,7 +49,7 @@
                           </a>
 
 
-                          <a class="item item-icon-left item_cpm" ng-model="Cupom2" ng-click="Cupom2 = !Cupom2;">
+                          <a class="item item-icon-left item_cpm"  ng-model="Cupom2" ng-click="Cupom2 = !Cupom2;">
                             <i class="icon ion-pricetags"></i>
                             Iemanja
                             <span class="badge badge-assertive">16:59h</span>
@@ -93,8 +93,6 @@
 
                            
 
-                        
-
 
 
 
@@ -103,7 +101,7 @@
                     </div>
 
 
-                        
+                        <ion-spinner icon="ripple" class="" style="color:black;"></ion-spinner>
 
                      <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>   
 

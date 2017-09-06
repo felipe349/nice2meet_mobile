@@ -5,6 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 var appNice = angular.module('nice2meet', ['ionic', 'ngCordova'])
 
+ 
 appNice.run(function($ionicPlatform) {
     $ionicPlatform.ready(function() {
         if (window.cordova && window.cordova.plugins.Keyboard) {

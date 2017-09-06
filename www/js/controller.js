@@ -1,13 +1,12 @@
 var appN2M = angular.module('nice2meet')
     //
 
-
 appN2M.controller('LoginCtrl', function($scope, $location, $http) {
     
     document.getElementById('idTabs').style.display='none';
     $scope.login = function(u) {
          if (u == undefined || u.login == undefined || u.senha == undefined) {
-            $scope.erro = "Digite o login e senha.";
+            document.getElementById('error').innerHTML = "Digite o login e senha.";
         } else {
             $http({
                 method: "post",
@@ -22,10 +21,11 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http) {
                     $location.url();
                     $location.path('/home');
                     document.getElementById('idTabs').style.display='block';
+                }else{
+                    document.getElementById('error').innerHTML = "Login ou senha invalidos.";
                 }
             }).error(function(error){
-                console.log(error);
-                $scope.erro = "Login ou senha invalido.";
+                document.getElementById('error').innerHTML = "Digite o login e senha.";
             });
             
 
@@ -54,45 +54,6 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http) {
 })
 
 appN2M.controller('CadastroCtrl', function($scope, $http) {
-    $scope.verificarCPF = function(cpf) {
-        cpf = cpf.replace(/[^\d]+/g, '');
-        if (cpf == '') return false;
-        // Elimina CPFs invalidos conhecidos    
-        if (cpf.length != 11 ||
-            cpf == "00000000000" ||
-            cpf == "11111111111" ||
-            cpf == "22222222222" ||
-            cpf == "33333333333" ||
-            cpf == "44444444444" ||
-            cpf == "55555555555" ||
-            cpf == "66666666666" ||
-            cpf == "77777777777" ||
-            cpf == "88888888888" ||
-            cpf == "99999999999")
-            return false;
-        // Valida 1o digito 
-        add = 0;
-        for (i = 0; i < 9; i++)
-            add += parseInt(cpf.charAt(i)) * (10 - i);
-        rev = 11 - (add % 11);
-        if (rev == 10 || rev == 11)
-            rev = 0;
-        if (rev != parseInt(cpf.charAt(9)))
-            return false;
-        // Valida 2o digito 
-        add = 0;
-        for (i = 0; i < 10; i++)
-            add += parseInt(cpf.charAt(i)) * (11 - i);
-        rev = 11 - (add % 11);
-        if (rev == 10 || rev == 11)
-            rev = 0;
-        if (rev != parseInt(cpf.charAt(10))) {
-            $scope.errorCPF = "CPF inválido";
-            return false;
-        }
-        $scope.errorCPF = "";
-        return true;
-    }
     $scope.verificarSenha = function(senha, conSenha) {
         console.log(senha);
         if (senha == conSenha) {
@@ -356,10 +317,10 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
             return;
         }
 
-        /*$scope.loading = $ionicLoading.show({
+        $scope.loading = $ionicLoading.show({
             content: 'Getting current location...',
             showBackdrop: false
-        });*/
+        });
 
         navigator.geolocation.getCurrentPosition(function(pos) {
             console.log('Got pos', pos);
@@ -414,12 +375,6 @@ appN2M.controller('QuizCtrl', function($scope, $http) {
 })
 
 
-appN2M.controller('AjudaCtrl', function($scope, $http) {
-
-
-})
-
-
 appN2M.controller('CupomCtrl', function($scope, $http, $ionicPopup) {
     $scope.showConfirm = function() {
         var confirmPopup = $ionicPopup.confirm({
@@ -446,8 +401,10 @@ appN2M.controller('CupomCtrl', function($scope, $http, $ionicPopup) {
     };
 
     $scope.items = [];
-})
 
+
+
+})
 
 
 
@@ -455,6 +412,3 @@ appN2M.controller('PerfilCtrl', function($scope, $http) {
 
 });
 
-appN2M.controller('RankCtrl', function($scope, $http) {
-
-});
