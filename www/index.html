@@ -24,24 +24,11 @@
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
     
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
-    <script src="cordova.js"></script>
-
-    <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/controller.js"></script>
-
-    <!--GOOGLE MAPS -->
-    <script src="js/directives.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1IdmdnWhEfRnlrEKeOp5h4G3wXX9i-HI"></script>
+    
 
 </head>
 
-<body ng-app="nice2meet">
+<body ng-app="nice2meet" >
 
 
 
@@ -57,5 +44,19 @@
     </ion-nav-view>
     <div id="idTabs" style="display:block" ng-include="'templates/tabs.html'"></div>
 </body>
+<!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
 
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="lib/ngCordova/dist/ng-cordova.js"></script>
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/controller.js"></script>
+
+    <!--GOOGLE MAPS -->
+    <script src="js/directives.js"></script>
+    <script src="js/gmap3.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB1IdmdnWhEfRnlrEKeOp5h4G3wXX9i-HI"></script>
 </html>

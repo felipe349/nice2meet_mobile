@@ -1,5 +1,5 @@
 <ion-view view-title="Cadastro">
-     <ion-nav-bar class="bar-positive">
+     <ion-nav-bar class="bar-dark header_nice">
       <ion-nav-back-button class="button-icon ion-arrow-left-c">
       </ion-nav-back-button>
     </ion-nav-bar>
@@ -13,11 +13,7 @@
                 </label>
                 <span ng-show="cadastro.nm_turista.$touched && cadastro.nm_turista.$invalid" id="error">O campo é obrigatório.</span>
 
-                <label class="item item-input">
-                    <input placeholder="CPF" ng-model="usuario.cd_cpf" type="text" maxlength="11" required>
-                </label>
-                <span ng-show="cadastro.dataNasc.$touched && cadastro.dataNasc.$invalid" id="error">O campo é obrigatório.</span>
-                <span id="error">{{errorCPF}}</span>
+                
 
                 <label class="item item-input">
                     <input placeholder="Data de Nascimento" type="text" onfocus="(this.type='date')" name="dataNasc" ng-model="usuario.dt_nascimento" required>
