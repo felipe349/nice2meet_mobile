@@ -65,18 +65,10 @@ appN2M.controller('CadastroCtrl', function($scope, $http) {
         }
     }
     $scope.cadastrarTurista = function(usuario) {
-        if ($scope.verificarCPF(usuario.cd_cpf) && $scope.verificarSenha(usuario.password, usuario.confirmaSenha)) {
-            console.log("ok");
-        } else {
-            console.log("not ok");
-        }
-        $http.get('http://projeto-nice2meet-barbaromatrix.c9users.io/api/teste', function(retorno) {
-            console.log(retorno);
-        });
 
         $http({
-            method: "POST",
-            url: "http://projeto-nice2meet-barbaromatrix.c9users.io/api/cadastroTurista",
+            method: "post",
+            url: "http://nice2meettcc.herokuapp.com/api/cadastroTurista",
             data: usuario
         }).then(function(retorno) {
             console.log(retorno);
