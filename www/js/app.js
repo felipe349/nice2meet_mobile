@@ -19,7 +19,11 @@ appNice.run(function($ionicPlatform) {
             cordova.plugins.Keyboard.disableScroll(true);
         }
         if (window.StatusBar) {
-            StatusBar.styleDefault();
+            if (ionic.Platform.isAndroid()) {
+      StatusBar.backgroundColorByHexString("#608628");
+    } else {
+      StatusBar.styleLightContent();
+    }
         }
     });
 
@@ -68,11 +72,7 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
         controller: 'PerfilCtrl'
     })
 
-    .state('rank', {
-        url: '/rank',
-        templateUrl: 'templates/rank.html',
-        controller: 'RankCtrl'
-    })
+    
 
 
     .state('quiz', {

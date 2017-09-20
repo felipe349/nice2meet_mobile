@@ -54,26 +54,31 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http) {
 })
 
 appN2M.controller('CadastroCtrl', function($scope, $http) {
-    $scope.verificarSenha = function(senha, conSenha) {
-        console.log(senha);
+
+    
+   $scope.verificarSenha = function() {
+    console.log($scope.usuario.password.code);
         if (senha == conSenha) {
             $scope.erro = "";
             return true;
+            $scope.cadastro.conSenha.$setValid;
         } else {
             $scope.erro = "As senhas não estão iguais";
             return false;
+
         }
     }
     $scope.cadastrarTurista = function(usuario) {
-
-        $http({
-            method: "post",
-            url: "http://nice2meettcc.herokuapp.com/api/cadastroTurista",
-            data: usuario
-        }).then(function(retorno) {
-            console.log(retorno);
-        });
+            $http({
+                method: "post",
+                url: "http://nice2meettcc.herokuapp.com/api/cadastroTurista",
+                data: usuario
+            }).then(function(retorno) {
+                console.log(retorno);
+            });
+        
     }
+    
 })
 
 
@@ -100,12 +105,7 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
   };
 
   
-          $scope.ListaDePontos = [
-    { text: "Netuno", value: "nt" },
-    { text: "Iemanja", value: "mj" },
-    { text: "Forte Itaipu", value: "fi" },
-    { text: "Palacio Das Artes", value: "pa" }
-  ];
+    
   
 
     document.addEventListener("deviceready", onDeviceReady, false);
@@ -130,10 +130,7 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
         var options = { timeout: 10000, enableHighAccuracy: true};
         $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
 
-            var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-            
-            
+            //var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
             //$scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
             //COLOCA O MAPA EM EXECUÇÃO
@@ -152,7 +149,7 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
             });
 
             var direction = 1;
-            var rMin = 5;
+            var rMin = 35;
             var rMax = 50;
 
             setInterval(function() {
@@ -160,8 +157,8 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
                 if ((radius > rMax) || (radius < rMin)) {
                     direction *= -1;
                 }
-                circle.setRadius(radius + direction * 0.2);
-            }, 100);
+                circle.setRadius(radius + direction * 0.1);
+            }, 10);
 
             //CRIA O MARCADOR DA POSIÇÃO ATUAL DO USUÁRIO
             var imageCliente = 'img/marker2.png';
@@ -173,7 +170,7 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
             });
 
             //PARA CÁLCULO DE DISTÂNCIA (TESTE SOMENTE)
-            var rad = function(x) {
+            /*var rad = function(x) {
                 return x * Math.PI / 180;
             };
 
@@ -187,32 +184,38 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
                 var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
                 var d = R * c;
                 return d; // returns the distance in meter
-            };
+            };*/
 
 
-            for (i = 0; i < 13; i++) {
+            for (i = 0; i < marcadores.length; i++) {
 
                 var latJson = marcadores[i].lat;
                 var lngJson = marcadores[i].lng;
+                var markertitle = marcadores[i].titulo;
+                var contentInfoWindow = marcadores[i].titulo;
 
                 //var latLngOrigem = new google.maps.LatLng(-24.020310, -46.478727);
                 //var latLngDestino = new google.maps.LatLng(latJson, lngJson);
 
-                var marker = new google.maps.Marker({
+                var marker  = new google.maps.Marker({
                     map: $scope.map,
                     animation: google.maps.Animation.DROP,
-                    position: new google.maps.LatLng(latJson, lngJson)
+                    position: new google.maps.LatLng(latJson, lngJson),
+                    title: markertitle
                 });
 
                 markerArray.push(marker);
 
-                var infoWindow = new google.maps.InfoWindow({
-                    content: "Marcador [" + (i + 1) + "]"
-                });
 
-                google.maps.event.addListener(marker, 'click', function() {
-                    infoWindow.open($scope.map, marker);
-                });
+                var infowindow = new google.maps.InfoWindow()
+
+                google.maps.event.addListener(marker,'click', (function(marker,contentInfoWindow,infowindow){ 
+                        return function() {
+                           infowindow.setContent(contentInfoWindow);
+                           infowindow.open(map,marker);
+                           infowindow.setmaxwidth(350);
+                        };
+                    })(marker,contentInfoWindow,infowindow)); 
             }
 
             //COLOCA OU NÃO OS MARCADORES DE ACORDO COM A DISTÂNCIA
@@ -254,7 +257,7 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
 
 
                 //CRIA MARCADORES OU....
-                if (markerArray.length > 0) {
+                /*if (markerArray.length > 0) {
 
                     for (var i = 0; i < markerArray.length; i++) {
 
@@ -279,7 +282,7 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
                         }
                     }
 
-                }
+                }*/
             }
 
             // onError Callback receives a PositionError object
