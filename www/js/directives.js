@@ -65,5 +65,5 @@ angular.module('nice2meet')
             }
         }
     }
-    
+        
 });

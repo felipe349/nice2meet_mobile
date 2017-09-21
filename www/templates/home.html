@@ -1,7 +1,7 @@
 <ion-view view-title="Home" >
 
 
-    <ion-content class="fundo" >
+    <ion-content>
         <ion-side-menus>
             <!-- Left menu -->
             
@@ -40,9 +40,8 @@
                           <ion-footer-bar><button class="button button-full button-positive criar-rota"  >Criar rota</button></ion-footer-bar>
                         </ion-modal-view>
                       </script>
-                    <map id="map" on-create="mapCreated(map)"><div id="class" ng-repeat="marker in markers | orderBy : 'title'">
-
-    {{marker.position}}
+                    <map id="map" on-create="mapCreated(map)"><div id="class" >
+    
   </div></map>
                 </ion-content>
 
