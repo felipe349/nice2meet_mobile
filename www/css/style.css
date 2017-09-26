@@ -10,9 +10,9 @@
 }
 
 .signup-background {
-    background-image: url('../img/bg4.jpg');
+    background-image: url('../img/bg1.jpg');
     background-size: auto 100%; 
-    background-position: right;
+    background-position: left;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position:center;
@@ -77,8 +77,8 @@
     font-size: 20px;
     color: white;
 }
-.error2 {
-    text-align: center;
+.erro2 {
+    text-align: left;
     font-size: 12px;
     color: #333;
     margin: 0;
@@ -94,7 +94,9 @@
     margin: 0
 }
 label.item.has-error {
+    border: 1px solid #fff;
   border-left: 0px solid #d63737;
+
   background-color: #f7d4d4;
 }
 .input-cadastro{
@@ -299,4 +301,17 @@ label.item.has-error {
     position: absolute;
  }
 
- 
+.alert-box{
+    position: relative;
+    min-height: 100px;
+}
+
+.alert-msg{
+    position: absolute;
+    width:90%;
+    height:auto;
+    vertical-align: middle;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
