@@ -1,16 +1,19 @@
 .header-nice{
-    background-color: rgba(15, 17, 58, 0.9) !important;
-    position: relative;
+    background-color: #0f113a !important;
     border-bottom: 0px solid #fff !important;
 }
 
 .header_nice{
-    background-color: rgba(15, 17, 58, 0.9) !important;
+    background-color: #0f113a !important;
     border-bottom: 0px solid #fff !important;
 }
 
+.margin-top-content{
+    margin-top: 30px;
+}
+
 .signup-background {
-    background-image: url('../img/bg1.jpg');
+    background-image: url('../img/bg.jpg');
     background-size: auto 100%; 
     background-position: left;
     background-repeat: no-repeat;
@@ -315,3 +318,4 @@ label.item.has-error {
     top: 50%;
     transform: translate(-50%, -50%);
 }
+

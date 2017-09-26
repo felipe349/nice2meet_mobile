@@ -1,29 +1,29 @@
 <ion-view view-title="Quiz">
 
-    <ion-content>
+    
         
-            
+                    <ion-nav-bar class="bar-dark header_nice">
+                      <ion-nav-back-button class="button-icon ion-arrow-left-c">
+                      </ion-nav-back-button>
+                    </ion-nav-bar>
 
-            
-                <ion-content scroll="false">
-                    <ion-header-bar class="bar-dark header-nice">
-                        <h1 class="title ">RESPONDA O QUIZ!</h1>
-                    </ion-header-bar>
+                <ion-content scroll="true">
+                    
 
-                    <div style="height: 25px "></div>
                     <div class="padding">
                         <div class="card">
                             <div class="item item-text-wrap">
 
                                 <ul>
                                     <li ng-repeat="x in perguntasQuizJson">
+
                                         <h2>{{ x.Pergunta }}</h2>
                                         <hr>
                                         <ion-list>
                                             <ion-radio ng-model="choice" ng-value="'A'">{{ x.Correta }}</ion-radio>
                                             <ion-radio ng-model="choice" ng-value="'B'">{{ x.Errada1 }}</ion-radio>
-                                            <ion-radio ng-model="choice" ng-value="'B'">{{ x.Errada2 }}</ion-radio>
-                                            <ion-radio ng-model="choice" ng-value="'B'">{{ x.Errada3 }}</ion-radio>
+                                            <ion-radio ng-model="choice" ng-value="'C'">{{ x.Errada2 }}</ion-radio>
+                                            <ion-radio ng-model="choice" ng-value="'D'">{{ x.Errada3 }}</ion-radio>
                                         </ion-list>
                                         <br>
                                         <center>

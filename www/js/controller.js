@@ -93,7 +93,7 @@ var markerArray = [];
 var perguntasQuiz = {};
 
 
-appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, $cordovaGeolocation, $ionicPopup, $ionicSideMenuDelegate, $ionicModal) {
+appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoading, $http, $location, $cordovaGeolocation, $ionicPopup, $ionicSideMenuDelegate, $ionicModal) {
 
 
 
@@ -165,7 +165,7 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
             }, 10);
 
             //CRIA O MARCADOR DA POSIÇÃO ATUAL DO USUÁRIO
-            var imageCliente = 'img/marker2.png';
+            var imageCliente = 'img/marker.png';
             marcadorCliente = new google.maps.Marker({
                 map: $scope.map,
                 animation: google.maps.Animation.DROP,
@@ -189,7 +189,7 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
                 var d = R * c;
                 return d; // returns the distance in meter
             };*/
-
+var infowindow = new google.maps.InfoWindow()
 
             for (i = 0; i < marcadores.length; i++) {
 
@@ -202,6 +202,7 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
                       '</br><a ui-sref="quiz"><button>Quiz</button></a>' +
                     '</div>' +
                   '</div>';
+                  var compiledContent = $compile(contentInfoWindow)($scope)
 
 
                 //var latLngOrigem = new google.maps.LatLng(-24.020310, -46.478727);
@@ -217,14 +218,14 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
                 markerArray.push(marker);
 
 
-                var infowindow = new google.maps.InfoWindow()
+                
 
                 google.maps.event.addListener(marker,'click', (function(marker,contentInfoWindow,infowindow){ 
                         return function() {
                            infowindow.setContent(contentInfoWindow);
                            infowindow.open(map,marker);
                         };
-                    })(marker,contentInfoWindow,infowindow)); 
+                    })(marker,compiledContent[0],infowindow)); 
             }
 
             //COLOCA OU NÃO OS MARCADORES DE ACORDO COM A DISTÂNCIA
@@ -366,13 +367,10 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
 
 appN2M.controller('QuizCtrl', function($scope, $http) {
 
-    //alert("LASO");
-    //alert(perguntasQuiz[0]);
-    //this.Quiz = null;
-    //alert(this.Quiz[0].Pergunta);
+
     $http.get("json/perguntas.json").then(function(response) {
         $scope.perguntasQuizJson = response.data.perguntas;
-        //alert(perguntasQuiz[0]);
+        alert(perguntasQuizJson[0]);
 
     });
 

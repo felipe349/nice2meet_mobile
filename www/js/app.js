@@ -20,10 +20,10 @@ appNice.run(function($ionicPlatform) {
         }
         if (window.StatusBar) {
             if (ionic.Platform.isAndroid()) {
-      StatusBar.backgroundColorByHexString("#608628");
-    } else {
-      StatusBar.styleLightContent();
-    }
+              StatusBar.backgroundColorByHexString("#608628");
+            } else {
+              StatusBar.styleLightContent();
+            }
         }
     });
 
@@ -43,6 +43,7 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
         url: '/login',
         templateUrl: 'templates/login.html',
         controller: 'LoginCtrl'
+        
     })
 
     .state('home', {
