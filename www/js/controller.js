@@ -1,4 +1,5 @@
 var appN2M = angular.module('nice2meet')
+
     //
 
 appN2M.controller('LoginCtrl', function($scope, $location, $http) {
@@ -18,7 +19,6 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http) {
             }).success(function(success) {
                 if(success.success == 1) {
                     $scope.erro = "";
-                    $location.url();
                     $location.path('/home');
                     document.getElementById('idTabs').style.display='block';
                 }else{
@@ -34,7 +34,6 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http) {
     };
 
     $scope.cadastro = function(){
-        $location.url();
         $location.url('/cadastro');
     }
 
@@ -53,31 +52,36 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http) {
     });
 })
 
-appN2M.controller('CadastroCtrl', function($scope, $http) {
+appN2M.controller('CadastroCtrl', function($scope, $http, $ionicPopup, $location) {
 
     
    $scope.verificarSenha = function() {
-    console.log($scope.usuario.password.code);
-        if (senha == conSenha) {
-            $scope.erro = "";
-            return true;
-            $scope.cadastro.conSenha.$setValid;
-        } else {
-            $scope.erro = "As senhas não estão iguais";
-            return false;
-
+        var senha = document.getElementById('senha').value;
+        var senha2 = document.getElementById('senha2').value;
+        if (senha.length >= 8 && senha.length <= 16 && senha2.length >= 8 && senha2.length <= 16){
+            console.log(senha);
+            console.log(senha2);
+        }else{
         }
     }
+
     $scope.cadastrarTurista = function(usuario) {
             $http({
                 method: "post",
                 url: "http://nice2meettcc.herokuapp.com/api/cadastroTurista",
                 data: usuario
-            }).then(function(retorno) {
-                console.log(retorno);
+            }).then(function() {
+                var alertPopup = $ionicPopup.alert({
+                  title: 'Cadastro realizado!',
+                  template: 'Realize o login com o email e a senha.'
+                });
+                alertPopup.then(function(res) {
+                    $location.url('/login');
+                });
             });
         
     }
+    
     
 })
 
@@ -89,7 +93,7 @@ var markerArray = [];
 var perguntasQuiz = {};
 
 
-appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, $cordovaGeolocation, $ionicPopup, $ionicSideMenuDelegate, $ionicModal) {
+appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoading, $http, $location, $cordovaGeolocation, $ionicPopup, $ionicSideMenuDelegate, $ionicModal) {
 
 
 
@@ -161,7 +165,7 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
             }, 10);
 
             //CRIA O MARCADOR DA POSIÇÃO ATUAL DO USUÁRIO
-            var imageCliente = 'img/marker2.png';
+            var imageCliente = 'img/marker.png';
             marcadorCliente = new google.maps.Marker({
                 map: $scope.map,
                 animation: google.maps.Animation.DROP,
@@ -185,14 +189,21 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
                 var d = R * c;
                 return d; // returns the distance in meter
             };*/
-
+var infowindow = new google.maps.InfoWindow()
 
             for (i = 0; i < marcadores.length; i++) {
 
                 var latJson = marcadores[i].lat;
                 var lngJson = marcadores[i].lng;
                 var markertitle = marcadores[i].titulo;
-                var contentInfoWindow = marcadores[i].titulo;
+                var contentInfoWindow = '<div>' +
+                    '<div>' + marcadores[i].titulo + '</div>' +
+                    '<div>' +
+                      '</br><a ui-sref="quiz"><button>Quiz</button></a>' +
+                    '</div>' +
+                  '</div>';
+                  var compiledContent = $compile(contentInfoWindow)($scope)
+
 
                 //var latLngOrigem = new google.maps.LatLng(-24.020310, -46.478727);
                 //var latLngDestino = new google.maps.LatLng(latJson, lngJson);
@@ -207,15 +218,14 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
                 markerArray.push(marker);
 
 
-                var infowindow = new google.maps.InfoWindow()
+                
 
                 google.maps.event.addListener(marker,'click', (function(marker,contentInfoWindow,infowindow){ 
                         return function() {
                            infowindow.setContent(contentInfoWindow);
                            infowindow.open(map,marker);
-                           infowindow.setmaxwidth(350);
                         };
-                    })(marker,contentInfoWindow,infowindow)); 
+                    })(marker,compiledContent[0],infowindow)); 
             }
 
             //COLOCA OU NÃO OS MARCADORES DE ACORDO COM A DISTÂNCIA
@@ -357,13 +367,10 @@ appN2M.controller('HomeCtrl', function($scope, $ionicLoading, $http, $location, 
 
 appN2M.controller('QuizCtrl', function($scope, $http) {
 
-    //alert("LASO");
-    //alert(perguntasQuiz[0]);
-    //this.Quiz = null;
-    //alert(this.Quiz[0].Pergunta);
+
     $http.get("json/perguntas.json").then(function(response) {
         $scope.perguntasQuizJson = response.data.perguntas;
-        //alert(perguntasQuiz[0]);
+        alert(perguntasQuizJson[0]);
 
     });
 

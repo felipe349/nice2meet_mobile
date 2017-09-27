@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-var appNice = angular.module('nice2meet', ['ionic', 'ngCordova'])
+var appNice = angular.module('nice2meet', ['ionic', 'ngCordova', 'ngAnimate'])
 
  
 appNice.run(function($ionicPlatform) {
@@ -20,10 +20,10 @@ appNice.run(function($ionicPlatform) {
         }
         if (window.StatusBar) {
             if (ionic.Platform.isAndroid()) {
-      StatusBar.backgroundColorByHexString("#608628");
-    } else {
-      StatusBar.styleLightContent();
-    }
+              StatusBar.backgroundColorByHexString("#608628");
+            } else {
+              StatusBar.styleLightContent();
+            }
         }
     });
 
@@ -43,6 +43,7 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
         url: '/login',
         templateUrl: 'templates/login.html',
         controller: 'LoginCtrl'
+        
     })
 
     .state('home', {

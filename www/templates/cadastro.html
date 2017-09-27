@@ -1,37 +1,37 @@
 <ion-view view-title="Cadastro">
-     <ion-nav-bar class="bar-dark header_nice">
-      <ion-nav-back-button class="button-icon ion-arrow-left-c">
-      </ion-nav-back-button>
+    <ion-nav-bar class="bar-dark header_nice">
+        <ion-nav-back-button class="button-icon ion-arrow-left-c">
+        </ion-nav-back-button>
     </ion-nav-bar>
 
 
     <ion-content class="padding">
         
-        <div class="row cadastro-errors" ng-if="(cadastro.nm_turista.$touched || cadastro.$submitted) && cadastro.nm_turista.$invalid || (cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid || (cadastro.email.$touched || cadastro.$submitted) && cadastro.email.$invalid || (cadastro.senha.$touched || cadastro.$submitted) && cadastro.senha.$invalid || (cadastro.conSenha.$touched || cadastro.$submitted) && cadastro.conSenha.$invalid">
-                <div class="col col-25">
-                    <img src="img/alert.png" style="width:90%;height:auto;"></img>
+        <div id="error-box" class="row cadastro-errors" ng-if="(cadastro.nm_turista.$touched || cadastro.$submitted) && cadastro.nm_turista.$invalid || (cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid || (cadastro.email.$touched || cadastro.$submitted) && cadastro.email.$invalid || (cadastro.senha.$touched || cadastro.$submitted) && cadastro.senha.$invalid || (cadastro.conSenha.$touched || cadastro.$submitted) && cadastro.conSenha.$invalid">
+                <div class="col col-25 alert-box">
+                    <img class="alert-msg" src="img/alert.png" ></img>
                 </div>
                 <div class="col">
                     <p class="title-cadastro-errors"><b>Atenção!</b> Corrija os seguintes erros.</p>
                     <div class="erro2" ng-if="(cadastro.nm_turista.$touched || cadastro.$submitted) && cadastro.nm_turista.$invalid">
-                        <div ng-show="cadastro.nm_turista.$error.required">- O nome é obrigatório.<br></div>
-                        <div class="erro2" ng-show="cadastro.nm_turista.$error.pattern" >Valido apenas letras para nome.</div>
+                        <div ng-show="cadastro.nm_turista.$error.required">• O nome é obrigatório.<br></div>
+                        <div class="erro2" ng-show="cadastro.nm_turista.$error.pattern" >• Valido apenas letras para nome.</div>
                     </div>
-                    <div class="erro2" ng-if="(cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid">- O nascimento é obrigatório.<br></div>
+                    <div class="erro2" ng-if="(cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid">• O nascimento é obrigatório.<br></div>
                     <div ng-messages="cadastro.email.$error" ng-if="cadastro.email.$touched || cadastro.$submitted">
-                        <div class="erro2" ng-show="cadastro.email.$error.required" >- O email é obrigatório.<br></div>
-                        <div class="erro2" ng-show="cadastro.email.$error.email" >- Insira um email valido.<br></div>
+                        <div class="erro2" ng-show="cadastro.email.$error.required" >• O email é obrigatório.<br></div>
+                        <div class="erro2" ng-show="cadastro.email.$error.email" >• Insira um email válido.<br></div>
                     </div>
                     <div ng-messages="cadastro.senha.$error" ng-if="cadastro.senha.$touched || cadastro.$submitted">
-                        <div class="erro2" ng-show="cadastro.senha.$error.required" >- A senha é obrigatória.<br></div>
-                        <div class="erro2" ng-show="cadastro.senha.$error.pattern" >- Não é permitido caracteres especiais na senha.</div>
-                        <div class="erro2" ng-show="cadastro.senha.$error.minlength" >- Minimo 8 letras.<br></div>
-                        <div class="erro2" ng-show="cadastro.senha.$error.maxlength" >- Maximo de 16 letras.<br></div>
+                        <div class="erro2" ng-show="cadastro.senha.$error.required" >• A senha é obrigatória.<br></div>
+                        <div class="erro2" ng-show="cadastro.senha.$error.pattern" >• Não é permitido caracteres especiais na senha.</div>
+                        <div class="erro2" ng-show="cadastro.senha.$error.minlength" >• Minimo 8 letras.<br></div>
+                        <div class="erro2" ng-show="cadastro.senha.$error.maxlength" >• Maximo de 16 letras.<br></div>
                         
                     </div>
-                    <div ng-messages="cadastro.conSenha.$error" ng-if="cadastro.conSenha.$touched || cadastro.$submitted">
-                        <div class="erro2" ng-show="cadastro.conSenha.$error.required" >- A confirmação de senha é obrigatória.<br></div>
-                        <div></div>
+                    <div id="confirm-pw-block" ng-messages="cadastro.conSenha.$error" ng-if="cadastro.conSenha.$touched || cadastro.$submitted">
+                        <div class="erro2" ng-show="cadastro.conSenha.$error.required" >• A confirmação de senha é obrigatória.<br></div>
+                        <div class="erro2" ng-show="cadastro.conSenha.$error.pattern" >• Confirmação de senha inválida.<br></div>
                     </div>
                 </div>
         </div>
@@ -41,14 +41,14 @@
         <div class="list">
             <form name="cadastro" ng-submit="cadastrarTurista(usuario)" novalidate>
                 <label class="item item-input input-cadastro ng-invalid" ng-class="{ 'has-error' : (cadastro.nm_turista.$touched || cadastro.$submitted) && cadastro.nm_turista.$invalid }">
-                    <input placeholder="Nome" name="nm_turista" ng-model="usuario.nm_turista" ng-pattern="/^[a-zA-ZÀ-ú\s]+$/" type="text"  required>
+                    <input placeholder="Nome"  name="nm_turista" ng-model="usuario.nm_turista" ng-pattern="/^[a-zA-ZÀ-ú\s]+$/" type="text"  required>
                 </label>
                 
 
                 
 
                 <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid}">
-                    <input placeholder="Data de Nascimento" type="text" onfocus="(this.type='date')" name="dataNasc" ng-model="usuario.dt_nascimento" required>
+                    <input placeholder="Data de Nascimento" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="dataNasc" ng-model="usuario.dt_nascimento" required>
                 </label>
                 
 
@@ -58,12 +58,12 @@
                 
  
                 <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.senha.$touched || cadastro.$submitted) && cadastro.senha.$invalid}">
-                    <input placeholder="Senha"  ng-minlength="8" ng-maxlength="16" id="senha" ng-model="usuario.password" name="senha" type="password" ng-pattern="/^[a-zA-Z0-9._@-]+$/"  required>
+                    <input placeholder="Senha"  ng-minlength="8" ng-maxlength="16" id="senha" maxlength="17" ng-model="usuario.password" name="senha" type="password" ng-pattern="/^[a-zA-Z0-9._@-]+$/"  required>
                 </label>
                 
 
                 <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.conSenha.$touched || cadastro.$submitted) && cadastro.conSenha.$invalid}">
-                    <input placeholder="Confirmar Senha" maxlength="150" ng-change="verificarSenha()" ng-model="usuario.confirmaSenha" name="conSenha" type="password"   required>
+                    <input placeholder="Confirmar Senha" ng-pattern="usuario.password" maxlength="17"  ng-model="usuario.confirmaSenha"   name="conSenha" type="password"    required>
                 </label>
                 
                 <button class="button button-full button-positive" type="submit" >FINALIZAR</button>

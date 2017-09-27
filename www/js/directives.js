@@ -1,6 +1,8 @@
 angular.module('nice2meet')
 
-.directive('map', function() {
+.directive('map', function($ionicLoading) {
+
+
     return {
         restrict: 'E',
         scope: {
@@ -67,3 +69,7 @@ angular.module('nice2meet')
     }
         
 });
+
+
+
+ 

@@ -1,18 +1,14 @@
 
 
 <ion-view view-title="Cupom">
-    <ion-content class="fundo" onclick="hideTabs()">
-        <ion-side-menus>
-            <!-- Left menu -->
-
-            <ion-side-menu-content class="padding">
-
-                <ion-content>
+    <ion-content onclick="hideTabs()">
+       
                     <ion-header-bar align-title="center" class="bar-dark header-nice">
 
                         <h1 class="title ">Cupons</h1>
                     </ion-header-bar>
 
+                  <ion-content>
                     
                     
                     <div class="list" >
@@ -106,7 +102,6 @@
                      <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>   
 
                 </ion-content>
-            </ion-side-menu-content>
-        </ion-side-menus>
+            
     </ion-content>
 </ion-view>
