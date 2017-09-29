@@ -1,23 +1,11 @@
 <ion-view view-title="Home" >
-
-
     <ion-content>
                 <ion-header-bar align-title="center" class="bar-dark header-nice">
                         <h1 class="title">ENCONTRE OS PONTOS!</h1>
                     </ion-header-bar>
 
-                <ion-content scroll="false">
-                    
-
-                    <!--<ul>
-                        <li ng-repeat="ponto in pontos">
-                          {{ponto.lat}} - <em>{{ponto.lgn}}</em>
-                        </li>
-                      </ul>-->
-                      <!--<button class="pontos" ng-click="modal.show()"><img src="img/flag.png" class="flag" height="80%" width="80%"></button>-->
-                    
+                <ion-content scroll="false">       
                       <button  class="button button-pontos ion-search" ng-click="modal.show()"></button>
-
                       <script id="templates/modal.html" type="text/ng-template">
                         <ion-modal-view>
                           <ion-header-bar align-title="center" class="bar bar-header bar-positive">
@@ -34,11 +22,7 @@
                           <ion-footer-bar><button class="button button-full button-positive criar-rota"  >Criar rota</button></ion-footer-bar>
                         </ion-modal-view>
                       </script>
-                    <map id="map" on-create="mapCreated(map)"><div id="class" >
-    
-  </div></map>
+                    <map id="map" on-create="mapCreated(map)"><div id="class" ></div></map>
                 </ion-content>
-
-
     </ion-content>
 </ion-view>

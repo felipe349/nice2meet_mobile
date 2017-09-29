@@ -1,18 +1,11 @@
-    <ion-view ng-app="nice2meet" >
-
-    <ion-content class="signup-background" scroll="false">
-        
-
-        <div ng-controller="LoginCtrl" style="height:100%;">
-            
-                        
-                            <div class="centralizar" style="margin-top:35%;">
-                                <i class="tittle-login">Nice2meet</i>
+<ion-view ng-app="nice2meet" >
+    <ion-content class="signup-background" scroll="false" >
+        <div ng-controller="LoginCtrl" style="height:65%;margin-top:35%;">
+                            <div class="centralizar" style="">
+                                <img src="img/Logo.png" width="50%;"></img>
                             </div>
-
             <div style="height: 13%;">
             </div>
-            
                 <div class="container-login">
                     <div class="list">
                         <center>
@@ -28,7 +21,7 @@
                     <div>
                         <div class="row">
                             <div class="col text-center">
-                                <button class="button button-login" ng-click="login(usuario)">LOGIN</button>
+                                <button type="button" class="login__submit">Sign in</button>
                             </div>
                         </div>
                     </div>
@@ -39,7 +32,6 @@
                         </a>
                     </div>
                 </div>
-            
         </div>
     </ion-content>
 </ion-view>

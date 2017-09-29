@@ -39,7 +39,7 @@
 
        
         <div class="list">
-            <form name="cadastro" ng-submit="cadastrarTurista(usuario)" novalidate>
+            <form name="cadastro" ng-submit="cadastro.$valid && cadastrarTurista(usuario)" novalidate>
                 <label class="item item-input input-cadastro ng-invalid" ng-class="{ 'has-error' : (cadastro.nm_turista.$touched || cadastro.$submitted) && cadastro.nm_turista.$invalid }">
                     <input placeholder="Nome"  name="nm_turista" ng-model="usuario.nm_turista" ng-pattern="/^[a-zA-ZÀ-ú\s]+$/" type="text"  required>
                 </label>
@@ -48,7 +48,7 @@
                 
 
                 <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid}">
-                    <input placeholder="Data de Nascimento" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" name="dataNasc" ng-model="usuario.dt_nascimento" required>
+                    <input placeholder="Data de Nascimento" type="text" onfocus="(this.type='date')"  name="dataNasc" ng-model="usuario.dt_nascimento" required>
                 </label>
                 
 

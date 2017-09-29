@@ -1,14 +1,62 @@
 var appN2M = angular.module('nice2meet')
 
     //
-
-appN2M.controller('LoginCtrl', function($scope, $location, $http) {
+    
+appN2M.controller('LoginCtrl', function($scope, $location, $http, $ionicLoading, $timeout, $ionicPlatform, $cordovaSplashscreen) {
     
     document.getElementById('idTabs').style.display='none';
+    var animating = false,
+      submitPhase1 = 1100,
+      submitPhase2 = 400,
+      logoutPhase1 = 800,
+      $login = $(".login"),
+      $app = $(".app");
+  
+  function ripple(elem, e) {
+    $(".ripple").remove();
+    var elTop = elem.offset().top,
+        elLeft = elem.offset().left,
+        x = e.pageX - elLeft,
+        y = e.pageY - elTop;
+    var $ripple = $("<div class='ripple'></div>");
+    $ripple.css({top: y, left: x});
+    elem.append($ripple);
+  };
+  
+  $(document).on("click", ".login__submit", function(e) {
+    if (animating) return;
+    animating = true;
+    var that = this;
+    ripple($(that), e);
+    $(that).addClass("processing");
+    setTimeout(function() {
+      $(that).addClass("success");
+      setTimeout(function() {
+        $app.show();
+        $app.css("top");
+        $app.addClass("active");
+      }, submitPhase2 - 70);
+      setTimeout(function() {
+        $login.hide();
+        $login.addClass("inactive");
+        animating = false;
+        $(that).removeClass("success processing");
+      }, submitPhase2);
+    }, submitPhase1);
+  });
+
     $scope.login = function(u) {
          if (u == undefined || u.login == undefined || u.senha == undefined) {
             document.getElementById('error').innerHTML = "Digite o login e senha.";
         } else {
+            $ionicLoading.show({
+                content: 'Loading',
+                template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
+            });
             $http({
                 method: "post",
                 url: "http://nice2meettcc.herokuapp.com/api/auth/login",
@@ -17,22 +65,24 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http) {
                         password : u.senha
                 }
             }).success(function(success) {
-                if(success.success == 1) {
-                    $scope.erro = "";
-                    $location.path('/home');
+                if(success.logado == 1) {
+                    window.localStorage.setItem("logado", success.logado);
+                    window.localStorage.setItem("email", u.login);
+                    document.getElementById('nm_perfil').innerHTML = window.localStorage.getItem("email");
                     document.getElementById('idTabs').style.display='block';
+                    $ionicLoading.hide();
+                    $location.path('/home');
                 }else{
-                    document.getElementById('error').innerHTML = "Login ou senha invalidos.";
+                    document.getElementById('error').innerHTML = success.error;
+                    $ionicLoading.hide();
                 }
             }).error(function(error){
-                document.getElementById('error').innerHTML = "Digite o login e senha.";
+                document.getElementById('error').innerHTML = "Erro de conexão.";
+                $ionicLoading.hide();
             });
-            
-
-
-            }
+        }
     };
-
+    
     $scope.cadastro = function(){
         $location.url('/cadastro');
     }
@@ -41,36 +91,31 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http) {
     $http.get('json/pontos.json')
         .then(function(res) {
             marcadores = res.data.pontos;
-            //alert($scope.marcadores.pontos[0].titulo);
-            //alert(marcadores[0].lat);
         });
 
     $http.get("json/perguntas.json").then(function(response) {
         perguntasQuiz = response.data.perguntas;
-        //alert(perguntasQuiz[0]);
-
     });
 })
 
-appN2M.controller('CadastroCtrl', function($scope, $http, $ionicPopup, $location) {
+appN2M.controller('CadastroCtrl', function($scope, $http, $ionicPopup, $location, $ionicLoading, $timeout) {
 
     
-   $scope.verificarSenha = function() {
-        var senha = document.getElementById('senha').value;
-        var senha2 = document.getElementById('senha2').value;
-        if (senha.length >= 8 && senha.length <= 16 && senha2.length >= 8 && senha2.length <= 16){
-            console.log(senha);
-            console.log(senha2);
-        }else{
-        }
-    }
-
-    $scope.cadastrarTurista = function(usuario) {
+   $scope.cadastrarTurista = function(usuario) {
+            $ionicLoading.show({
+                content: 'Loading',
+                template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
+            });
             $http({
                 method: "post",
                 url: "http://nice2meettcc.herokuapp.com/api/cadastroTurista",
                 data: usuario
             }).then(function() {
+                $ionicLoading.hide();
                 var alertPopup = $ionicPopup.alert({
                   title: 'Cadastro realizado!',
                   template: 'Realize o login com o email e a senha.'
@@ -79,7 +124,6 @@ appN2M.controller('CadastroCtrl', function($scope, $http, $ionicPopup, $location
                     $location.url('/login');
                 });
             });
-        
     }
     
     
@@ -93,8 +137,16 @@ var markerArray = [];
 var perguntasQuiz = {};
 
 
-appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoading, $http, $location, $cordovaGeolocation, $ionicPopup, $ionicSideMenuDelegate, $ionicModal) {
-
+appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoading, $timeout, $http, $location, $cordovaGeolocation, $ionicPopup, $ionicSideMenuDelegate, $ionicModal) {
+    
+    $ionicLoading.show({
+        content: 'Loading',
+        template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+    });
 
 
   $ionicModal.fromTemplateUrl('templates/modal.html', {
@@ -132,6 +184,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
         //$scope.map = map;
         //INICIA O MAPA
         var options = { timeout: 10000, enableHighAccuracy: true};
+        $timeout(function () {
         $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
 
             //var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -189,7 +242,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
                 var d = R * c;
                 return d; // returns the distance in meter
             };*/
-var infowindow = new google.maps.InfoWindow()
+
 
             for (i = 0; i < marcadores.length; i++) {
 
@@ -218,7 +271,7 @@ var infowindow = new google.maps.InfoWindow()
                 markerArray.push(marker);
 
 
-                
+                var infowindow = new google.maps.InfoWindow()
 
                 google.maps.event.addListener(marker,'click', (function(marker,contentInfoWindow,infowindow){ 
                         return function() {
@@ -292,7 +345,7 @@ var infowindow = new google.maps.InfoWindow()
                         }
                     }
 
-                }*/
+                }*/$ionicLoading.hide();
             }
 
             // onError Callback receives a PositionError object
@@ -300,6 +353,7 @@ var infowindow = new google.maps.InfoWindow()
             function onError(error) {
                 /*alert('code: ' + error.code + '\n' +
                     'message: ' + error.message + '\n');*/
+            console.log("Não foi possível conseguir a Geolocalização.");
             }
 
 
@@ -311,30 +365,29 @@ var infowindow = new google.maps.InfoWindow()
 
         }, function(error) {
             console.log("Não foi possível conseguir a Geolocalização.");
-        });
+        });});
     };
 
 
     //CENTRALIZA O MAPA
-    $scope.centerOnMe = function() {
-        console.log("Centralizando");
-        if (!$scope.map) {
-            return;
-        }
+    
+    
+        $scope.centerOnMe = function() {
+            console.log("Centralizando");
+            if (!$scope.map) {
+                return;
+            }
 
-        $scope.loading = $ionicLoading.show({
-            content: 'Getting current location...',
-            showBackdrop: false
-        });
+            
 
-        navigator.geolocation.getCurrentPosition(function(pos) {
-            console.log('Got pos', pos);
-            $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-            $ionicLoading.hide();
-        }, function(error) {
-            //alert('Unable to get location: ' + error.message);
-        });
-    };
+            navigator.geolocation.getCurrentPosition(function(pos) {
+                $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
+                
+            }, function(error) {
+                //alert('Unable to get location: ' + error.message);
+            });
+        };
+    
 
 
 
@@ -370,7 +423,7 @@ appN2M.controller('QuizCtrl', function($scope, $http) {
 
     $http.get("json/perguntas.json").then(function(response) {
         $scope.perguntasQuizJson = response.data.perguntas;
-        alert(perguntasQuizJson[0]);
+        //alert(perguntasQuiz[0]);
 
     });
 
@@ -405,12 +458,21 @@ appN2M.controller('CupomCtrl', function($scope, $http, $ionicPopup) {
     $scope.items = [];
 
 
-
 })
 
 
 
-appN2M.controller('PerfilCtrl', function($scope, $http) {
 
-});
+appN2M.controller('PerfilCtrl',  function($scope,$state,$ionicHistory) {
+    document.getElementById("nm_perfil").innerHTML = window.localStorage.getItem("email");
+    $scope.logout = function(){
+        window.localStorage.setItem("logado", 0);
+        window.localStorage.removeItem("email");
+        $ionicHistory.nextViewOptions({
+             disableAnimate: true,
+             disableBack: true
+        });
+        $state.go('login');
+    };
+})
 
