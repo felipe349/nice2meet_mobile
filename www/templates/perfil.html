@@ -14,18 +14,15 @@
                 
                     <div class="item">
                         <img src="img/avatar.png" class="img_avatar" style="border-radius: 0px; position: relative; float: left; width: 30%; height: 30%;">
-                        <span style="padding: 20px">
-                            USUÁRIO
+                        <span id="nm_perfil" style="padding: 20px">
+                            <script></script>
                         </span>
                         <br>
                         <br>
-                        <span style="padding: 20px">
-                            PONTOS
-                        </span>
                     </div>
                 
                     <div class="teste22">
-                <button class="button button-full button-assertive icon-right ion-log-out" id="button-exit" onclick="document.getElementById('idTabs').style.display='none'; " ui-sref="login">Sair</button>
+                <button class="button button-full button-assertive icon-right ion-log-out" id="button-exit" onclick="document.getElementById('idTabs').style.display='none'; " ng-click="logout()">Sair</button>
                     </div>
                 
             </ion-content>

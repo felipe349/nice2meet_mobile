@@ -43,6 +43,7 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
         url: '/login',
         templateUrl: 'templates/login.html',
         controller: 'LoginCtrl'
+
         
     })
 
@@ -82,8 +83,11 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
         controller: 'QuizCtrl'
     });
 
-
-    $urlRouterProvider.otherwise('/login');
+     if(window.localStorage.getItem("logado") == 1){
+        $urlRouterProvider.otherwise('/home');
+    }else{
+         $urlRouterProvider.otherwise('/login');
+    }
     
 });
 //====================================
