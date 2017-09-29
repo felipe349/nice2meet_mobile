@@ -251,3 +251,117 @@ label.item.has-error {
     top: 50%;
     transform: translate(-50%, -50%);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.login__submit {
+  position: relative;  height: 3rem;
+  margin: 5rem 0 2.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  background: #FF3366;
+  font-size: 1.5rem;
+  border-radius: 3rem;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-transition: width 0.3s 0.15s, font-size 0.1s 0.15s;
+  transition: width 0.3s 0.15s, font-size 0.1s 0.15s;
+  background-color: rgba(33, 150, 243, 1);
+    border-radius: 300px;
+    width: 85%;
+    padding: 0px;
+    margin-top: 0px;
+    color:white;
+    border: 0px;
+}
+.login__submit:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -1.0rem;
+  margin-top: -1.0rem;
+  width: 2rem;
+  height: 2rem;
+  border: 2px dotted #fff;
+  border-radius: 50%;
+  border-left: none;
+  border-bottom: none;
+  -webkit-transition: opacity 0.1s 0.4s;
+  transition: opacity 0.1s 0.4s;
+  opacity: 0;
+}
+.login__submit.processing {
+  width: 3rem;
+  font-size: 0;
+}
+.login__submit.processing:after {
+  opacity: 1;
+  -webkit-animation: rotate 0.5s 0.4s infinite linear;
+          animation: rotate 0.5s 0.4s infinite linear;
+}
+.login__submit.success {
+    z-index: 99;
+  -webkit-transition: opacity 0.1s 0.3s, background-color 0.1s 0.3s, -webkit-transform 0.3s 0.1s ease-out;
+  transition: opacity 0.1s 0.3s, background-color 0.1s 0.3s, -webkit-transform 0.3s 0.1s ease-out;
+  transition: transform 0.3s 0.1s ease-out, opacity 0.1s 0.3s, background-color 0.1s 0.3s;
+  transition: transform 0.3s 0.1s ease-out, opacity 0.1s 0.3s, background-color 0.1s 0.3s, -webkit-transform 0.3s 0.1s ease-out;
+  -webkit-transform: scale(30);
+          transform: scale(30);
+  opacity: 0.9;
+}
+.login__submit.success:after {
+  -webkit-transition: opacity 0.1s 0s;
+  transition: opacity 0.1s 0s;
+  opacity: 0;
+  -webkit-animation: none;
+          animation: none;
+}
+
+
+@-webkit-keyframes animRipple {
+  to {
+    -webkit-transform: scale(3.5);
+            transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+@keyframes animRipple {
+  to {
+    -webkit-transform: scale(3.5);
+            transform: scale(3.5);
+    opacity: 0;
+  }
+}
+@-webkit-keyframes rotate {
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@keyframes rotate {
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes animatePath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes animatePath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

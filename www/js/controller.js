@@ -2,9 +2,10 @@ var appN2M = angular.module('nice2meet')
 
     //
     
-appN2M.controller('LoginCtrl', function($scope, $location, $http, $ionicLoading, $timeout, $ionicPlatform, $cordovaSplashscreen) {
+appN2M.controller('LoginCtrl', function($scope,$state, $location, $http, $ionicLoading, $timeout, $ionicPlatform, $cordovaSplashscreen) {
     
     document.getElementById('idTabs').style.display='none';
+
     var animating = false,
       submitPhase1 = 1100,
       submitPhase2 = 400,
@@ -23,40 +24,13 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http, $ionicLoading,
     elem.append($ripple);
   };
   
-  $(document).on("click", ".login__submit", function(e) {
-    if (animating) return;
-    animating = true;
-    var that = this;
-    ripple($(that), e);
-    $(that).addClass("processing");
-    setTimeout(function() {
-      $(that).addClass("success");
-      setTimeout(function() {
-        $app.show();
-        $app.css("top");
-        $app.addClass("active");
-      }, submitPhase2 - 70);
-      setTimeout(function() {
-        $login.hide();
-        $login.addClass("inactive");
-        animating = false;
-        $(that).removeClass("success processing");
-      }, submitPhase2);
-    }, submitPhase1);
-  });
+  
 
     $scope.login = function(u) {
-         if (u == undefined || u.login == undefined || u.senha == undefined) {
+        if (u == undefined || u.login == undefined || u.senha == undefined) {
             document.getElementById('error').innerHTML = "Digite o login e senha.";
         } else {
-            $ionicLoading.show({
-                content: 'Loading',
-                template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
-                animation: 'fade-in',
-                showBackdrop: true,
-                maxWidth: 200,
-                showDelay: 0
-            });
+            document.getElementById("login__submit").classList.add("processing");
             $http({
                 method: "post",
                 url: "http://nice2meettcc.herokuapp.com/api/auth/login",
@@ -66,19 +40,30 @@ appN2M.controller('LoginCtrl', function($scope, $location, $http, $ionicLoading,
                 }
             }).success(function(success) {
                 if(success.logado == 1) {
-                    window.localStorage.setItem("logado", success.logado);
-                    window.localStorage.setItem("email", u.login);
-                    document.getElementById('nm_perfil').innerHTML = window.localStorage.getItem("email");
-                    document.getElementById('idTabs').style.display='block';
-                    $ionicLoading.hide();
-                    $location.path('/home');
+                    setTimeout(function() {
+                      document.getElementById("login__submit").classList.add("success");
+                      setTimeout(function() {
+                      }, submitPhase2 - 70);
+                      setTimeout(function() {
+                        animating = false;
+
+                        document.getElementById('idTabs').style.display='block';
+                        document.getElementById("login__submit").classList.remove("success");
+                        document.getElementById("login__submit").classList.remove("processing");
+                        $state.go('home');
+                        window.localStorage.setItem("logado", success.logado);
+                        window.localStorage.setItem("email", u.login);
+                      }, submitPhase2);
+                    }, submitPhase1);
+                    
+                        
                 }else{
                     document.getElementById('error').innerHTML = success.error;
-                    $ionicLoading.hide();
+                    document.getElementById("login__submit").classList.remove("processing");
                 }
             }).error(function(error){
                 document.getElementById('error').innerHTML = "Erro de conexão.";
-                $ionicLoading.hide();
+                document.getElementById("login__submit").classList.remove("processing");
             });
         }
     };
@@ -138,7 +123,6 @@ var perguntasQuiz = {};
 
 
 appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoading, $timeout, $http, $location, $cordovaGeolocation, $ionicPopup, $ionicSideMenuDelegate, $ionicModal) {
-    
     $ionicLoading.show({
         content: 'Loading',
         template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
