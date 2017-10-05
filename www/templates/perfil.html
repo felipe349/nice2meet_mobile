@@ -1,15 +1,7 @@
-<ion-view view-title="Perfil">
+<ion-view id="view-perfil" view-title="Perfil" hide-back-button="true" hide-nav-bar="false">
 
 
     <ion-content>
-        
-            <!-- Left menu -->
-
-
-                <ion-header-bar align-title="center" class="bar-dark header-nice">
-                        <h1 class="title ">Perfil</h1>
-                    </ion-header-bar>
-
                 <ion-content scroll="true">
                 
                     <div class="item">
@@ -21,9 +13,20 @@
                         <br>
                     </div>
                 
-                    <div class="teste22">
-                <button class="button button-full button-assertive icon-right ion-log-out" id="button-exit" onclick="document.getElementById('idTabs').style.display='none'; " ng-click="logout()">Sair</button>
+                    
+                    
+                    <!--<div class="row">
+                            <div class="col text-center">
+                                <button type="button" id="logout__submit" style="background:black;" class="logout__submit" ng-click="logout()">Sair</button>
+                            </div>
+                    </div>-->
+                    <div id="app__logout" class="app__logout" ng-click="logout()">
+                        <svg class="app__logout-icon svg-icon" viewBox="0 0 20 20">
+          <path d="M6,3 a8,8 0 1,0 8,0 M10,0 10,12"/>
+        </svg>
                     </div>
+                    
+      </div>
                 
             </ion-content>
     </ion-content>
