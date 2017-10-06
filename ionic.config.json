@@ -3,7 +3,10 @@
   "app_id": "80e8b3bd",
   "type": "ionic1",
   "watchPatterns": [
-    "scss/**/*"
+    "scss/**/*",
+    "www/**/*",
+    "!www/lib/**/*",
+    "!www/**/*.map"
   ],
   "integrations": {
     "cordova": {}

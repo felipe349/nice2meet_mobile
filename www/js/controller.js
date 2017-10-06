@@ -81,11 +81,7 @@ var perguntasQuiz = {};
 
 
 appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoading, $timeout, $http, $location, $cordovaGeolocation, $ionicPopup, $ionicSideMenuDelegate, $ionicModal) {
-      
-    $http.get('json/pontos.json')
-        .then(function(res) {
-            marcadores = res.data.pontos;
-        });
+
     $ionicLoading.show({
         content: 'Loading',
         template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
@@ -126,7 +122,6 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
 
 
     $scope.mapCreated = function(map) {
-
 
         //$scope.map = map;
         //INICIA O MAPA
@@ -173,60 +168,65 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
                 icon: imageCliente
             });
 
-            //PARA CÁLCULO DE DISTÂNCIA (TESTE SOMENTE)
-            /*var rad = function(x) {
-                return x * Math.PI / 180;
-            };
+            $http({
+                method: "post",
+                url: "https://nice2meet-claiohm.c9users.io/api/pontoTuristico",
+                data: {
+                        lat : position.coords.latitude,
+                        long : position.coords.longitude
+                }
+            }).success(function(success) {
 
-            var getDistance = function(p1, p2) {
-                var R = 6378137; // Earth’s mean radius in meter
-                var dLat = rad(p2.lat() - p1.lat());
-                var dLong = rad(p2.lng() - p1.lng());
-                var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                    Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) *
-                    Math.sin(dLong / 2) * Math.sin(dLong / 2);
-                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                var d = R * c;
-                return d; // returns the distance in meter
-            };*/
+                if(success) {
+                    //window.localStorage.setItem("marcadores", JSON.stringify(success));
+                    marcadores = success;
+                    for (i = 0; i < marcadores.length; i++) {
+                        console.log(marcadores);
+                        var latJson = marcadores[i].cd_latitude;
+                        var lngJson = marcadores[i].cd_longitude;
+                        var markertitle = marcadores[i].nm_ponto_turistico;
+                        var contentInfoWindow = '<div>' +
+                            '<div>' + marcadores[i].nm_ponto_turistico + '</div>' +
+                            '<div>' +
+                              '</br><a ui-sref="quiz"><button>Quiz</button></a>' +
+                            '</div>' +
+                          '</div>';
+                          var compiledContent = $compile(contentInfoWindow)($scope)
+        
+        
+                        //var latLngOrigem = new google.maps.LatLng(-24.020310, -46.478727);
+                        //var latLngDestino = new google.maps.LatLng(latJson, lngJson);
+        
+                        var marker  = new google.maps.Marker({
+                            map: $scope.map,
+                            animation: google.maps.Animation.DROP,
+                            position: new google.maps.LatLng(latJson, lngJson),
+                            title: markertitle
+                        });
+        
+                        markerArray.push(marker);
+        
+        
+                        var infowindow = new google.maps.InfoWindow()
+        
+                        google.maps.event.addListener(marker,'click', (function(marker,contentInfoWindow,infowindow){ 
+                                return function() {
+                                   infowindow.setContent(contentInfoWindow);
+                                   infowindow.open(map,marker);
+                                };
+                            })(marker,compiledContent[0],infowindow)); 
+                    }
+
+                }else{
+                    document.getElementById('error').innerHTML = success.error;
+                    document.getElementById("login__submit").classList.remove("processing");
+                }
+            }).error(function(error){
+                document.getElementById('error').innerHTML = "Erro de conexão.";
+                document.getElementById("login__submit").classList.remove("processing");
+            });
 
 
-            for (i = 0; i < marcadores.length; i++) {
-
-                var latJson = marcadores[i].lat;
-                var lngJson = marcadores[i].lng;
-                var markertitle = marcadores[i].titulo;
-                var contentInfoWindow = '<div>' +
-                    '<div>' + marcadores[i].titulo + '</div>' +
-                    '<div>' +
-                      '</br><a ui-sref="quiz"><button>Quiz</button></a>' +
-                    '</div>' +
-                  '</div>';
-                  var compiledContent = $compile(contentInfoWindow)($scope)
-
-
-                //var latLngOrigem = new google.maps.LatLng(-24.020310, -46.478727);
-                //var latLngDestino = new google.maps.LatLng(latJson, lngJson);
-
-                var marker  = new google.maps.Marker({
-                    map: $scope.map,
-                    animation: google.maps.Animation.DROP,
-                    position: new google.maps.LatLng(latJson, lngJson),
-                    title: markertitle
-                });
-
-                markerArray.push(marker);
-
-
-                var infowindow = new google.maps.InfoWindow()
-
-                google.maps.event.addListener(marker,'click', (function(marker,contentInfoWindow,infowindow){ 
-                        return function() {
-                           infowindow.setContent(contentInfoWindow);
-                           infowindow.open(map,marker);
-                        };
-                    })(marker,compiledContent[0],infowindow)); 
-            }
 
             //COLOCA OU NÃO OS MARCADORES DE ACORDO COM A DISTÂNCIA
             /*for (var i = 0; i < this.marcadoresArray.length; i++) {
