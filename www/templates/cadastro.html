@@ -1,8 +1,5 @@
 <ion-view view-title="Cadastro">
-    <ion-nav-bar class="bar-dark header_nice">
-        <ion-nav-back-button class="button-icon ion-arrow-left-c">
-        </ion-nav-back-button>
-    </ion-nav-bar>
+    
 
 
     <ion-content class="padding">
@@ -13,25 +10,25 @@
                 </div>
                 <div class="col">
                     <p class="title-cadastro-errors"><b>Atenção!</b> Corrija os seguintes erros.</p>
-                    <div class="erro2" ng-if="(cadastro.nm_turista.$touched || cadastro.$submitted) && cadastro.nm_turista.$invalid">
+                    <div class="cadastro-error" ng-if="(cadastro.nm_turista.$touched || cadastro.$submitted) && cadastro.nm_turista.$invalid">
                         <div ng-show="cadastro.nm_turista.$error.required">• O nome é obrigatório.<br></div>
-                        <div class="erro2" ng-show="cadastro.nm_turista.$error.pattern" >• Valido apenas letras para nome.</div>
+                        <div class="cadastro-error" ng-show="cadastro.nm_turista.$error.pattern" >• Valido apenas letras para nome.</div>
                     </div>
-                    <div class="erro2" ng-if="(cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid">• O nascimento é obrigatório.<br></div>
+                    <div class="cadastro-error" ng-if="(cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid">• O nascimento é obrigatório.<br></div>
                     <div ng-messages="cadastro.email.$error" ng-if="cadastro.email.$touched || cadastro.$submitted">
-                        <div class="erro2" ng-show="cadastro.email.$error.required" >• O email é obrigatório.<br></div>
-                        <div class="erro2" ng-show="cadastro.email.$error.email" >• Insira um email válido.<br></div>
+                        <div class="cadastro-error" ng-show="cadastro.email.$error.required" >• O email é obrigatório.<br></div>
+                        <div class="cadastro-error" ng-show="cadastro.email.$error.email" >• Insira um email válido.<br></div>
                     </div>
                     <div ng-messages="cadastro.senha.$error" ng-if="cadastro.senha.$touched || cadastro.$submitted">
-                        <div class="erro2" ng-show="cadastro.senha.$error.required" >• A senha é obrigatória.<br></div>
-                        <div class="erro2" ng-show="cadastro.senha.$error.pattern" >• Não é permitido caracteres especiais na senha.</div>
-                        <div class="erro2" ng-show="cadastro.senha.$error.minlength" >• Minimo 8 letras.<br></div>
-                        <div class="erro2" ng-show="cadastro.senha.$error.maxlength" >• Maximo de 16 letras.<br></div>
+                        <div class="cadastro-error" ng-show="cadastro.senha.$error.required" >• A senha é obrigatória.<br></div>
+                        <div class="cadastro-error" ng-show="cadastro.senha.$error.pattern" >• Não é permitido caracteres especiais na senha.</div>
+                        <div class="cadastro-error" ng-show="cadastro.senha.$error.minlength" >• Minimo 8 letras.<br></div>
+                        <div class="cadastro-error" ng-show="cadastro.senha.$error.maxlength" >• Maximo de 16 letras.<br></div>
                         
                     </div>
                     <div id="confirm-pw-block" ng-messages="cadastro.conSenha.$error" ng-if="cadastro.conSenha.$touched || cadastro.$submitted">
-                        <div class="erro2" ng-show="cadastro.conSenha.$error.required" >• A confirmação de senha é obrigatória.<br></div>
-                        <div class="erro2" ng-show="cadastro.conSenha.$error.pattern" >• Confirmação de senha inválida.<br></div>
+                        <div class="cadastro-error" ng-show="cadastro.conSenha.$error.required" >• A confirmação de senha é obrigatória.<br></div>
+                        <div class="cadastro-error" ng-show="cadastro.conSenha.$error.pattern" >• Confirmação de senha inválida.<br></div>
                     </div>
                 </div>
         </div>

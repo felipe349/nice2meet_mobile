@@ -1,31 +1,8 @@
 var appN2M = angular.module('nice2meet')
 
-    //
-    
-appN2M.controller('LoginCtrl', function($scope,$state, $location, $http, $ionicLoading, $timeout, $ionicPlatform, $cordovaSplashscreen) {
-    
+
+appN2M.controller('LoginCtrl', function($scope,$state, $location, $http,$ionicSlideBoxDelegate,$ionicHistory, $ionicLoading, $timeout, $ionicPlatform, $cordovaSplashscreen) {
     document.getElementById('idTabs').style.display='none';
-
-    var animating = false,
-      submitPhase1 = 1100,
-      submitPhase2 = 400,
-      logoutPhase1 = 800,
-      $login = $(".login"),
-      $app = $(".app");
-  
-  function ripple(elem, e) {
-    $(".ripple").remove();
-    var elTop = elem.offset().top,
-        elLeft = elem.offset().left,
-        x = e.pageX - elLeft,
-        y = e.pageY - elTop;
-    var $ripple = $("<div class='ripple'></div>");
-    $ripple.css({top: y, left: x});
-    elem.append($ripple);
-  };
-  
-  
-
     $scope.login = function(u) {
         if (u == undefined || u.login == undefined || u.senha == undefined) {
             document.getElementById('error').innerHTML = "Digite o login e senha.";
@@ -40,23 +17,18 @@ appN2M.controller('LoginCtrl', function($scope,$state, $location, $http, $ionicL
                 }
             }).success(function(success) {
                 if(success.logado == 1) {
-                    setTimeout(function() {
-                      document.getElementById("login__submit").classList.add("success");
+                        document.getElementById("login__submit").classList.add("success");
+                        window.localStorage.setItem("logado", success.logado);
+                        window.localStorage.setItem("email", u.login);
                       setTimeout(function() {
-                      }, submitPhase2 - 70);
-                      setTimeout(function() {
-                        animating = false;
-
                         document.getElementById('idTabs').style.display='block';
+                        $ionicHistory.nextViewOptions({
+                          disableAnimate: true
+                        });
                         document.getElementById("login__submit").classList.remove("success");
                         document.getElementById("login__submit").classList.remove("processing");
                         $state.go('home');
-                        window.localStorage.setItem("logado", success.logado);
-                        window.localStorage.setItem("email", u.login);
-                      }, submitPhase2);
-                    }, submitPhase1);
-                    
-                        
+                      }, 400);
                 }else{
                     document.getElementById('error').innerHTML = success.error;
                     document.getElementById("login__submit").classList.remove("processing");
@@ -67,26 +39,14 @@ appN2M.controller('LoginCtrl', function($scope,$state, $location, $http, $ionicL
             });
         }
     };
-    
     $scope.cadastro = function(){
         $location.url('/cadastro');
     }
-
-
-    $http.get('json/pontos.json')
-        .then(function(res) {
-            marcadores = res.data.pontos;
-        });
-
-    $http.get("json/perguntas.json").then(function(response) {
-        perguntasQuiz = response.data.perguntas;
-    });
+    
 })
 
 appN2M.controller('CadastroCtrl', function($scope, $http, $ionicPopup, $location, $ionicLoading, $timeout) {
-
-    
-   $scope.cadastrarTurista = function(usuario) {
+    $scope.cadastrarTurista = function(usuario) {
             $ionicLoading.show({
                 content: 'Loading',
                 template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
@@ -109,9 +69,7 @@ appN2M.controller('CadastroCtrl', function($scope, $http, $ionicPopup, $location
                     $location.url('/login');
                 });
             });
-    }
-    
-    
+    }    
 })
 
 
@@ -123,6 +81,11 @@ var perguntasQuiz = {};
 
 
 appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoading, $timeout, $http, $location, $cordovaGeolocation, $ionicPopup, $ionicSideMenuDelegate, $ionicModal) {
+      
+    $http.get('json/pontos.json')
+        .then(function(res) {
+            marcadores = res.data.pontos;
+        });
     $ionicLoading.show({
         content: 'Loading',
         template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
@@ -403,14 +366,12 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
 
 
 appN2M.controller('QuizCtrl', function($scope, $http) {
-
-
+    
     $http.get("json/perguntas.json").then(function(response) {
         $scope.perguntasQuizJson = response.data.perguntas;
         //alert(perguntasQuiz[0]);
 
     });
-
 })
 
 
@@ -448,15 +409,22 @@ appN2M.controller('CupomCtrl', function($scope, $http, $ionicPopup) {
 
 
 appN2M.controller('PerfilCtrl',  function($scope,$state,$ionicHistory) {
-    document.getElementById("nm_perfil").innerHTML = window.localStorage.getItem("email");
     $scope.logout = function(){
         window.localStorage.setItem("logado", 0);
         window.localStorage.removeItem("email");
+        document.getElementById('idTabs').style.display='none';
+        document.getElementById("view-perfil").classList.add("clicked");
+        document.getElementById("app__logout").classList.add("clicked");
         $ionicHistory.nextViewOptions({
              disableAnimate: true,
              disableBack: true
         });
+    setTimeout(function() {
         $state.go('login');
+      document.getElementById("app__logout").classList.remove("clicked");
+    }, 800);
     };
+
+
 })
 

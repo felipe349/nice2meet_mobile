@@ -2,47 +2,29 @@
     background-color: #0f113a !important;
     border-bottom: 0px solid #fff !important;
 }
-
-.header_nice{
-    background-color: #0f113a !important;
-    border-bottom: 0px solid #fff !important;
+.background-box{
+  height: 100%;
+  background-color: black;
 }
-.signup-background {
-    background-image: url('../img/bg.jpg');
+.background-box .slider-pager{
+display:none;
+}
+.login-background{
     background-size: auto 100%; 
     background-position: left;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position:center;
+    opacity: 0.3;
 }
-.tittle-login{
-    color: rgba(255,255,255,0.8);
-    position: relative;
-    font-size: 40px;
-    text-shadow:0px 1px 1px rgba(255,255,255,1);
-    font-style:bold;
+.login-background1 {
+    background-image: url('../img/bg1.jpg');
 }
-.button-login{
-    background-color: rgba(33, 150, 243, 0.5);
-    border-radius: 300px;
-    width: 85%;
-    padding: 0px;
-    margin-top: 0px;
-    color:white;
-
+.login-background2 {
+    background-image: url('../img/bg2.jpg');
 }
-.button-login:active,
-.button-login:hover,
-.button-login:focus{
-    color: #fff;
-    background-color: rgba(33, 150, 243, 0.5);
-}
-
-.button-login.activated{
-    color: #fff;
-    background-color: rgba(33, 150, 243, 0.5);
-    transform: scale(0.9);
-    transition:0.5s;
+.login-background3 {
+    background-image: url('../img/bg3.jpg');
 }
 .centralizar{
     text-align: center !important;
@@ -60,7 +42,7 @@
     font-size: 20px;
     color: white;
 }
-.erro2 {
+.cadastro-error {
     text-align: left;
     font-size: 12px;
     color: #333;
@@ -84,17 +66,6 @@ label.item.has-error {
 }
 .input-cadastro{
     margin-left: 0.5px;
-}
-.button-m {
-    background-color: #008CBA;
-    border: none;
-    color: white;
-    width: 100px;
-    height: 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
 }
 .img_avatar, .img_ponto {
     border: 0px solid #ddd;
@@ -221,22 +192,12 @@ label.item.has-error {
 }
 .frase-cadastrar{
     color: #fff;
-
     text-align: center;
 }
 .link-cadastrar{
-
     color: #fff;
     text-decoration: underline;
     cursor: pointer;
-}
-.keyboard-open .tabs{
-    bottom:-20%;
-    transition:0.5s;
-}
-.keyboard-open .has-tabs{
-    bottom:0;
-    transition:0.5s;
 }
 .alert-box{
     position: relative;
@@ -251,19 +212,21 @@ label.item.has-error {
     top: 50%;
     transform: translate(-50%, -50%);
 }
+.login-box{
+  position: relative;
+}
+.login-content{
+  position: absolute;
+    width:90%;
+    vertical-align: middle;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+.logo-nice{
+  margin-bottom: 15%;
+}
 .login__submit {
   position: relative;  height: 3rem;
   margin: 5rem 0 2.2rem;
@@ -317,7 +280,7 @@ label.item.has-error {
   transition: transform 0.3s 0.1s ease-out, opacity 0.1s 0.3s, background-color 0.1s 0.3s, -webkit-transform 0.3s 0.1s ease-out;
   -webkit-transform: scale(30);
           transform: scale(30);
-  opacity: 0.9;
+  opacity: 1;
 }
 .login__submit.success:after {
   -webkit-transition: opacity 0.1s 0s;
@@ -327,21 +290,123 @@ label.item.has-error {
           animation: none;
 }
 
-
-@-webkit-keyframes animRipple {
-  to {
-    -webkit-transform: scale(3.5);
-            transform: scale(3.5);
-    opacity: 0;
-  }
+.logout__submit {
+  position: relative;  height: 3rem;
+  margin: 5rem 0 2.2rem;
+  color: rgba(255, 255, 255, 0.8);
+  background: #FF3366;
+  font-size: 1.5rem;
+  border-radius: 3rem;
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-transition: width 0.3s 0.15s, font-size 0.1s 0.15s;
+  transition: width 0.3s 0.15s, font-size 0.1s 0.15s;
+  background-color: rgba(239, 71, 58, 1);
+    border-radius: 300px;
+    width: 3rem;
+    padding: 0px;
+    margin-top: 0px;
+    color:white;
+    border: 0px;
 }
-
-@keyframes animRipple {
-  to {
-    -webkit-transform: scale(3.5);
-            transform: scale(3.5);
-    opacity: 0;
-  }
+.logout__submit:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -1.0rem;
+  margin-top: -1.0rem;
+  width: 2rem;
+  height: 2rem;
+  border: 2px dotted #fff;
+  border-radius: 50%;
+  border-left: none;
+  border-bottom: none;
+  -webkit-transition: opacity 0.1s 0.4s;
+  transition: opacity 0.1s 0.4s;
+  opacity: 0;
+}
+.logout__submit.processing {
+}
+.logout__submit.processing:after {
+  opacity: 0;
+}
+.logout__submit.success {
+    z-index: 99;
+  -webkit-transition: opacity 0.1s 0.3s, background-color 0.1s 0.3s, -webkit-transform 0.3s 0.1s ease-out;
+  transition: opacity 0.1s 0.3s, background-color 0.1s 0.3s, -webkit-transform 0.3s 0.1s ease-out;
+  transition: transform 0.3s 0.1s ease-out, opacity 0.1s 0.3s, background-color 0.1s 0.3s;
+  transition: transform 0.3s 0.1s ease-out, opacity 0.1s 0.3s, background-color 0.1s 0.3s, -webkit-transform 0.3s 0.1s ease-out;
+  -webkit-transform: scale(30);
+          transform: scale(30);
+  opacity: 0.9;
+}
+.logout__submit.success:after {
+  -webkit-transition: opacity 0.1s 0s;
+  transition: opacity 0.1s 0s;
+  opacity: 0;
+  -webkit-animation: none;
+          animation: none;
+}
+svg {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  overflow: visible;
+}
+.svg-icon {
+  cursor: pointer;
+}
+.svg-icon path {
+  stroke: rgba(255, 255, 255, 0.9);
+  fill: none;
+  stroke-width: 1;
+}
+.app__logout {
+  position: absolute;
+  bottom: 6rem;
+  right: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-right: -2.3rem;
+  margin-bottom: -2.3rem;
+  background: #ef4e3a;
+  color: #fff;
+  font-size: 2rem;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-transition: bottom 0.4s 0.1s, right 0.4s 0.1s, opacity 0.1s 0.7s, background-color 0.1s 0.7s, -webkit-transform 0.4s 0.4s;
+  transition: bottom 0.4s 0.1s, right 0.4s 0.1s, opacity 0.1s 0.7s, background-color 0.1s 0.7s, -webkit-transform 0.4s 0.4s;
+  transition: bottom 0.4s 0.1s, right 0.4s 0.1s, transform 0.4s 0.4s, opacity 0.1s 0.7s, background-color 0.1s 0.7s;
+  transition: bottom 0.4s 0.1s, right 0.4s 0.1s, transform 0.4s 0.4s, opacity 0.1s 0.7s, background-color 0.1s 0.7s, -webkit-transform 0.4s 0.4s;
+  z-index: 2;
+}
+.app__logout.clicked {
+  bottom: 50%;
+  right: 50%;
+  -webkit-transform: scale(30) !important;
+          transform: scale(30) !important;
+  opacity: 1;
+}
+.app__logout.clicked svg {
+  opacity: 0;
+}
+.app__logout-icon {
+  position: absolute;
+  width: 2.5rem;
+  height: 2.5rem;
+  top: 50%;
+  left: 50%;
+  margin-left: -1.25rem;
+  margin-top: -1.25rem;
+  -webkit-transition: opacity 5.1s;
+  transition: opacity 0.1s;
+}
+.app__logout-icon path {
+  stroke-width: 3px;
+  stroke-dasharray: 64.36235046386719;
+  stroke-dashoffset: 64.36235046386719;
+  -webkit-animation: animatePath 0.5s 0.5s forwards;
+          animation: animatePath 0.5s 0.5s forwards;
 }
 @-webkit-keyframes rotate {
   to {
