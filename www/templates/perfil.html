@@ -1,33 +1,18 @@
-<ion-view id="view-perfil" view-title="Perfil" hide-back-button="true" hide-nav-bar="false">
-
-
+<ion-view id="view-perfil" view-title="Perfil" hide-back-button="true" hide-nav-bar='hideHeaderOnLogout'>
     <ion-content>
-                <ion-content scroll="true">
-                
+                <ion-content>
                     <div class="item">
                         <img src="img/avatar.png" class="img_avatar" style="border-radius: 0px; position: relative; float: left; width: 30%; height: 30%;">
                         <span id="nm_perfil" style="padding: 20px">
-                            <script>a</script>
+                            <script>window.localStorage.getItem("email");</script>
                         </span>
                         <br>
                         <br>
                     </div>
-                
-                    
-                    
-                    <!--<div class="row">
-                            <div class="col text-center">
-                                <button type="button" id="logout__submit" style="background:black;" class="logout__submit" ng-click="logout()">Sair</button>
-                            </div>
-                    </div>-->
-                    <div id="app__logout" class="app__logout" ng-click="logout()">
-                        <svg class="app__logout-icon svg-icon" viewBox="0 0 20 20">
-          <path d="M6,3 a8,8 0 1,0 8,0 M10,0 10,12"/>
-        </svg>
+                    <div style="text-align: center;">
+                                <button type="button" id="logout_btn" class="logout_btn button-full" ng-click="logoutPopup()">Sair</button>
                     </div>
-                    
       </div>
-                
             </ion-content>
     </ion-content>
 </ion-view>

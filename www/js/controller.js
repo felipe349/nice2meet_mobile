@@ -73,7 +73,9 @@ appN2M.controller('CadastroCtrl', function($scope, $http, $ionicPopup, $location
 })
 
 
+function abreLoading(){
 
+}
 
 var marcadores = {};
 var markerArray = [];
@@ -167,7 +169,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
                 position: map.center,
                 icon: imageCliente
             });
-
+var infowindow = new google.maps.InfoWindow()
             $http({
                 method: "post",
                 url: "https://nice2meet-claiohm.c9users.io/api/pontoTuristico",
@@ -181,7 +183,6 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
                     //window.localStorage.setItem("marcadores", JSON.stringify(success));
                     marcadores = success;
                     for (i = 0; i < marcadores.length; i++) {
-                        console.log(marcadores);
                         var latJson = marcadores[i].cd_latitude;
                         var lngJson = marcadores[i].cd_longitude;
                         var markertitle = marcadores[i].nm_ponto_turistico;
@@ -207,7 +208,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
                         markerArray.push(marker);
         
         
-                        var infowindow = new google.maps.InfoWindow()
+                        
         
                         google.maps.event.addListener(marker,'click', (function(marker,contentInfoWindow,infowindow){ 
                                 return function() {
@@ -230,10 +231,8 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
 
             //COLOCA OU NÃO OS MARCADORES DE ACORDO COM A DISTÂNCIA
             /*for (var i = 0; i < this.marcadoresArray.length; i++) {
-
                 var distancia = getDistance(latLngOrigem, latLngDestino);
                 var distanciaX = 20;
-
                 if (distancia < distanciaX) {
                     alert("perto");
                     this.marcadoresArray[i].setMap(map);
@@ -268,19 +267,13 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
 
                 //CRIA MARCADORES OU....
                 /*if (markerArray.length > 0) {
-
                     for (var i = 0; i < markerArray.length; i++) {
-
                         var latJson = marcadores[i].lat;
                         var lngJson = marcadores[i].lng;
-
                         var latLngOrigem = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                         var latLngDestino = new google.maps.LatLng(latJson, lngJson);
-
                         var distancia = getDistance(latLngOrigem, latLngDestino);
                         var distanciaX = 50;
-
-
                         if (distancia < distanciaX) {
                             //alert("perto");
                             this.markerArray[i].setMap(map);
@@ -288,10 +281,8 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
                             markerArray[i].setMap(null);
                             //markerArray[i] = null;
                             //alert("longe");n
-
                         }
                     }
-
                 }*/$ionicLoading.hide();
             }
 
@@ -343,38 +334,28 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
     //--------------------------MARCADOR-----------------------------------
     /*
     google.maps.event.addListenerOnce($scope.map, 'idle', function() {
-
         var marker = new google.maps.Marker({
             map: $scope.map,
             animation: google.maps.Animation.DROP,
             position: latLng
         });
-
         var infoWindow = new google.maps.InfoWindow({
             content: "Here I am!"
         });
-
         google.maps.event.addListener(marker, 'click', function() {
             infoWindow.open($scope.map, marker);
         });
-
     });*/
     //--------------------------MARCADOR-----------------------------------
 
 })
 
-
-
 appN2M.controller('QuizCtrl', function($scope, $http) {
-    
     $http.get("json/perguntas.json").then(function(response) {
         $scope.perguntasQuizJson = response.data.perguntas;
         //alert(perguntasQuiz[0]);
-
     });
 })
-
-
 appN2M.controller('CupomCtrl', function($scope, $http, $ionicPopup) {
     $scope.showConfirm = function() {
         var confirmPopup = $ionicPopup.confirm({
@@ -389,42 +370,40 @@ appN2M.controller('CupomCtrl', function($scope, $http, $ionicPopup) {
             }
         });
     };
-    $scope.noMoreItemsAvailable = false;
-
-    $scope.loadMore = function() {
-        $scope.items.push({ id: $scope.items.length });
-
-        if ($scope.items.length == 99) {
-            $scope.noMoreItemsAvailable = true;
-        }
-        $scope.$broadcast('scroll.infiniteScrollComplete');
-    };
-
-    $scope.items = [];
-
-
 })
-
-
-
-
-appN2M.controller('PerfilCtrl',  function($scope,$state,$ionicHistory) {
-    $scope.logout = function(){
-        window.localStorage.setItem("logado", 0);
-        window.localStorage.removeItem("email");
+appN2M.controller('PerfilCtrl',  function($scope,$state,$ionicHistory, $ionicPopup) {
+    function logout(){
+        document.getElementById("logout_btn").classList.add("processing");
         document.getElementById('idTabs').style.display='none';
-        document.getElementById("view-perfil").classList.add("clicked");
-        document.getElementById("app__logout").classList.add("clicked");
+        $scope.hideHeaderOnLogout = true;
+        window.localStorage.removeItem("logado");
+        window.localStorage.removeItem("email");
         $ionicHistory.nextViewOptions({
-             disableAnimate: true,
-             disableBack: true
+            disableAnimate: true,
+            disableBack: true
         });
-    setTimeout(function() {
-        $state.go('login');
-      document.getElementById("app__logout").classList.remove("clicked");
-    }, 800);
+        setTimeout(function() {
+            document.getElementById("logout_btn").classList.add("success");
+        },300);
+        setTimeout(function() {
+            document.getElementById("logout_btn").classList.remove("success");
+            document.getElementById("logout_btn").classList.remove("processing");
+            $state.go('login');
+            $scope.hideHeaderOnLogout = false;
+        }, 700);
     };
-
-
+    $scope.logoutPopup = function() {
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Deseja sair da conta?',
+            buttons: [{ text: 'Cancelar' },
+                      { text: 'Sair', type: 'button-assertive', onTap: function() { return true; }}]
+        });
+        confirmPopup.then(function(res) {
+            if (res) {
+                logout();
+            } else {
+            }
+        });
+    };
 })
 

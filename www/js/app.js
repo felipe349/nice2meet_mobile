@@ -14,13 +14,13 @@ appNice.run(function($ionicPlatform) {
         }
     });
 })
+        
 appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
-    
-    $ionicConfigProvider.backButton.previousTitleText(false).text('Voltar');//Padroniza no IOS o botão voltar
-$ionicConfigProvider.views.swipeBackEnabled(false);//desabilita o voltar arrastando o dedo no IOS
+    $ionicConfigProvider.scrolling.jsScrolling(false);
+    $ionicConfigProvider.backButton.previousTitleText(false).text('Voltar');
+    $ionicConfigProvider.views.swipeBackEnabled(false);
     $ionicConfigProvider.tabs.position('bottom');
     $ionicConfigProvider.tabs.style('standard');
-    $ionicConfigProvider.views.transition('platform');
     $stateProvider.state('login', {
         url: '/login',
         templateUrl: 'templates/login.html',
