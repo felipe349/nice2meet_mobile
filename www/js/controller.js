@@ -1,5 +1,6 @@
 var appN2M = angular.module('nice2meet')
 
+var id_ponto_quiz = 0;
 
 appN2M.controller('LoginCtrl', function($scope,$state, $location, $http,$ionicSlideBoxDelegate,$ionicHistory, $ionicLoading, $timeout, $ionicPlatform, $cordovaSplashscreen) {
     document.getElementById('idTabs').style.display='none';
@@ -18,7 +19,7 @@ appN2M.controller('LoginCtrl', function($scope,$state, $location, $http,$ionicSl
             }).success(function(success) {
                 if(success.logado == 1) {
                         document.getElementById("login__submit").classList.add("success");
-                        window.localStorage.setItem("logado", success.logado);
+                        window.localStorage.setItem("status", success.logado);
                         window.localStorage.setItem("email", u.login);
                       setTimeout(function() {
                         document.getElementById('idTabs').style.display='block';
@@ -73,9 +74,7 @@ appN2M.controller('CadastroCtrl', function($scope, $http, $ionicPopup, $location
 })
 
 
-function abreLoading(){
 
-}
 
 var marcadores = {};
 var markerArray = [];
@@ -124,17 +123,9 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
 
 
     $scope.mapCreated = function(map) {
-
-        //$scope.map = map;
-        //INICIA O MAPA
         var options = { timeout: 10000, enableHighAccuracy: true};
         $timeout(function () {
         $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
-
-            //var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-            //$scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-            //COLOCA O MAPA EM EXECUÇÃO
             $scope.map = map;
             
 
@@ -148,11 +139,9 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
                 center: map.center,
                 radius: 50
             });
-
             var direction = 1;
             var rMin = 35;
             var rMax = 50;
-
             setInterval(function() {
                 var radius = circle.getRadius();
                 if ((radius > rMax) || (radius < rMin)) {
@@ -160,8 +149,6 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
                 }
                 circle.setRadius(radius + direction * 0.1);
             }, 10);
-
-            //CRIA O MARCADOR DA POSIÇÃO ATUAL DO USUÁRIO
             var imageCliente = 'img/marker.png';
             marcadorCliente = new google.maps.Marker({
                 map: $scope.map,
@@ -169,193 +156,129 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
                 position: map.center,
                 icon: imageCliente
             });
-var infowindow = new google.maps.InfoWindow()
+            var infowindow = new google.maps.InfoWindow()
             $http({
                 method: "post",
-                url: "https://nice2meet-claiohm.c9users.io/api/pontoTuristico",
+                url: "http://nice2meettcc.herokuapp.com/api/pontoTuristico",
                 data: {
                         lat : position.coords.latitude,
                         long : position.coords.longitude
                 }
             }).success(function(success) {
-
                 if(success) {
-                    //window.localStorage.setItem("marcadores", JSON.stringify(success));
                     marcadores = success;
                     for (i = 0; i < marcadores.length; i++) {
                         var latJson = marcadores[i].cd_latitude;
                         var lngJson = marcadores[i].cd_longitude;
                         var markertitle = marcadores[i].nm_ponto_turistico;
-                        var contentInfoWindow = '<div>' +
-                            '<div>' + marcadores[i].nm_ponto_turistico + '</div>' +
+
+        
+                        var contentInfoWindow = '<form ng-submit= "pega_id_ponto()">'+'<div>' +
+                            '<div>' + markertitle + '</div>' +
                             '<div>' +
-                              '</br><a ui-sref="quiz"><button>Quiz</button></a>' +
-                            '</div>' +
-                          '</div>';
-                          var compiledContent = $compile(contentInfoWindow)($scope)
-        
-        
-                        //var latLngOrigem = new google.maps.LatLng(-24.020310, -46.478727);
-                        //var latLngDestino = new google.maps.LatLng(latJson, lngJson);
-        
+                              "</br><button type='submit' >Quiz</button>" +
+                              "<input type='hidden' id='input-get-id-ponto' name='id_ponto' value=" + marcadores[i].id_ponto_turistico + "></input>"+
+                            '</div>'+ 
+                          '</div>'+'</form>';
+                          $scope.pega_id_ponto = function() {
+                                id_ponto_quiz = document.getElementById('input-get-id-ponto').value;
+                                $location.url('/quiz');
+                            };
+                          var compiledContent = $compile(contentInfoWindow)($scope);
                         var marker  = new google.maps.Marker({
                             map: $scope.map,
                             animation: google.maps.Animation.DROP,
                             position: new google.maps.LatLng(latJson, lngJson),
-                            title: markertitle
+                            title: markertitle,
+                            store_id: marcadores[i].id_ponto_turistico
                         });
-        
                         markerArray.push(marker);
-        
-        
-                        
-        
                         google.maps.event.addListener(marker,'click', (function(marker,contentInfoWindow,infowindow){ 
-                                return function() {
+                        return function() {
                                    infowindow.setContent(contentInfoWindow);
                                    infowindow.open(map,marker);
                                 };
                             })(marker,compiledContent[0],infowindow)); 
                     }
-
                 }else{
-                    document.getElementById('error').innerHTML = success.error;
-                    document.getElementById("login__submit").classList.remove("processing");
                 }
             }).error(function(error){
-                document.getElementById('error').innerHTML = "Erro de conexão.";
-                document.getElementById("login__submit").classList.remove("processing");
             });
-
-
-
-            //COLOCA OU NÃO OS MARCADORES DE ACORDO COM A DISTÂNCIA
-            /*for (var i = 0; i < this.marcadoresArray.length; i++) {
-                var distancia = getDistance(latLngOrigem, latLngDestino);
-                var distanciaX = 20;
-                if (distancia < distanciaX) {
-                    alert("perto");
-                    this.marcadoresArray[i].setMap(map);
-                } else {
-                    this.marcadoresArray[i].setMap(null);
-                    this.marcadoresArray[i] = null;
-                    alert("longe");
-                }
-            }*/
-
-
-
-            //CASO NO SUCESSO DA GEOLOCALIZAÇÃO
             function onSuccess(position) {
                 //alert("Watching");
                 var lat = position.coords.latitude
                 var long = position.coords.longitude
                 $scope.map.setCenter(new google.maps.LatLng(lat, long));
                 latLng = new google.maps.LatLng(lat, long);
-
-
-                //POSIONA OU CRIA O MARCADOR DO USUÁRIO ONDE ELE ESTÁ
                 if (marcadorCliente != null) {
-
                     marcadorCliente.setPosition(latLng);
                 }
-
-                //CRIA UM CÍRCULO PARA MOSTRAR O RAIO DE ALCANCE (20m)
                 circle.setCenter(latLng);
-
-
-
-                //CRIA MARCADORES OU....
-                /*if (markerArray.length > 0) {
-                    for (var i = 0; i < markerArray.length; i++) {
-                        var latJson = marcadores[i].lat;
-                        var lngJson = marcadores[i].lng;
-                        var latLngOrigem = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                        var latLngDestino = new google.maps.LatLng(latJson, lngJson);
-                        var distancia = getDistance(latLngOrigem, latLngDestino);
-                        var distanciaX = 50;
-                        if (distancia < distanciaX) {
-                            //alert("perto");
-                            this.markerArray[i].setMap(map);
-                        } else {
-                            markerArray[i].setMap(null);
-                            //markerArray[i] = null;
-                            //alert("longe");n
-                        }
-                    }
-                }*/$ionicLoading.hide();
+                $ionicLoading.hide();
             }
-
-            // onError Callback receives a PositionError object
-            //EM CASO DE ERRO DE GEOLOCALIZAÇÃO
             function onError(error) {
-                /*alert('code: ' + error.code + '\n' +
-                    'message: ' + error.message + '\n');*/
             console.log("Não foi possível conseguir a Geolocalização.");
             }
-
-
-
-            // Options: throw an error if no update is received every 30 seconds.
-            //AQUI ATIVA A VERIFICAÇÃO RECORRENTE DA GEOLOCALIZAÇÃO
             var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 2000 });
-
-
         }, function(error) {
             console.log("Não foi possível conseguir a Geolocalização.");
         });});
     };
-
-
-    //CENTRALIZA O MAPA
-    
-    
         $scope.centerOnMe = function() {
             console.log("Centralizando");
             if (!$scope.map) {
                 return;
             }
-
-            
-
             navigator.geolocation.getCurrentPosition(function(pos) {
                 $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-                
             }, function(error) {
-                //alert('Unable to get location: ' + error.message);
             });
         };
-    
-
-
-
-
-
-    //--------------------------MARCADOR-----------------------------------
-    /*
-    google.maps.event.addListenerOnce($scope.map, 'idle', function() {
-        var marker = new google.maps.Marker({
-            map: $scope.map,
-            animation: google.maps.Animation.DROP,
-            position: latLng
-        });
-        var infoWindow = new google.maps.InfoWindow({
-            content: "Here I am!"
-        });
-        google.maps.event.addListener(marker, 'click', function() {
-            infoWindow.open($scope.map, marker);
-        });
-    });*/
-    //--------------------------MARCADOR-----------------------------------
-
 })
 
-appN2M.controller('QuizCtrl', function($scope, $http) {
-    $http.get("json/perguntas.json").then(function(response) {
-        $scope.perguntasQuizJson = response.data.perguntas;
-        //alert(perguntasQuiz[0]);
+appN2M.controller('QuizCtrl', function($scope, $http, $ionicLoading, $ionicPopup) {
+    $ionicLoading.show({
+        content: 'Loading',
+        template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
     });
+    $http({
+                method: "post",
+                url: "http://nice2meettcc.herokuapp.com/api/quiz",
+                data: {
+                        id_ponto_turistico : id_ponto_quiz
+                }
+        }).success(function(data_quiz) {
+                if(data_quiz) {
+                    $scope.perguntasQuiz = data_quiz;
+                    $ionicLoading.hide();
+                }else{
+                    $ionicLoading.hide();
+                }
+                $scope.finalizaQuiz = function(choice){
+                    if(choice == data_quiz[6]){
+                        var alertPopup = $ionicPopup.alert({
+                          title: 'Acertô mizeravi'
+                        });
+                        alertPopup.then(function(res) {
+                        });
+                    }else{
+                        var alertPopup = $ionicPopup.alert({
+                          title: 'Errou'
+                        });
+                        alertPopup.then(function(res) {
+                        });
+                    }
+                };
+        }).error(function(error){
+            $ionicLoading.hide();
+            });
+
 })
+
 appN2M.controller('CupomCtrl', function($scope, $http, $ionicPopup) {
     $scope.showConfirm = function() {
         var confirmPopup = $ionicPopup.confirm({
@@ -372,12 +295,14 @@ appN2M.controller('CupomCtrl', function($scope, $http, $ionicPopup) {
     };
 })
 appN2M.controller('PerfilCtrl',  function($scope,$state,$ionicHistory, $ionicPopup) {
+    $scope.infoPerfil = window.localStorage.getItem("email");
     function logout(){
         document.getElementById("logout_btn").classList.add("processing");
         document.getElementById('idTabs').style.display='none';
         $scope.hideHeaderOnLogout = true;
-        window.localStorage.removeItem("logado");
+        window.localStorage.removeItem("status");
         window.localStorage.removeItem("email");
+        $ionicHistory.clearHistory();
         $ionicHistory.nextViewOptions({
             disableAnimate: true,
             disableBack: true

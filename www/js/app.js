@@ -21,6 +21,7 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
     $ionicConfigProvider.views.swipeBackEnabled(false);
     $ionicConfigProvider.tabs.position('bottom');
     $ionicConfigProvider.tabs.style('standard');
+    $ionicConfigProvider.views.transition('platform');
     $stateProvider.state('login', {
         url: '/login',
         templateUrl: 'templates/login.html',
@@ -51,9 +52,10 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
         templateUrl: 'templates/quiz.html',
         controller: 'QuizCtrl'
     });
-     if(window.localStorage.getItem("logado") == 1){
-        $urlRouterProvider.otherwise('/home');
-    }else{
-         $urlRouterProvider.otherwise('/login');
-    }
+    console.log(window.localStorage.getItem("status"));
+      if(window.localStorage.getItem("status") == 1){
+          $urlRouterProvider.otherwise('/home');
+      }else{
+           $urlRouterProvider.otherwise('/login');
+      }
 });
