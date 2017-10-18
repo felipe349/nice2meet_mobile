@@ -1,10 +1,10 @@
 <ion-view id="view-perfil" view-title="Perfil" hide-back-button="true" hide-nav-bar='hideHeaderOnLogout'>
-    <ion-content>
+    
                 <ion-content>
                     <div class="item">
                         <img src="img/avatar.png" class="img_avatar" style="border-radius: 0px; position: relative; float: left; width: 30%; height: 30%;">
                         <span id="nm_perfil" style="padding: 20px">
-                            <script>window.localStorage.getItem("email");</script>
+                            {{ infoPerfil }}
                         </span>
                         <br>
                         <br>
@@ -12,7 +12,7 @@
                     <div style="text-align: center;">
                                 <button type="button" id="logout_btn" class="logout_btn button-full" ng-click="logoutPopup()">Sair</button>
                     </div>
-      </div>
+      
             </ion-content>
-    </ion-content>
+    
 </ion-view>

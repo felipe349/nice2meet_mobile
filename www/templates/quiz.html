@@ -1,29 +1,31 @@
 <ion-view view-title="Quiz" hide-back-button = "false">
                 <ion-content>
-                    <div class="padding">
                         <div class="card">
                             <div class="item item-text-wrap">
                                 <ul>
-                                    <li ng-repeat="x in perguntasQuizJson">
-                                        <h2>{{ x.Pergunta }}</h2>
+                                    <li>
+                                        <h2>{{ perguntasQuiz[0] }}</h2>
                                         <hr>
-                                        <ion-list>
-                                            <ion-radio ng-model="choice" ng-value="'A'">{{ x.Correta }}</ion-radio>
-                                            <ion-radio ng-model="choice" ng-value="'B'">{{ x.Errada1 }}</ion-radio>
-                                            <ion-radio ng-model="choice" ng-value="'C'">{{ x.Errada2 }}</ion-radio>
-                                            <ion-radio ng-model="choice" ng-value="'D'">{{ x.Errada3 }}</ion-radio>
-                                        </ion-list>
-                                        <br>
-                                        <center>
-                                            <button class="button button-positive">
-                                            CADASTRAR RESPOSTA
-                                        </button>
-                                        </center>
+                                        <form ng-Submit="finalizaQuiz(choice)">
+                                            <ion-list radio-group>
+                                                <ion-radio ng-model="choice" ng-value='1'>{{ perguntasQuiz[1] }}</ion-radio>
+                                                <ion-radio ng-model="choice" ng-value='2'>{{ perguntasQuiz[2] }}</ion-radio>
+                                                <ion-radio ng-model="choice" ng-value='3'>{{ perguntasQuiz[3] }}</ion-radio>
+                                                <ion-radio ng-model="choice" ng-value='4'>{{ perguntasQuiz[4] }}</ion-radio>
+                                                <ion-radio ng-model="choice" ng-value='5'>{{ perguntasQuiz[5] }}</ion-radio>
+                                            </ion-list>
+                                            <br>
+                                            <center>
+                                                <button type="submit" class="button button-positive">
+                                                CADASTRAR RESPOSTA
+                                            </button>
+                                            </center>
+                                        </form>
                                     </li>
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    
                 </ion-content>
                 </div>
 </ion-view>

@@ -1,7 +1,7 @@
 <ion-view view-title="Cupom" hide-back-button="true">
     <ion-content>
                     
-                  <ion-content>
+                  
                     <div class="list" >
                         <div class="bar bar-header item-input-inset">
                           <label class="item-input-wrapper">
@@ -10,7 +10,7 @@
                           </label>
                         </div>
                         <br>
-                        <div  >
+                        <div>
                           <a class="item item-icon-left item_cpm" ng-model="Cupom1"  ng-click="Cupom1 = !Cupom1;">
                             <i class="icon ion-pricetags"></i>
                             Netuno
@@ -70,8 +70,9 @@
                             </div>
                           </a>
                     </div>
+                    </div>
 
                      <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>   
-                </ion-content>
+                
     </ion-content>
 </ion-view>
