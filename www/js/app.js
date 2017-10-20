@@ -52,7 +52,6 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
         templateUrl: 'templates/quiz.html',
         controller: 'QuizCtrl'
     });
-    console.log(window.localStorage.getItem("status"));
       if(window.localStorage.getItem("status") == 1){
           $urlRouterProvider.otherwise('/home');
       }else{

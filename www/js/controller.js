@@ -236,7 +236,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $rootScope, $ionicLoadi
         };
 })
 
-appN2M.controller('QuizCtrl', function($scope, $http, $ionicLoading, $ionicPopup) {
+appN2M.controller('QuizCtrl', function($scope, $http, $ionicLoading, $ionicPopup, $location) {
     $ionicLoading.show({
         content: 'Loading',
         template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
@@ -245,6 +245,26 @@ appN2M.controller('QuizCtrl', function($scope, $http, $ionicLoading, $ionicPopup
         maxWidth: 200,
         showDelay: 0
     });
+var dataValidade = new Date();
+var idcountdown = document.getElementById("idcountdown");
+var tempo = dataValidade.setSeconds(dataValidade.getSeconds() + 61);
+var countdown = function () {
+  var dataAtual = new Date();
+  var tempoRestante = new Date(tempo - dataAtual);         
+  if (tempoRestante < 0){
+    var alertPopup = $ionicPopup.alert({
+        title: 'Tempo Esgotado!',
+        template: 'Espere o quiz ser liberado novamente ou visite outro ponto turistico :D'
+    });
+    alertPopup.then(function(res) {
+        $location.url('/home');
+    });
+  }else{    
+    tempoRestante.setMinutes(tempoRestante.getMinutes() + tempoRestante.getTimezoneOffset())
+    idcountdown.textContent = "Tempo restante: " +  tempoRestante.toTimeString().substring(0, 8) + ".";
+    setTimeout(countdown);
+  }
+}
     $http({
                 method: "post",
                 url: "http://nice2meettcc.herokuapp.com/api/quiz",
@@ -255,6 +275,7 @@ appN2M.controller('QuizCtrl', function($scope, $http, $ionicLoading, $ionicPopup
                 if(data_quiz) {
                     $scope.perguntasQuiz = data_quiz;
                     $ionicLoading.hide();
+                    countdown();
                 }else{
                     $ionicLoading.hide();
                 }
@@ -276,7 +297,6 @@ appN2M.controller('QuizCtrl', function($scope, $http, $ionicLoading, $ionicPopup
         }).error(function(error){
             $ionicLoading.hide();
             });
-
 })
 
 appN2M.controller('CupomCtrl', function($scope, $http, $ionicPopup) {
