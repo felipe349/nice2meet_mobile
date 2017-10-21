@@ -319,6 +319,13 @@ label.item.has-error {
           transform: scale(30);
   opacity: 1;
 }
+.box-contdown-quiz{
+  text-align: center;
+  margin-top: 5px;
+}
+.contdown-quiz{
+  font-size: 1.2rem;
+}
 @-webkit-keyframes rotate {
   to {
     -webkit-transform: rotate(360deg);

@@ -1,9 +1,13 @@
 <ion-view view-title="Quiz" hide-back-button = "false">
                 <ion-content>
-                        <div class="card">
+                <div class="box-contdown-quiz">
+                    <span id="idcountdown" class="contdown-quiz"></span>
+                </div>
+                
+                <div class="card">
+
                             <div class="item item-text-wrap">
-                                <ul>
-                                    <li>
+                                        
                                         <h2>{{ perguntasQuiz[0] }}</h2>
                                         <hr>
                                         <form ng-Submit="finalizaQuiz(choice)">
@@ -21,8 +25,7 @@
                                             </button>
                                             </center>
                                         </form>
-                                    </li>
-                                </ul>
+                                    
                             </div>
                         </div>
                     
