@@ -10,7 +10,7 @@
                                         
                                         <h2>{{ perguntasQuiz[0] }}</h2>
                                         <hr>
-                                        <form ng-Submit="finalizaQuiz(choice)">
+                                        <form ng-Submit="finalizaQuiz(choice) && modal.show()">
                                             <ion-list radio-group>
                                                 <ion-radio ng-model="choice" ng-value='1'>{{ perguntasQuiz[1] }}</ion-radio>
                                                 <ion-radio ng-model="choice" ng-value='2'>{{ perguntasQuiz[2] }}</ion-radio>
@@ -20,15 +20,29 @@
                                             </ion-list>
                                             <br>
                                             <center>
-                                                <button type="submit" class="button button-positive">
+                                                <button type="submit"  class="button button-positive">
                                                 CADASTRAR RESPOSTA
                                             </button>
                                             </center>
                                         </form>
-                                    
                             </div>
                         </div>
-                    
                 </ion-content>
                 </div>
+                <script id="template/cupom-modal.html" type="text/ng-template">
+                        <ion-modal-view>
+                          <ion-header-bar align-title="center" class="bar bar-header bar-positive">
+                            <h1 class="title">Cupom</h1>
+                            <button class="button button-clear button-primary ion-close" ng-click="modal.hide()"></button>
+                          </ion-header-bar>
+                          <ion-content class="padding">
+                            <div class="list">
+                              <ion-radio ng-repeat="item in ListaDePontos">
+                                {{ item.text }}
+                              </ion-radio>
+                            </div>
+                          </ion-content>
+                          <ion-footer-bar><button class="button button-full button-positive criar-rota"  >Criar rota</button></ion-footer-bar>
+                        </ion-modal-view>
+                </script>
 </ion-view>

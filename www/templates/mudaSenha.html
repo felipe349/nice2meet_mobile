@@ -1,0 +1,43 @@
+<ion-view view-title="Mudar senha">
+<ion-content>
+        <div class="list">
+            <form name="cadastro" ng-submit="cadastro.$valid && cadastrarTurista(usuario)" novalidate>
+                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.nm_turista.$touched || cadastro.$submitted) && cadastro.nm_turista.$invalid }">
+                    <input  placeholder="Nome" name="nm_turista" ng-model="nome_perfil" ng-pattern="/^[a-zA-ZÀ-ú\s]+$/" type="text" required>
+                </label>
+                
+                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid}">
+                    <input placeholder="Data de Nascimento" type="text" onfocus="(this.type='date')"  name="dataNasc" ng-model="dt_nascimento_perfil" required>
+                </label>
+                
+
+                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.email.$touched || cadastro.$submitted) && cadastro.email.$invalid}">
+                    <input placeholder="Email" maxlength="150" name="email"  type="email" ng-model='email_perfil'required>
+                </label>
+                
+                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.senha.$touched || cadastro.$submitted) && cadastro.senha.$invalid}">
+                    <input placeholder="Senha atual"  ng-minlength="8" ng-maxlength="16" id="senha" maxlength="17" ng-model="senha_turista" name="senha" type="password" ng-pattern="/^[a-zA-Z0-9._@-]+$/"  required>
+                </label>
+
+                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.senha.$touched || cadastro.$submitted) && cadastro.senha.$invalid}">
+                    <input placeholder="Nova senha"  ng-minlength="8" ng-maxlength="16" id="senha" maxlength="17" ng-model="senha_turista" name="senha" type="password" ng-pattern="/^[a-zA-Z0-9._@-]+$/"  required>
+                </label>
+                
+
+                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.conSenha.$touched || cadastro.$submitted) && cadastro.conSenha.$invalid}">
+                    <input placeholder="Confirmar nova senha" ng-pattern="usuario.password" maxlength="17"  ng-model="usuario.confirmaSenha"   name="conSenha" type="password"    required>
+                </label>
+                
+                <button class="button button-full button-positive" type="submit" >FINALIZAR</button>
+            </form>
+        </div>
+        
+
+        <div class="centralizar"><span class="email_perfil">
+            {{ email_perfil }}
+        </span></div>
+        
+    
+</ion-content>
+    
+</ion-view>

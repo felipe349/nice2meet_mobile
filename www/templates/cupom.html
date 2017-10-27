@@ -5,74 +5,36 @@
                     <div class="list" >
                         <div class="bar bar-header item-input-inset">
                           <label class="item-input-wrapper">
-                            <i class="icon ion-ios-search placeholder-icon"></i>
-                            <input type="search" placeholder="Procurar cupom">
+                              <i class="icon ion-ios-search placeholder-icon"></i>
+                            
+                              <input type="search"  ng-model="search"  placeholder="Search">
+                            
                           </label>
+                          <button class="button button-clear" ng-if="searchg" style="color:grey;" ng-click="" >
+                            Cancelar
+                          </button>
                         </div>
-                        <br>
-                        <div>
-                          <a class="item item-icon-left item_cpm" ng-model="Cupom1"  ng-click="Cupom1 = !Cupom1;">
-                            <i class="icon ion-pricetags"></i>
-                            Netuno
-                            <span class="badge badge-assertive">12:15h</span>
-                            <div ng-if="Cupom1">
-                              
-                              <h1>Sorveteria</h1>
-                              <p>Uma casquinha de graça.</p>
-                              <button class="button button-positive" ng-click="showConfirm()">
-                                Validar para esta oferta
-                              </button>
-                              <br><hr>
-                              <h1>Bar</h1>
-                              <p>Desconto de 20% em consumo até R$50,00</p>
-                              <button class="button button-positive" ng-click="showConfirm()">
-                                Validar para esta oferta
-                              </button>
-                              <br><br>
-                            </div>
-                          </a>
-                          <a class="item item-icon-left item_cpm"  ng-model="Cupom2" ng-click="Cupom2 = !Cupom2;">
-                            <i class="icon ion-pricetags"></i>
-                            Iemanja
-                            <span class="badge badge-assertive">16:59h</span>
-                            <div ng-if="Cupom2">
-                              <h1>Sorveteria</h1>
-                              <p>Uma casquinha de graça.</p>
-                              <button class="button button-positive" ng-click="showConfirm()">
-                                Validar para esta oferta
-                              </button>
-                              <br><hr>
-                              <h1>Bar</h1>
-                              <p>Desconto de 20% em consumo até R$50,00</p>
-                              <button class="button button-positive" ng-click="showConfirm()">
-                                Validar para esta oferta
-                              </button>
-                              <br><br>
-                            </div>
-                          </a>
-                          <a class="item item-icon-left item_cpm" ng-model="Cupom3" ng-click="Cupom3 = !Cupom3;">
-                            <i class="icon ion-pricetags"></i>
-                            Forte
-                            <span class="badge badge-assertive">23:12h</span>
-                            <div ng-if="Cupom3">
-                              <h1>Sorveteria</h1>
-                              <p>Uma casquinha de graça.</p>
-                              <button class="button button-positive" ng-click="showConfirm()">
-                                Validar para esta oferta
-                              </button>
-                              <br><hr>
-                              <h1>Bar</h1>
-                              <p>Desconto de 20% em consumo até R$50,00</p>
-                              <button class="button button-positive" ng-click="showConfirm()">
-                                Validar para esta oferta
-                              </button>
-                              <br><br>
-                            </div>
-                          </a>
-                    </div>
-                    </div>
 
-                     <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>   
-                
+                        <div>
+                          <a class="item item-icon-left item_cpm" ng-repeat="cupom in cupons | filter:search | limitTo:listlength" ng-model="Cupom" ng-click="Cupom = !Cupom;">
+                            <i class="icon ion-ios-pricetag-outline"></i>
+                            a
+                            <span class="badge badge-positive"><span ng-if="!Cupom">Mais</span><span ng-if="Cupom">Menos</span></span>
+                            <div ng-if="Cupom">
+                              <br>
+                              <p >Descrição:</p>
+                              <br>
+                              <p >Fim do cupom: {{ cupom.dt_maximo_cupom }}</p>
+                              <br>
+                              <p >Código: {{ cupom.cd_cupom }}</p>
+                              <br>
+                            </div>
+                          </a>
+                    </div>
+                    </div>
+                    <ion-infinite-scroll ng-if="listlength<=cupons.length" 
+                          on-infinite="loadMore()" distance="3%">
+                    </ion-infinite-scroll>
+                    <br><br>
     </ion-content>
 </ion-view>
