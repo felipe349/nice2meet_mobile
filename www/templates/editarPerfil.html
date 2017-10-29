@@ -1,0 +1,48 @@
+<ion-view view-title="Editar Perfil">
+<ion-content>
+        <div class="list" style="margin-top:0;padding:0">
+                <form name="cadastro" ng-submit="cadastro.$valid && cadastrarTurista(usuario)" novalidate>
+                        <div class="item box-info-perfil">
+                            <div class="centralizar">
+                                <span class="add-photo">
+                                    
+                                    <i class="ion-plus-round alert-msg" style="font-size:1.5rem; color:white;"></i>
+                                    <input type="file" accept="image/*" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
+                                </span>
+
+                                <img id="blah" src="img/edit-photo.jpg" class="img_avatar">
+
+                            </div>
+                        </div>
+                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.nm_turista.$touched || cadastro.$submitted) && cadastro.nm_turista.$invalid }">
+                    <span class="input-label">Nome</span>
+    
+                    <input  placeholder="Nome" name="nm_turista" ng-model="nome_perfil" ng-pattern="/^[a-zA-ZÀ-ú\s]+$/" type="text" required>
+                </label>
+                
+                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid}">
+                    <span class="input-label">Nascimento</span>
+                    <input placeholder="Data de Nascimento" type="text" onfocus="(this.type='date')"  name="dataNasc" ng-model="dt_nascimento_perfil" required>
+                </label>
+                
+
+                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.email.$touched || cadastro.$submitted) && cadastro.email.$invalid}">
+                    <span class="input-label">Email</span>
+                    <input placeholder="Email" maxlength="150" name="email"  type="email" ng-model='email_perfil'required>
+                </label>   
+                <div style="width:50%;float:left;">
+                    <button class="button button-full button-assertive" type="cancel" ui-sref="perfil" >Cancelar</button>  
+                </div>
+                <div style="width:50%;float:left;">
+                    <button class="button button-full button-balanced" type="submit" >Salvar</button>
+                </div>
+                           
+                
+            </form>
+        </div>
+        
+        
+    
+</ion-content>
+    
+</ion-view>
