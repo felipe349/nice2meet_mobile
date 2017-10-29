@@ -210,7 +210,6 @@ appN2M.controller('HomeCtrl', function($scope, $compile,$window, $rootScope, $io
                                                 document.getElementById('botãoquiz').style.display = 'none';
                                         if(success) {
                                             oferta = success;
-                                            console.log(success)
                                             lengthOferta = success.length;
                                             if (lengthOferta > 0){
                                                 document.getElementById('errorquiz').style.display = 'none';
@@ -321,28 +320,46 @@ $scope.$on('$ionicView.beforeLeave', function(){
                     $ionicLoading.hide();
                 }
                 $scope.finalizaQuiz = function(choice){
+                    $ionicLoading.show({
+                        content: 'Loading',
+                        template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+                        animation: 'fade-in',
+                        showBackdrop: true,
+                        maxWidth: 200,
+                        showDelay: 0
+                    });
                     if(choice == data_quiz[6]){
                         ifexitquiz=0;
                         $http({
                                         method: "post",
                                         url: "https://nice2meettcc.herokuapp.com/api/cupom",
                                         data: {
-                                                id_oferta_escolhida : id_oferta_escolhida,
+                                                id_oferta : id_oferta_escolhida,
                                                 id_turista : window.localStorage.getItem("turista.id_turista")
                                         }
                                     }).success(function(success) {
                                         if(success) {
-
                                             console.log(success)
+                                            $ionicLoading.hide();
+                                                var confirmPopup = $ionicPopup.confirm({
+                                                    title: 'Resposta correta',
+                                                    template: "Cupom gerado com sucesso <br>" + 
+                                                    "Codigo do cupom: " + success.cd_cupom,
+                                                    buttons: [{ text: 'Cupons', type: 'button-positive' },
+                                                              { text: 'Mapa', type: 'button-positive', onTap: function() { return true; }}]
+                                                });
+                                                confirmPopup.then(function(res) {
+                                                    if (res) {
+                                                        $location.url('/home');
+                                                    } else {
+                                                        $location.url('/cupom');
+                                                    }
+                                                });
                                         }else{console.log("erro");}
                                     }).error(function(error){console.log("net");
                                     });
                         
-                        var alertPopup = $ionicPopup.alert({
-                            title: 'Acertô mizeravi'
-                        });
-                        alertPopup.then(function(res) {
-                        });
+                        
                     }else{
                         ifexitquiz=0;
                         var alertPopup = $ionicPopup.alert({
@@ -358,7 +375,7 @@ $scope.$on('$ionicView.beforeLeave', function(){
             });
 })
 
-appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading) {
+appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout) {
     $ionicLoading.show({
         content: 'Loading',
         template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
@@ -367,16 +384,76 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading) {
         maxWidth: 200,
         showDelay: 0
     });
+    
+
+// Update the count down every 1 second
+    var listLengthCupom = 20;
+    var cupons_lenght = 0;
+    var testee = [];
+    var cupom_array = [];
+    var oferta_array = [];
     $http({
         method: "post",
-        url: "https://nice2meet-claiohm.c9users.io/api/getCupom",
+        url: "https://nice2meettcc.herokuapp.com/api/getCupom",
         data: {
             id_turista : window.localStorage.getItem("turista.id_turista")
         }
     }).success(function(success) {
         if(success) {
-            console.log(success)
-            $scope.cupons = success;
+            cupom_array = success;
+            oferta_array = cupom_array.pop();
+            cupom_array = cupom_array[0];
+            horarioServidor = cupom_array.pop();
+            horarioServidor = new Date(horarioServidor.date);
+            cupons_lenght = cupom_array.length ;
+            for (var i = 0; i < cupons_lenght; i++) {
+                cupom_array[i].nm_oferta = oferta_array[i].nm_oferta;
+                cupom_array[i].ds_oferta = oferta_array[i].ds_oferta;
+                cupom_array[i].count = i;
+            };
+            $scope.cupons = cupom_array; 
+            if(success.length < listLengthCupom){
+                listLengthCupom = cupons_lenght;
+            }
+            var c = 0;
+            var stopCountdown = 0;
+            var secondscount = 0;
+            var x = setInterval(function() {
+                horarioServidor.setSeconds(horarioServidor.getSeconds() + 1);
+                for (var i = 0; i < listLengthCupom; i++) {                       
+                    
+                    var countDownDate = new Date(cupom_array[i].dt_final_cupom).getTime();
+                    //var countDownDate2 = new Date((createDate).getDate() + 2);
+                    // Get todays date and time
+                    //var now = new Date().getTime();
+                    
+                    // Find the distance between now an the count down date
+                    var distance = countDownDate - horarioServidor;
+                    
+                    // Time calculations for days, hours, minutes and seconds
+                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    
+                    // Output the result in an element with id="demo"
+                    if (hours > 0) {
+                        testee[i] =  hours + "h "
+                    + minutes + "m ";
+                    }else{
+                        testee[i] =   minutes + "m " + seconds + "s " ;
+                    };
+                    if (distance>=0) {
+                        document.getElementById("demo-" + i).innerHTML = testee[i];
+                    }else if (distance < 0) {
+                        document.getElementById("demo-" + i).innerHTML = "EXPIRED";
+                    };
+                };
+            }, 1000);
+            
+            $scope.$on('$ionicView.beforeLeave', function(){
+              clearInterval(x);
+            });
             $ionicLoading.hide();
         }else{
             console.log("erro");
@@ -386,21 +463,25 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading) {
         console.log("net");
         $ionicLoading.hide();
     });
-    
-    $scope.listlength = 20;
+    listLengthCupom = 20;
+    $scope.listlength = listLengthCupom;
    
    $scope.loadMore = function(){
 
     if (!$scope.cupons_teste){
-        $scope.listlength+=10;
-        $scope.$broadcast('scroll.infiniteScrollComplete');
+        if((listLengthCupom+10)<=cupons_lenght){
+            listLengthCupom+=10;
+        }else{
+            listLengthCupom = cupons_lenght;
+        }
         
+        $scope.listlength=listLengthCupom;
+        $scope.$broadcast('scroll.infiniteScrollComplete');
       return;
 
     }else{
     }
-
-  }
+    }
   $scope.clearSearch = function() {
     $scope.searchh = '';
     console.log("t")
