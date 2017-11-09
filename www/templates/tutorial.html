@@ -1,9 +1,71 @@
-<ion-view ng-controller="TutorialCtrl">
-    <ion-content>
-        <ion-slide-box auto-play="false" style="height:100%; background-color:white;">
-            <ion-slide >Tutorial 1</ion-slide>
-            <ion-slide >Tutorial 2</ion-slide>
-            <ion-slide >Tutorial 3</ion-slide>
+<ion-view view-title="Tutorial" ng-controler="TutorialCtrl" hide-back-button="true">
+        <ion-content >
+        <ion-slide-box class="tutorial-slide centralizar" on-slide-changed="slideChanged(index)" >
+          <ion-slide >
+            <br><h3 class="gradient-primary">Bem-vindo ao Nice2meet!</h3>
+            <div class="login-content">
+                <div class="container-login">
+                    <img src="img/swipe2.png" width="80%">
+                    <h4>Deslize para a direita para avançar o tutorial.</h4>
+                </div>
+            </div>
+          </ion-slide>
+          <ion-slide>     
+            <div class="login-content">
+                <div class="container-login">
+                    <img src="img/swipe3.png" width="80%">
+                    <h4>Escolha um ponto turistico e selecione em quiz.</h4>
+                </div>
+            </div>
+          </ion-slide>
+          <ion-slide> 
+            <div class="login-content">
+                <div class="container-login">
+                    <img src="img/swipe3.png" width="80%">
+                    <h4>Escolha uma oferta e inicie o quiz.</h4>
+                </div>
+            </div>   
+          </ion-slide>
+          <ion-slide>            
+            <div class="login-content">
+                <div class="container-login">
+                    <img src="img/swipe3.png" width="80%">
+                    <h4>Responda o quiz corretamente e receba seu cupom.</h4>
+                </div>
+            </div>
+          </ion-slide>
+          <ion-slide>  
+            <div class="login-content">
+                <div class="container-login">
+                    <img src="img/swipe3.png" width="80%">
+                    <h4>Mas cuidado com o tempo, o cupom tem duração de 24h.</h4>
+                </div>
+            </div>
+          </ion-slide>
+          <ion-slide>
+            <div class="login-content">
+                <div class="container-login">
+                    <h3 class="gradient-primary">Vamos começar?</h3>
+                    <button ng-click="startApp()" class="button button-positive button-full">Começar</button>
+                </div>
+            </div>
+            
+          </ion-slide>
+
         </ion-slide-box>
+        <div class = "bar header-tutorial" >
+            <button class="button button-positive button-clear no-animation"
+                  ng-click="startApp()" ng-if="!slideIndex" style="color:#bbb;">
+            Pular
+          </button>
+          <button class="button button-positive button-clear no-animation"
+                  ng-click="previous()" ng-if="slideIndex > 0" style="color:#aaa">
+            Anterior
+          </button> 
+          <button class="button button-positive button-clear no-animation"
+                  ng-click="next()" ng-if="slideIndex != 5" style="color:#aaa;">
+            Próximo
+          </button>
+        </div>
     </ion-content>
 </ion-view>

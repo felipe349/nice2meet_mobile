@@ -2,10 +2,10 @@
     <ion-content>
         <div class="list" >
             <div >
-                <a class="item item-icon-left item_off"  ng-model="Cupom1" ng-repeat="x in ofertaJson" ng-click="Oferta = !Oferta">
+                <a class="item item-icon-left item_oferta"  ng-model="Oferta" ng-repeat="x in ofertaJson" ng-click="Oferta = !Oferta">
                         <i class="icon ion-bag"></i>
                         {{ x.nm_oferta }}
-                        <span class="badge badge-positive"><span ng-if="!Oferta">Mais</span><span ng-if="Oferta">Menos</span></span>
+                        <span class="badge badge-gradient"><span ng-if="!Oferta">Mais</span><span ng-if="Oferta">Menos</span></span>
                         <div ng-if="Oferta">
                             <br>
                             <p >Descrição: {{ x.ds_oferta }}</p>
