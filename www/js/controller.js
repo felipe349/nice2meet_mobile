@@ -13,6 +13,7 @@ appN2M.controller('LoginCtrl', function($scope,$state, $location, $http,$ionicSl
             document.getElementById('error').innerHTML = "Digite o login e senha.";
         } else {
             document.getElementById("login__submit").classList.add("processing");
+            document.getElementById("login__submit").classList.add("bg-gradient");
             $http({
                 method: "post",
                 url: "http://nice2meettcc.herokuapp.com/api/auth/login",
@@ -29,6 +30,7 @@ appN2M.controller('LoginCtrl', function($scope,$state, $location, $http,$ionicSl
                         window.localStorage.setItem("turista.id_turista", success.turista.id_turista);
                         window.localStorage.setItem("turista.nm_email_turista", success.turista.nm_email_turista);
                         window.localStorage.setItem("turista.dt_registro", success.turista.dt_registro);
+                        window.localStorage.setItem("turista.ic_tutorial", success.turista.ic_tutorial);
                       setTimeout(function() {
                         $ionicHistory.nextViewOptions({
                           disableAnimate: true
@@ -36,9 +38,8 @@ appN2M.controller('LoginCtrl', function($scope,$state, $location, $http,$ionicSl
                         document.getElementById("login__submit").classList.remove("success");
                         document.getElementById("login__submit").classList.remove("processing");
                         //mudar o 0 pra 1 pra fazer o tutorial funcionar certo
-                        if(success.turista.ic_tutorial == 0){
+                        if(success.turista.ic_tutorial == 1){
                             document.getElementById('idTabs').style.display='block';
-                            
                             $state.go('home');
                         }else{
                             $state.go('tutorial');
@@ -76,7 +77,8 @@ appN2M.controller('CadastroCtrl', function($scope, $http, $ionicPopup, $location
                 $ionicLoading.hide();
                 var alertPopup = $ionicPopup.alert({
                   title: 'Cadastro realizado!',
-                  template: 'Realize o login com o email e a senha.'
+                  template: 'Realize o login com o email e a senha.',
+                  buttons: [{ text: 'Ok', type: 'button-gradient' }]
                 });
                 alertPopup.then(function(res) {
                     $location.url('/login');
@@ -87,13 +89,10 @@ appN2M.controller('CadastroCtrl', function($scope, $http, $ionicPopup, $location
 var marcadores = {};
 var markerArray = [];
 var perguntasQuiz = {};
-appN2M.controller('HomeCtrl', function($scope, $compile,$window, $rootScope, $ionicLoading, $timeout, $http, $location, $cordovaGeolocation, $ionicPopup, $ionicSideMenuDelegate, $ionicModal) {
-    $scope.$on('$ionicView.enter', function(){
-        if (reloadHome == 1) {
-            reloadHome = 0;
-            $window.location.reload();
-        };
-    });
+appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $rootScope, $ionicLoading, $timeout, $http, $location, $cordovaGeolocation) {
+    
+    var drivingLine;
+    var directionsService = new google.maps.DirectionsService();
     $ionicLoading.show({
         content: 'Loading',
         template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
@@ -102,17 +101,6 @@ appN2M.controller('HomeCtrl', function($scope, $compile,$window, $rootScope, $io
         maxWidth: 200,
         showDelay: 0
     });
-
-
-  $ionicModal.fromTemplateUrl('templates/modal.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-  $scope.createContact = function(u) {        
-    $scope.contacts.push({ name: u.firstName + ' ' + u.lastName });
-    $scope.modal.hide();
-  };
     document.addEventListener("deviceready", onDeviceReady, false);
     //PARA USAR OS PLUGINS DO CORDOVA
     function onDeviceReady() {
@@ -123,39 +111,66 @@ appN2M.controller('HomeCtrl', function($scope, $compile,$window, $rootScope, $io
     //CÍRCULO ANIMADO
     var circle = null;
     $scope.mapCreated = function(map) {
-        var options = { timeout: 10000, enableHighAccuracy: true};
+        var options = { maximumAge: 300000,timeout: 5000, enableHighAccuracy: true};
         $timeout(function () {
         $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
             $scope.map = map;
             circle = new google.maps.Circle({
                 strokeColor: '#3398ff',
                 strokeOpacity: 0.8,
-                strokeWeight: 2,
-                fillColor: '#71b7ff',
-                fillOpacity: 0.35,
+                strokeWeight: 0,
+                fillColor: '#ff6820',
+                fillOpacity: 0.5,
                 map: map,
                 center: map.center,
                 radius: 50
             });
             var direction = 1;
-            var rMin = 35;
+            var rMin = 20;
             var rMax = 50;
             var lengthOferta = 0;
+            var infowindow = new google.maps.InfoWindow({maxWidth: 350});
+            var positionCliente = '';
+            var positionPonto = '';
+            var to = '';
             setInterval(function() {
                 var radius = circle.getRadius();
                 if ((radius > rMax) || (radius < rMin)) {
                     direction *= -1;
                 }
                 circle.setRadius(radius + direction * 0.1);
-            }, 10);
-            var imageCliente = 'img/marker.png';
+            }, 2);
+            var imageCliente = new google.maps.MarkerImage(
+    "img/s.svg",
+    null,
+    null,
+    /* Offset x axis 33% of overall size, Offset y axis 100% of overall size */
+    new google.maps.Point(25, 50), 
+    new google.maps.Size(50, 50)); 
+
+            var imagePonto = new google.maps.MarkerImage(
+    "img/v.svg",
+    null,
+    null,
+    /* Offset x axis 33% of overall size, Offset y axis 100% of overall size */
+    new google.maps.Point(25, 50), 
+    new google.maps.Size(50, 50)); 
             marcadorCliente = new google.maps.Marker({
                 map: $scope.map,
                 animation: google.maps.Animation.DROP,
                 position: map.center,
                 icon: imageCliente
             });
-            var infowindow = new google.maps.InfoWindow()
+            var infoWindowCliente = "Estou aqui!" 
+
+            google.maps.event.addListener(marcadorCliente,'click', (function(marcadorCliente,infoWindowCliente,infowindow){ 
+                        
+                        return function() {
+                                   infowindow.setContent(infoWindowCliente);
+                                   infowindow.open(map,marcadorCliente);
+                                };
+                        })(marcadorCliente,infoWindowCliente,infowindow));
+            
             $http({
                 method: "post",
                 url: "http://nice2meettcc.herokuapp.com/api/pontoTuristico",
@@ -172,14 +187,43 @@ appN2M.controller('HomeCtrl', function($scope, $compile,$window, $rootScope, $io
                         var markertitle = marcadores[i].nm_ponto_turistico;
                         
                         $scope.buttonQuiz = function(){
-                                $location.url('/infoOferta');
+                            var rad = function(x) {
+                                return x * Math.PI / 180;
+                            };
+                            var getDistance = function(p1, p2) {
+                                var R = 6378137;
+                                var dLat = rad(p2.lat() - p1.lat());
+                                var dLong = rad(p2.lng() - p1.lng());
+                                var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                                    Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) *
+                                    Math.sin(dLong / 2) * Math.sin(dLong / 2);
+                                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                                var d = R * c;
+                                return d; 
+                            };
+                            var distancia = getDistance(positionCliente, positionPonto);
+                            if(distancia < 200){
+                                $location.url('/infoOferta'); 
+                            }else{
+                                var alertPopup = $ionicPopup.alert({
+                                  title: 'Muito longe.',
+                                  template: 'O quiz será liberado quando estiver proximo do ponto turistico.',
+                                  buttons: [{ text: 'Ok', type: 'button-gradient' }]
+                                });
+                                alertPopup.then(function(res) {
+                                    
+                                });
+                            }
+                                
                         };
+                        
                         var contentInfoWindow = '<div>' +
                             '<div>' + markertitle + '</div>' +
                             '<div>' +
                                 "<ion-spinner id='spinnerquiz' class='spinner-loading spinner-calm' icon='lines'></ion-spinner>" +
-                                "</br><button id='botãoquiz' class='' style='display:none' ng-click='buttonQuiz()'>Quiz</button>" +
+                                "</br><button id='botãoquiz' class='btn' style='display:none' ng-click='buttonQuiz()'>Quiz</button>" +
                                 "<p id='errorquiz' style='display:none'>Sem quiz no momento</p>" +
+                                "<button id='botãorota' class='btn' ng-click='buttonRota()'>Rota</button>" +
                             '</div>'+ 
                           '</div>' ;
 
@@ -189,6 +233,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile,$window, $rootScope, $io
                             animation: google.maps.Animation.DROP,
                             position: new google.maps.LatLng(latJson, lngJson),
                             title: markertitle,
+                            icon: imagePonto,
                             store_id: marcadores[i].id_ponto_turistico
                         });
                         marker.metadata = {type: "point", id: 1, lat: latJson, lng: lngJson};
@@ -205,9 +250,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile,$window, $rootScope, $io
                                                 long : marker.metadata.lng
                                         }
                                     }).success(function(success) {
-                                        document.getElementById('errorquiz').style.display = 'none';
-                                                document.getElementById('spinnerquiz').style.display = 'block';
-                                                document.getElementById('botãoquiz').style.display = 'none';
+                                                
                                         if(success) {
                                             oferta = success;
                                             lengthOferta = success.length;
@@ -215,20 +258,36 @@ appN2M.controller('HomeCtrl', function($scope, $compile,$window, $rootScope, $io
                                                 document.getElementById('errorquiz').style.display = 'none';
                                                 document.getElementById('spinnerquiz').style.display = 'none';
                                                 document.getElementById('botãoquiz').style.display = 'block';
-                                            }else{
-                                                document.getElementById('botãoquiz').style.display = 'none';
-                                                document.getElementById('spinnerquiz').style.display = 'none';
-                                                document.getElementById('errorquiz').style.display = 'block';
                                             };
                                             for (var i = 0; i < success.length; i++) {
-                                                dadosOfertas[i] = success[i];
+                                                success[i] = success[i][0];
                                             };
-                                        }else{console.log("erro");}
-                                    }).error(function(error){console.log("net");
+                                            dadosOfertas = success;
+                                        }else{
+                                            console.log("erro");
+                                            document.getElementById('botãoquiz').style.display = 'none';
+                                            document.getElementById('spinnerquiz').style.display = 'none';
+                                            document.getElementById('errorquiz').style.display = 'block';
+                                        }
+                                    }).error(function(error){
+                                        document.getElementById('botãoquiz').style.display = 'none';
+                                        document.getElementById('spinnerquiz').style.display = 'none';
+                                        document.getElementById('errorquiz').style.display = 'block';
                                     });
-                                   infowindow.setContent(contentInfoWindow);
-                                   infowindow.open(map,marker);
-                                   id_ponto_quiz = marker.store_id;
+                                    infowindow.setContent(contentInfoWindow);
+                                    infowindow.open(map,marker);
+                                    document.getElementById('errorquiz').style.display = 'none';
+                                    document.getElementById('spinnerquiz').style.display = 'block';
+                                    document.getElementById('botãoquiz').style.display = 'none';
+                                    $scope.buttonRota = function(){
+                                        infowindow.close();
+                                        var from = positionCliente;
+                                        to = new google.maps.LatLng(marker.metadata.lat, marker.metadata.lng);
+                                        document.getElementById('nm-ponto').innerHTML = marker.title;
+                                        drivingRoute(from, to);
+                                    };
+                                    positionPonto = new google.maps.LatLng(marker.metadata.lat, marker.metadata.lng);
+                                    id_ponto_quiz = marker.store_id;
                                 };
                         })(marker,compiledContent[0],infowindow));
                     }
@@ -236,12 +295,30 @@ appN2M.controller('HomeCtrl', function($scope, $compile,$window, $rootScope, $io
                 }
             }).error(function(error){
             });
+            $scope.clearRota = function(){
+                to = '';
+                document.getElementById('rota-box').style.display = "none";
+                map.setZoom(17); 
+                $scope.map.setCenter(positionCliente);
+                drivingRoute();
+            };
+            var countZoom = 0;
             function onSuccess(position) {
-                //alert("Watching");
                 var lat = position.coords.latitude
                 var long = position.coords.longitude
-                $scope.map.setCenter(new google.maps.LatLng(lat, long));
+                countZoom++;
+                if(countZoom <=1){
+                    $scope.map.setCenter(new google.maps.LatLng(lat, long));
+                }
                 latLng = new google.maps.LatLng(lat, long);
+                positionCliente = latLng;
+                if(to != ''){
+                    buttonRota = function(){
+                        from = positionCliente;
+                        drivingRoute(from, to);
+                    };
+                    buttonRota();
+                }   
                 if (marcadorCliente != null) {
                     marcadorCliente.setPosition(latLng);
                 }
@@ -249,14 +326,21 @@ appN2M.controller('HomeCtrl', function($scope, $compile,$window, $rootScope, $io
                 $ionicLoading.hide();
             }
             function onError(error) {
-            console.log("Erro de geolocalização");
-            mapCreated();
+                console.log(error);
+                onRetry(options);
             }
-            var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 2000 });
+            function onRetry(options) {
+                console.log('retry');
+                navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+            }
+            navigator.geolocation.getCurrentPosition(onSuccess, onError, options, { timeout: 2000 });
+            //var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 1000 });
         }, function(error) {
             console.log("Erro de conexão");
+            navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
         });});
     };
+    
         $scope.centerOnMe = function() {
             console.log("Centralizando");
             if (!$scope.map) {
@@ -265,10 +349,44 @@ appN2M.controller('HomeCtrl', function($scope, $compile,$window, $rootScope, $io
             navigator.geolocation.getCurrentPosition(function(pos) {
                 $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
             }, function(error) {
-
+           
             });
         };
-    
+    function drivingRoute(from, to) {
+    var request = {
+      origin: from,
+      destination: to,
+      travelMode: google.maps.DirectionsTravelMode.DRIVING,
+      unitSystem: google.maps.UnitSystem.METRIC
+    };
+    if(typeof(drivingLine) !== 'undefined') drivingLine.setMap(null);
+    directionsService.route(request, function(response, status){
+      if(status == google.maps.DirectionsStatus.OK){
+        var totalKM = (response.routes[0].legs[0].distance.value / 1000);
+        if(totalKM>=1){
+            totalKM = totalKM.toFixed(1);
+            distanceText = totalKM+'km';
+            document.getElementById('rota-box').style.display = "block";
+            document.getElementById('distanceRota').innerHTML = distanceText;
+        }else{
+            distanceText = totalKM*1000+'m';
+            document.getElementById('rota-box').style.display = "block";
+            document.getElementById('distanceRota').innerHTML = distanceText;
+        }
+        drivingLine = new google.maps.Polyline({
+          path: response.routes[0].overview_path,
+          strokeColor: "#ff6820",
+          strokeOpacity: .75,
+          strokeWeight: 5
+        });
+        drivingLine.setMap($scope.map);
+        $scope.map.fitBounds(response.routes[0].bounds);
+      }
+      else {
+        console.log('error');
+      }
+    });
+  }    
 })
 
 appN2M.controller('QuizCtrl', function($scope, $http, $ionicLoading, $ionicPopup, $location, $ionicModal) {
@@ -339,14 +457,15 @@ $scope.$on('$ionicView.beforeLeave', function(){
                                         }
                                     }).success(function(success) {
                                         if(success) {
-                                            console.log(success)
                                             $ionicLoading.hide();
                                                 var confirmPopup = $ionicPopup.confirm({
-                                                    title: 'Resposta correta',
-                                                    template: "Cupom gerado com sucesso <br>" + 
-                                                    "Codigo do cupom: " + success.cd_cupom,
-                                                    buttons: [{ text: 'Cupons', type: 'button-positive' },
-                                                              { text: 'Mapa', type: 'button-positive', onTap: function() { return true; }}]
+                                                    title: 'Correto',
+                                                    template: "<div class='centralizar'>" +
+                                                    "<img src='img/trophy.gif' width='80%'></img><br>" +
+                                                    "Codigo do cupom: " + success.cd_cupom +
+                                                    "</div>",
+                                                    buttons: [{ text: 'Cupons', type: 'button-gradient' },
+                                                              { text: 'Mapa', type: 'button-gradient', onTap: function() { return true; }}]
                                                 });
                                                 confirmPopup.then(function(res) {
                                                     if (res) {
@@ -362,8 +481,14 @@ $scope.$on('$ionicView.beforeLeave', function(){
                         
                     }else{
                         ifexitquiz=0;
+                        $ionicLoading.hide();
                         var alertPopup = $ionicPopup.alert({
-                            title: 'Errou'
+                            title: 'Errado',
+                            template: "<div class='centralizar'>" +
+                                                    "<img src='img/trophy.gif' width='80%'></img><br>" +
+                                                    "Codigo do cupom: " + success.cd_cupom +
+                                                    "</div>",
+                            buttons: [{ text: 'Cupons', type: 'button-gradient' }]
                         });
                         alertPopup.then(function(res) {
                             $location.url('/home');
@@ -375,7 +500,9 @@ $scope.$on('$ionicView.beforeLeave', function(){
             });
 })
 
-appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout) {
+appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout, $state, $stateParams) {
+    $scope.$on('$ionicView.enter', function(){
+        
     $ionicLoading.show({
         content: 'Loading',
         template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
@@ -384,12 +511,9 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout)
         maxWidth: 200,
         showDelay: 0
     });
-    
-
-// Update the count down every 1 second
     var listLengthCupom = 20;
     var cupons_lenght = 0;
-    var testee = [];
+    var countVar = [];
     var cupom_array = [];
     var oferta_array = [];
     $http({
@@ -400,6 +524,9 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout)
         }
     }).success(function(success) {
         if(success) {
+
+            document.getElementById('error-cupom').classList.add("error-cupom-none");
+            document.getElementById('error-cupom').classList.remove("error-cupom-block");
             cupom_array = success;
             oferta_array = cupom_array.pop();
             cupom_array = cupom_array[0];
@@ -415,59 +542,51 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout)
             if(success.length < listLengthCupom){
                 listLengthCupom = cupons_lenght;
             }
-            var c = 0;
-            var stopCountdown = 0;
             var secondscount = 0;
-            var x = setInterval(function() {
+            var countFunction = setInterval(function() {
                 horarioServidor.setSeconds(horarioServidor.getSeconds() + 1);
-                for (var i = 0; i < listLengthCupom; i++) {                       
-                    
-                    var countDownDate = new Date(cupom_array[i].dt_final_cupom).getTime();
-                    //var countDownDate2 = new Date((createDate).getDate() + 2);
-                    // Get todays date and time
-                    //var now = new Date().getTime();
-                    
-                    // Find the distance between now an the count down date
-                    var distance = countDownDate - horarioServidor;
-                    
-                    // Time calculations for days, hours, minutes and seconds
-                    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                    
-                    // Output the result in an element with id="demo"
-                    if (hours > 0) {
-                        testee[i] =  hours + "h "
-                    + minutes + "m ";
-                    }else{
-                        testee[i] =   minutes + "m " + seconds + "s " ;
-                    };
-                    if (distance>=0) {
-                        document.getElementById("demo-" + i).innerHTML = testee[i];
-                    }else if (distance < 0) {
-                        document.getElementById("demo-" + i).innerHTML = "EXPIRED";
+                for (var i = 0; i < listLengthCupom; i++) {
+                    if(document.getElementById("count-" + i)){                       
+                        var countDownDate = new Date(cupom_array[i].dt_final_cupom).getTime();
+                        var distance = countDownDate - horarioServidor;
+                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                        if (hours > 0) {
+                            countVar[i] =  hours + "h " + minutes + "m ";
+                        }else{
+                            countVar[i] =   minutes + "m " + seconds + "s " ;
+                            document.getElementById("count-" + i).classList.remove("badge-balanced");
+                            document.getElementById("count-" + i).classList.add("badge-assertive");
+                        };
+                        if (distance>=0) {
+                            document.getElementById("count-" + i).innerHTML = countVar[i];
+                        }else if (distance < 0) {
+                            document.getElementById("count-" + i).innerHTML = "Vencido";
+                        };
                     };
                 };
             }, 1000);
             
             $scope.$on('$ionicView.beforeLeave', function(){
-              clearInterval(x);
+              clearInterval(countFunction);
             });
             $ionicLoading.hide();
         }else{
-            console.log("erro");
+            document.getElementById('error-cupom').classList.remove("error-cupom-none");
+            document.getElementById('error-cupom').classList.add("error-cupom-block");
             $ionicLoading.hide();
         }
     }).error(function(error){
-        console.log("net");
+        $scope.cupons = cupom_array; 
+        document.getElementById('error-cupom').classList.remove("error-cupom-none");
+            document.getElementById('error-cupom').classList.add("error-cupom-block");
         $ionicLoading.hide();
     });
     listLengthCupom = 20;
     $scope.listlength = listLengthCupom;
-   
    $scope.loadMore = function(){
-
     if (!$scope.cupons_teste){
         if((listLengthCupom+10)<=cupons_lenght){
             listLengthCupom+=10;
@@ -478,21 +597,21 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout)
         $scope.listlength=listLengthCupom;
         $scope.$broadcast('scroll.infiniteScrollComplete');
       return;
-
     }else{
     }
     }
-  $scope.clearSearch = function() {
-    $scope.searchh = '';
-    console.log("t")
-  };
+    $scope.clearfunction=function(){
+        $scope.search='';
+    }
+    });
+
 })
 appN2M.controller('PerfilCtrl',  function($scope,$state,$ionicHistory, $ionicPopup, $cacheFactory, $ionicPopover) {
     $scope.nome_perfil = window.localStorage.getItem("turista.nm_turista");
     $scope.email_perfil = window.localStorage.getItem("turista.nm_email_turista");
     function logout(){
         document.getElementById('idTabs').style.display='none';
-        $scope.popover.hide();
+        
         $cacheFactory.get('$http').removeAll(); 
         localStorage.clear();
         $ionicHistory.clearHistory();
@@ -505,10 +624,11 @@ appN2M.controller('PerfilCtrl',  function($scope,$state,$ionicHistory, $ionicPop
             $state.go('login');
     };
     $scope.logoutPopup = function() {
+        $scope.popover.hide();
         var confirmPopup = $ionicPopup.confirm({
             title: 'Deseja sair da conta?',
-            buttons: [{ text: 'Cancelar' },
-                      { text: 'Sair', type: 'button-assertive', onTap: function() { return true; }}]
+            buttons: [{ text: 'Cancelar', type: 'button-blue' },
+                      { text: 'Sair', type: 'button-red', onTap: function() { return true; }}]
         });
         confirmPopup.then(function(res) {
             if (res) {
@@ -529,7 +649,6 @@ appN2M.controller('PerfilCtrl',  function($scope,$state,$ionicHistory, $ionicPop
 })
 appN2M.controller('InfoOfertaCtrl',  function($scope,$state,$ionicPopup) {
     $scope.ofertaJson = dadosOfertas;
-    
     function ofertaEscolhida($index){
         id_oferta_escolhida = dadosOfertas[$index].id_oferta;
         $state.go('quiz');
@@ -538,7 +657,9 @@ appN2M.controller('InfoOfertaCtrl',  function($scope,$state,$ionicPopup) {
     $scope.showConfirm = function($index) {
         var confirmPopup = $ionicPopup.confirm({
             title: 'Fazer o quiz para a oferta ' + dadosOfertas[$index].nm_oferta +'?',
-            template: 'Após clicar no ok a chance será utilizada, conclua sua tentativa com sabedoria.'
+            template: 'Após clicar no ok a chance será utilizada, conclua sua tentativa com sabedoria.',
+            buttons: [{ text: 'Não', type: 'button-red' },
+                      { text: 'Sim',  type: 'button-blue', onTap: function() { return true; }}]
         });
         confirmPopup.then(function(res) {
             if (res) {
@@ -550,9 +671,26 @@ appN2M.controller('InfoOfertaCtrl',  function($scope,$state,$ionicPopup) {
     
 
 })
-appN2M.controller('TutorialCtrl',  function($scope,$state) {
+appN2M.controller('TutorialCtrl',  function($scope, $state, $ionicSlideBoxDelegate) {
+    document.getElementById('idTabs').style.display='none';
+  $scope.startApp = function() {
+    $state.go('home');
+    document.getElementById('idTabs').style.display='block';
+  };
+  $scope.next = function() {
+    $ionicSlideBoxDelegate.next();
+  };
+  $scope.previous = function() {
+    $ionicSlideBoxDelegate.previous();
+  };
 
+  // Called each time the slide changes
+  $scope.slideChanged = function(index) {
+    $scope.slideIndex = index;
+  };
 })
+
+
 appN2M.controller('AjudaCtrl',  function($scope,$state) {
 
 })

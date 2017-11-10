@@ -42,7 +42,6 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
     .state('cupom', {
         url: '/cupom',
         templateUrl: 'templates/cupom.html',
-        cache:false,
         controller: 'CupomCtrl'
     })
     .state('perfil', {
@@ -53,6 +52,7 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
     .state('quiz', {
         url: '/quiz',
         templateUrl: 'templates/quiz.html',
+        cache:false,
         controller: 'QuizCtrl'
     })
     .state('infoOferta', {
@@ -88,7 +88,11 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
         controller: 'TrocarSenhaCtrl'
     });
       if(window.localStorage.getItem("stat") == 1){
+        if(window.localStorage.getItem("turista.ic_tutorial") == 0){
           $urlRouterProvider.otherwise('/home');
+        }else{
+          $urlRouterProvider.otherwise('/home');
+        }
       }else{
            $urlRouterProvider.otherwise('/login');
       }
