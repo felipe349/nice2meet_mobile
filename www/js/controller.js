@@ -3,6 +3,8 @@ var id_ponto_quiz = 0;
 var dadosOfertas = [];
 var id_oferta_escolhida = 0;
 var reloadHome = 0;
+var reScopePerfil = 0;
+var retorno_api_quiz = 0;
 appN2M.controller('LoginCtrl', function($scope,$state, $location, $http,$ionicSlideBoxDelegate,$ionicHistory, $ionicLoading, $timeout, $ionicPlatform, $cordovaSplashscreen) {
     document.getElementById('idTabs').style.display='none';
     $scope.$on('$ionicView.enter', function(event, viewData) {
@@ -95,7 +97,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
     var directionsService = new google.maps.DirectionsService();
     $ionicLoading.show({
         content: 'Loading',
-        template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+        template: '<ion-spinner class="spinner-loading spinner-royal" icon="lines"></ion-spinner>',
         animation: 'fade-in',
         showBackdrop: true,
         maxWidth: 200,
@@ -111,7 +113,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
     //CÍRCULO ANIMADO
     var circle = null;
     $scope.mapCreated = function(map) {
-        var options = { maximumAge: 300000,timeout: 5000, enableHighAccuracy: true};
+        var options = { timeout: 10000, enableHighAccuracy: true};
         $timeout(function () {
         $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
             $scope.map = map;
@@ -325,24 +327,19 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
                 circle.setCenter(latLng);
                 $ionicLoading.hide();
             }
-            function onError(error) {
-                console.log(error);
-                onRetry(options);
-            }
-            function onRetry(options) {
-                console.log('retry');
-                navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
-            }
-            navigator.geolocation.getCurrentPosition(onSuccess, onError, options, { timeout: 2000 });
-            //var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 1000 });
+            
+              function onError(error) {
+ -            console.log("Não foi possível conseguir a Geolocalização.");
+ +            console.log("Erro de geolocalização");
+ +            navigator.geolocation.watchPosition(onSuccess, onError);
+              }
+              var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 2000 });
         }, function(error) {
-            console.log("Erro de conexão");
-            navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+            console.log(error);
         });});
     };
     
         $scope.centerOnMe = function() {
-            console.log("Centralizando");
             if (!$scope.map) {
                 return;
             }
@@ -406,7 +403,7 @@ var countdown = function () {
     if(tempoRestante == 5){
         idcountdown.style.color = 'red';
     };
-    idcountdown.textContent = "Tempo restante: " +  tempoRestante;
+    idcountdown.textContent =  tempoRestante;
     tempoRestante--;
     setTimeout(countdown, 1000);
   }else if(tempoRestante < 0){    
@@ -448,14 +445,17 @@ $scope.$on('$ionicView.beforeLeave', function(){
                     });
                     if(choice == data_quiz[6]){
                         ifexitquiz=0;
-                        $http({
+                        console.log('1');
+                                    $http({
                                         method: "post",
                                         url: "https://nice2meettcc.herokuapp.com/api/cupom",
                                         data: {
                                                 id_oferta : id_oferta_escolhida,
-                                                id_turista : window.localStorage.getItem("turista.id_turista")
+                                                id_turista : window.localStorage.getItem("turista.id_turista"),
+                                                flag: retorno_api_quiz
                                         }
                                     }).success(function(success) {
+                                        console.log('1');
                                         if(success) {
                                             $ionicLoading.hide();
                                                 var confirmPopup = $ionicPopup.confirm({
@@ -485,10 +485,10 @@ $scope.$on('$ionicView.beforeLeave', function(){
                         var alertPopup = $ionicPopup.alert({
                             title: 'Errado',
                             template: "<div class='centralizar'>" +
-                                                    "<img src='img/trophy.gif' width='80%'></img><br>" +
-                                                    "Codigo do cupom: " + success.cd_cupom +
+                                                    "<p>Não foi desta vez,tente novamente em outra oferta<p>"+
+                                                    
                                                     "</div>",
-                            buttons: [{ text: 'Cupons', type: 'button-gradient' }]
+                            buttons: [{ text: 'Ok', type: 'button-gradient' }]
                         });
                         alertPopup.then(function(res) {
                             $location.url('/home');
@@ -524,7 +524,6 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout,
         }
     }).success(function(success) {
         if(success) {
-
             document.getElementById('error-cupom').classList.add("error-cupom-none");
             document.getElementById('error-cupom').classList.remove("error-cupom-block");
             cupom_array = success;
@@ -609,6 +608,14 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout,
 appN2M.controller('PerfilCtrl',  function($scope,$state,$ionicHistory, $ionicPopup, $cacheFactory, $ionicPopover) {
     $scope.nome_perfil = window.localStorage.getItem("turista.nm_turista");
     $scope.email_perfil = window.localStorage.getItem("turista.nm_email_turista");
+    
+    $scope.$on('$ionicView.enter', function(){
+        if(reScopePerfil == 1){
+            $scope.nome_perfil = window.localStorage.getItem("turista.nm_turista");
+            $scope.email_perfil = window.localStorage.getItem("turista.nm_email_turista");
+            reScopePerfil = 0;
+        }
+    });
     function logout(){
         document.getElementById('idTabs').style.display='none';
         
@@ -647,7 +654,7 @@ appN2M.controller('PerfilCtrl',  function($scope,$state,$ionicHistory, $ionicPop
         $scope.popover.hide();
     };
 })
-appN2M.controller('InfoOfertaCtrl',  function($scope,$state,$ionicPopup) {
+appN2M.controller('InfoOfertaCtrl',  function($scope,$state,$ionicPopup, $http, $ionicLoading) {
     $scope.ofertaJson = dadosOfertas;
     function ofertaEscolhida($index){
         id_oferta_escolhida = dadosOfertas[$index].id_oferta;
@@ -663,7 +670,46 @@ appN2M.controller('InfoOfertaCtrl',  function($scope,$state,$ionicPopup) {
         });
         confirmPopup.then(function(res) {
             if (res) {
-                ofertaEscolhida($index);
+                $ionicLoading.show({
+                    content: 'Loading',
+                    template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+                    animation: 'fade-in',
+                    showBackdrop: true,
+                    maxWidth: 200,
+                    showDelay: 0
+                });
+                                    $http({
+                                        method: "post",
+                                        url: "https://nice2meettcc.herokuapp.com/api/cupom",
+                                        data: {
+                                                id_oferta : dadosOfertas[$index].id_oferta,
+                                                id_turista : window.localStorage.getItem("turista.id_turista"),
+                                                flag: 0
+                                        }
+                                    }).success(function(success) {
+                                        if(success) {
+                                            retorno_api_quiz = success;
+
+                                            if(retorno_api_quiz != 1){
+                                                ofertaEscolhida($index);
+                                            }else{
+                                                $ionicLoading.hide();
+                                                var alertPopup = $ionicPopup.alert({
+                                                  title: 'Oferta já realizada!',
+                                                  template: 'Você já fez essa oferta 1 vez, tente fazer outra oferta.',
+                                                  buttons: [{ text: 'Ok', type: 'button-gradient' }]
+                                                });
+                                                alertPopup.then(function(res) {
+                                                    
+                                                });
+                                            }
+                                        }else{console.log("erro");$ionicLoading.hide();}
+                                    }).error(function(error){console.log("net");$ionicLoading.hide();
+                                    });
+                        
+                        
+                    
+                
             } else {
             }
         });
@@ -697,10 +743,65 @@ appN2M.controller('AjudaCtrl',  function($scope,$state) {
 appN2M.controller('SobreCtrl',  function($scope,$state) {
 
 })
-appN2M.controller('EditarPerfilCtrl',  function($scope,$state) {
-    $scope.nome_perfil = window.localStorage.getItem("turista.nm_turista");
-    $scope.email_perfil = window.localStorage.getItem("turista.nm_email_turista");
-    $scope.dt_nascimento_perfil = window.localStorage.getItem("turista.dt_nascimento");
+appN2M.controller('EditarPerfilCtrl',  function($scope,$state, $http, $ionicLoading) {
+    $scope.$on('$ionicView.enter', function(){
+    var editar = [];
+    editar.nome_perfil = window.localStorage.getItem("turista.nm_turista");
+    editar.dt_nascimento_perfil = window.localStorage.getItem("turista.dt_nascimento");
+    $scope.edit = editar;
+    $scope.buttonsEdit = function(usuarioEdit) {
+        if(usuarioEdit.nome_perfil !== window.localStorage.getItem("turista.nm_turista") || usuarioEdit.dt_nascimento_perfil !== window.localStorage.getItem("turista.dt_nascimento")){
+            document.getElementById("buttonEditar").style.display = "block";
+            document.getElementById("buttonEditar2").style.display = "block";
+        }else{
+            document.getElementById("buttonEditar").style.display = "none";
+            document.getElementById("buttonEditar2").style.display = "none";
+        }
+    }
+    $scope.editarTurista = function(usuarioEdit) {
+        $ionicLoading.show({
+                    content: 'Loading',
+                    template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+                    animation: 'fade-in',
+                    showBackdrop: true,
+                    maxWidth: 200,
+                    showDelay: 0
+        });
+        var UsuarioNome = usuarioEdit.nome_perfil;
+        var UsuarioNasc = usuarioEdit.dt_nascimento_perfil;
+        if(UsuarioNome == window.localStorage.getItem("turista.nm_turista")){
+            UsuarioNome = '';
+        }
+        if(UsuarioNasc == window.localStorage.getItem("turista.dt_nascimento")){
+            UsuarioNasc = '';
+        }
+        $http({
+            method: "post",
+            url: "https://nice2meettcc.herokuapp.com/api/editarTurista",
+            data: {
+                    id_turista : window.localStorage.getItem("turista.id_turista"),
+                    nome: UsuarioNome,
+                    nascimento: UsuarioNasc
+            }
+        }).success(function(success) {
+            if(success) {
+                if(UsuarioNome !== ''){
+                    window.localStorage.setItem("turista.nm_turista", UsuarioNome);
+                }
+                if(UsuarioNasc !== ''){
+                    window.localStorage.setItem("turista.dt_nascimento",UsuarioNasc);
+                }
+                reScopePerfil = 1;
+                $state.go('perfil');
+                $ionicLoading.hide();
+            }else{
+                console.log("erro");
+            }
+        }).error(function(error){
+            console.log("net");
+        });
+    }
+    });
 })
 appN2M.controller('TrocarSenhaCtrl',  function($scope,$state) {
 

@@ -78,7 +78,7 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
     .state('editarPerfil', {
         url: '/editarPerfil',
         templateUrl: 'templates/editarPerfil.html',
-        cache:false,
+        
         controller: 'EditarPerfilCtrl'
     })
     .state('trocarSenha', {
