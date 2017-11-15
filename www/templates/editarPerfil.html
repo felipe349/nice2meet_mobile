@@ -1,7 +1,7 @@
 <ion-view view-title="Editar Perfil">
 <ion-content>
         <div class="list" style="margin-top:0;padding:0">
-                <form name="cadastro" ng-submit="cadastro.$valid && cadastrarTurista(usuario)" novalidate>
+                
                         <div class="item box-info-perfil">
                             <div class="centralizar">
                                 <span class="add-photo">
@@ -14,27 +14,37 @@
 
                             </div>
                         </div>
-                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.nm_turista.$touched || cadastro.$submitted) && cadastro.nm_turista.$invalid }">
+            <div id="error-box" class="row cadastro-errors" ng-if="editar.$dirty && (editar.nm_turista.$invalid || editar.dataNasc.$invalid)">
+                <div class="col col-25 alert-box">
+                    <img class="alert-msg" src="img/alert.png" ></img>
+                </div>
+                <div class="col">
+                    <p class="title-cadastro-errors"><b>Atenção!</b> Corrija os seguintes erros.</p>
+                    <div class="cadastro-error" ng-if="editar.nm_turista.$invalid">
+                        <div ng-show="editar.nm_turista.$error.required">• O nome é obrigatório.<br></div>
+                        <div class="cadastro-error" ng-show="editar.nm_turista.$error.pattern" >• Valido apenas letras para nome.</div>
+                    </div>
+                    <div class="cadastro-error" ng-if="editar.dataNasc.$invalid">• O nascimento é obrigatório.<br></div>
+                </div>
+        </div>
+                <form name="editar" ng-submit="editar.$valid && editarTurista(edit)"  novalidate>
+                <label class="item item-input input-editar" ng-class="{ 'has-error' : (editar.nm_turista.$touched || editar.$submitted) && editar.nm_turista.$invalid }">
                     <span class="input-label">Nome</span>
     
-                    <input  placeholder="Nome" name="nm_turista" ng-model="nome_perfil" ng-pattern="/^[a-zA-ZÀ-ú\s]+$/" type="text" required>
+                    <input  placeholder="Nome" name="nm_turista" ng-model="edit.nome_perfil" ng-change="buttonsEdit(edit)" ng-pattern="/^[a-zA-ZÀ-ú\s]+$/" type="text" required>
                 </label>
                 
-                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid}">
+                <label class="item item-input input-editar" ng-class="{ 'has-error' : (editar.dataNasc.$touched || editar.$submitted) && editar.dataNasc.$invalid}">
                     <span class="input-label">Nascimento</span>
-                    <input placeholder="Data de Nascimento" type="text" onfocus="(this.type='date')"  name="dataNasc" ng-model="dt_nascimento_perfil" required>
+                    <input placeholder="Data de Nascimento" type="text" onfocus="(this.type='date')" ng-change="buttonsEdit(edit)" name="dataNasc" ng-model="edit.dt_nascimento_perfil" required>
                 </label>
                 
-
-                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.email.$touched || cadastro.$submitted) && cadastro.email.$invalid}">
-                    <span class="input-label">Email</span>
-                    <input placeholder="Email" maxlength="150" name="email"  type="email" ng-model='email_perfil'required>
-                </label>   
-                <div style="width:50%;float:left;">
-                    <button class="button button-full button-assertive" type="cancel" ui-sref="perfil" >Cancelar</button>  
+ 
+                <div style="width:50%;float:left;" >
+                    <button id="buttonEditar" class="button button-full button-assertive" style="display:none" type="cancel" ui-sref="perfil" >Cancelar</button>  
                 </div>
-                <div style="width:50%;float:left;">
-                    <button class="button button-full button-balanced" type="submit" >Salvar</button>
+                <div style="width:50%;float:left;" >
+                    <button id="buttonEditar2" class="button button-full button-balanced" style="display:none" type="submit" >Salvar</button>
                 </div>
                            
                 

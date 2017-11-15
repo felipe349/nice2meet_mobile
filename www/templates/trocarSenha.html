@@ -1,34 +1,61 @@
 <ion-view view-title="Trocar senha">
-<ion-content>
-        <div class="list">
-            <form name="cadastro" ng-submit="cadastro.$valid && cadastrarTurista(usuario)" novalidate>
-                              
-                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.senha.$touched || cadastro.$submitted) && cadastro.senha.$invalid}">
-                    <input placeholder="Senha atual"  ng-minlength="8" ng-maxlength="16" id="senha" maxlength="17" ng-model="senha_turista" name="senha" type="password" ng-pattern="/^[a-zA-Z0-9._@-]+$/"  required>
+
+    
+    <ion-content>
+        <div class="list" style="margin-top:0;padding:0">
+                <div id="error-box-senha" class="row cadastro-errors" ng-show="(editar.senha.$touched || editar.$submitted) && editar.senha.$invalid || (editar.newSenha.$touched || editar.$submitted) && editar.newSenha.$invalid || (editar.conSenha.$touched || editar.$submitted) && editar.conSenha.$invalid">
+                    <div class="col col-25 alert-box">
+                        <img class="alert-msg" src="img/alert.png" ></img>
+                    </div>
+                    <div class="col">
+                        <p class="title-cadastro-errors"><b>Atenção!</b> Corrija os seguintes erros.</p>
+                        
+                        <div ng-messages="editar.senha.$error" ng-if="editar.senha.$touched || editar.$submitted">
+                            <div class="cadastro-error" ng-show="editar.senha.$error.required" >• A senha é obrigatória.<br></div>
+                            <div class="cadastro-error" ng-show="editar.senha.$error.pattern" >• Não é permitido caracteres especiais na senha.</div>
+                            <div class="cadastro-error" ng-show="editar.senha.$error.minlength" >• Minimo 8 letras na senha.<br></div>
+                            <div class="cadastro-error" ng-show="editar.senha.$error.maxlength" >• Maximo de 16 letras na senha.<br></div>
+                        </div>
+                        <div ng-messages="editar.newSenha.$error" ng-if="editar.newSenha.$touched || editar.$submitted">
+                            <div class="cadastro-error" ng-show="editar.newSenha.$error.required" >• A nova senha é obrigatória.<br></div>
+                            <div class="cadastro-error" ng-show="editar.newSenha.$error.pattern" >• Não é permitido caracteres especiais na nova senha.</div>
+                            <div class="cadastro-error" ng-show="editar.newSenha.$error.minlength" >• Minimo 8 letras na nova senha.<br></div>
+                            <div class="cadastro-error" ng-show="editar.newSenha.$error.maxlength" >• Maximo de 16 letras na nova senha.<br></div>
+                        </div>
+                        <div id="confirm-pw-block" ng-messages="editar.conSenha.$error" ng-if="editar.conSenha.$touched || editar.$submitted">
+                            <div class="cadastro-error" ng-show="editar.conSenha.$error.required" >• A confirmação de senha é obrigatória.<br></div>
+                            <div class="cadastro-error" ng-show="editar.conSenha.$error.pattern" >• Confirmação da nova senha inválida.<br></div>
+                        </div>
+                        <div id="senhasIguais" class="cadastro-error" style="display:none">As senhas atuais e novas são iguais, mude a nova senha para fazer alguma alteração.</div>
+                    </div>
+                </div>
+                        
+            
+                <form name="editar" ng-submit="editar.$valid && editarTurista(senhaEdit)"  novalidate>
+                    <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (editar.senha.$touched || editar.$submitted) && editar.senha.$invalid}">
+                    <input placeholder="Senha atual"  ng-minlength="8" ng-maxlength="16" id="senha" maxlength="17" ng-model="senhaEdit.senha" name="senha" type="password" ng-pattern="/^[a-zA-Z0-9._@-]+$/" required>
                 </label>
 
-                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.senha.$touched || cadastro.$submitted) && cadastro.senha.$invalid}">
-                    <input placeholder="Nova senha"  ng-minlength="8" ng-maxlength="16" id="senha" maxlength="17" ng-model="senha_turista" name="senha" type="password" ng-pattern="/^[a-zA-Z0-9._@-]+$/"  required>
+                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (editar.newSenha.$touched || editar.$submitted) && editar.newSenha.$invalid}">
+                    <input placeholder="Nova senha"  ng-minlength="8" ng-maxlength="16" id="senha" maxlength="17" ng-model="senhaEdit.new_senha" name="newSenha" type="password" ng-pattern="/^[a-zA-Z0-9._@-]+$/" required>
                 </label>
                 
 
-                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.conSenha.$touched || cadastro.$submitted) && cadastro.conSenha.$invalid}">
-                    <input placeholder="Confirmar nova senha" ng-pattern="usuario.password" maxlength="17"  ng-model="usuario.confirmaSenha"   name="conSenha" type="password"    required>
-                </label>
-                
-                <div style="width:50%;float:left;">
-                    <button class="button button-full button-assertive" type="cancel" ui-sref="perfil" >Cancelar</button>  
+                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (editar.conSenha.$touched || editar.$submitted) && editar.conSenha.$invalid}">
+                    <input placeholder="Confirmar nova senha" ng-pattern="senhaEdit.new_senha" maxlength="17"  ng-model="confirmaSenha"   name="conSenha" type="password"    required>
+                </label>  
+
+                <div style="width:50%;float:left;" ng-if="editar.$valid">
+                    <button  class="button button-full button-assertive" type="cancel" ui-sref="perfil" >Cancelar</button>  
                 </div>
-                <div style="width:50%;float:left;">
-                    <button class="button button-full button-balanced" type="submit" >Salvar</button>
-                </div>
+                <div style="width:50%;float:left;" ng-if="editar.$valid">
+                    <button  class="button button-full button-balanced" type="submit" >Salvar</button>
+                </div>                 
             </form>
         </div>
-        
-
         
         
     
 </ion-content>
-    
+
 </ion-view>

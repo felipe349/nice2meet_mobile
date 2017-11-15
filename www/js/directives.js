@@ -11,15 +11,7 @@ angular.module('nice2meet')
         link: function($scope, $element, $attr, $location, $http) {
             function initialize() {
                 var myStyle = [
-    {
-        "featureType": "water",
-        "elementType": "all",
-        "stylers": [
-            {
-                "color": "#3b5998"
-            }
-        ]
-    },
+    
     {
         "featureType": "administrative.province",
         "elementType": "all",
@@ -30,82 +22,75 @@ angular.module('nice2meet')
         ]
     },
     {
-        "featureType": "all",
-        "elementType": "all",
+        "featureType": "landscape.man_made",
+        "elementType": "geometry",
         "stylers": [
             {
-                "hue": "#3b5998"
-            },
-            {
-                "saturation": -22
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "on"
-            },
-            {
-                "color": "#dddddd"
-            },
-            {
-                "saturation": 1
-            },
-            {
-                "lightness": 1
+                "visibility": "off"
             }
         ]
     },{
-    "featureType": "poi",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-    {
         "featureType": "landscape.natural",
-        "elementType": "all",
+        "elementType": "geometry",
         "stylers": [
             {
-                "color": "#f7f7f7"
+                "color":"#DDDDE5"
             }
         ]
     },
     {
-        "featureType": "road.highway",
-        "elementType": "all",
-        "stylers": [
-            {
-                "color": "#8b9dc3"
-            }
-        ]
-    },
-  {
-    "featureType": "transit",
+    "featureType": "road",
+    "elementType": "labels.icon",
     "stylers": [
       {
         "visibility": "off"
       }
     ]
   },{
-    "featureType": "transit",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "color": "#2f3948"
-      }
-    ]
-  },
-  {
-    "featureType": "transit.station",
     "elementType": "labels.text.fill",
     "stylers": [
       {
-        "color": "#d59563"
+        "color": "#666666"
+      }
+    ]
+  },{
+    "elementType": "labels.text.stroke",
+    "stylers": [
+      {
+        "color": "#eeeeee"
+      }
+    ]
+  },{
+    "featureType": "administrative.locality",
+    "elementType": "labels.text.fill",
+    "stylers": [
+      {
+        "color": "#7fadc4"
+      }
+    ]
+  },{
+    "featureType": "poi",
+    "elementType": "labels",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+    {
+        "featureType": "road.highway",
+        "elementType": "geometry.fill",
+        "stylers": [
+            {
+                "color": "#BBBBCC"
+            }
+        ]
+    },
+  {
+    "featureType": "transit",
+    "stylers": [
+      {
+        "visibility": "off"
       }
     ]
   },
@@ -115,9 +100,6 @@ angular.module('nice2meet')
         "stylers": [
             {
                 "visibility": "simplified"
-            },
-            {
-                "color": "#3b5998"
             }
         ]
     },
@@ -127,9 +109,6 @@ angular.module('nice2meet')
         "stylers": [
             {
                 "visibility": "on"
-            },
-            {
-                "color": "#8b9dc3"
             }
         ]
     },
@@ -139,27 +118,10 @@ angular.module('nice2meet')
         "stylers": [
             {
                 "visibility": "simplified"
-            },
-            {
-                "color": "#8b9dc3"
             }
         ]
     },
-    {
-        "featureType": "transit.line",
-        "elementType": "all",
-        "stylers": [
-            {
-                "invert_lightness": false
-            },
-            {
-                "color": "#ffffff"
-            },
-            {
-                "weight": 0.43
-            }
-        ]
-    },
+    
     {
         "featureType": "road.highway",
         "elementType": "labels.icon",
@@ -168,25 +130,22 @@ angular.module('nice2meet')
                 "visibility": "off"
             }
         ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "geometry.fill",
-        "stylers": [
-            {
-                "color": "#8b9dc3"
-            }
-        ]
-    },
+    },{
+    "featureType": "poi.park",
+    "elementType": "geometry",
+    "stylers": [
+      {
+        "visibility": "off"
+      }
+    ]
+  },
+    
     {
         "featureType": "administrative",
         "elementType": "labels.icon",
         "stylers": [
             {
                 "visibility": "off"
-            },
-            {
-                "color": "#3b5998"
             }
         ]
     }
