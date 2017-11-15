@@ -60,10 +60,10 @@
                 
 
                 <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.conSenha.$touched || cadastro.$submitted) && cadastro.conSenha.$invalid}">
-                    <input placeholder="Confirmar Senha" ng-pattern="usuario.password" maxlength="17"  ng-model="usuario.confirmaSenha"   name="conSenha" type="password"    required>
+                    <input placeholder="Confirmar Senha" ng-pattern="usuario.password" maxlength="17"  ng-model="confirmaSenha"   name="conSenha" type="password"    required>
                 </label>
                 
-                <button class="button button-full button-positive" type="submit" >FINALIZAR</button>
+                <button class="button button-positive button-full button-gradient" type="submit" >Finalizar</button>
             </form>
         </div>
     </ion-content>

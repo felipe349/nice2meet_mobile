@@ -14,6 +14,19 @@
 
                             </div>
                         </div>
+            <div id="error-box" class="row cadastro-errors" ng-if="editar.$dirty && (editar.nm_turista.$invalid || editar.dataNasc.$invalid)">
+                <div class="col col-25 alert-box">
+                    <img class="alert-msg" src="img/alert.png" ></img>
+                </div>
+                <div class="col">
+                    <p class="title-cadastro-errors"><b>Atenção!</b> Corrija os seguintes erros.</p>
+                    <div class="cadastro-error" ng-if="editar.nm_turista.$invalid">
+                        <div ng-show="editar.nm_turista.$error.required">• O nome é obrigatório.<br></div>
+                        <div class="cadastro-error" ng-show="editar.nm_turista.$error.pattern" >• Valido apenas letras para nome.</div>
+                    </div>
+                    <div class="cadastro-error" ng-if="editar.dataNasc.$invalid">• O nascimento é obrigatório.<br></div>
+                </div>
+        </div>
                 <form name="editar" ng-submit="editar.$valid && editarTurista(edit)"  novalidate>
                 <label class="item item-input input-editar" ng-class="{ 'has-error' : (editar.nm_turista.$touched || editar.$submitted) && editar.nm_turista.$invalid }">
                     <span class="input-label">Nome</span>

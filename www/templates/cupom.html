@@ -17,7 +17,7 @@
     <div class="list">
       <div>
         <div id="error-cupom" class="error-cupom-none">Não conseguimos encontrar nenhum cupom.</div>
-        <a class="item item-icon-left item_cpm"  ng-repeat="cupom in cupons  | filter:search | limitTo:listlength" ng-model="Cupom" ng-click="Cupom = !Cupom;" ng-class="{cupomgradient : Cupom}">
+        <a class="item item-icon-left item_cpm"  ng-repeat="cupom in cupons  | filter:search | limitTo:listlength" ng-model="Cupom" ng-click="Cupom = !Cupom;" >
           <i class="icon ion-ios-pricetag-outline" ></i>
           {{ cupom.nm_oferta }}
           <span class="badge badge-balanced" style="transition:0.5s;" id="count-{{cupom.count}}"><ion-spinner class="spinner-loading spinner-light"></ion-spinner></span>

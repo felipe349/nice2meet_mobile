@@ -35,7 +35,6 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
     })
     .state('cadastro', {
         url: '/cadastro',
-        cache:false,
         templateUrl: 'templates/cadastro.html',
         controller: 'CadastroCtrl'
     })
@@ -78,13 +77,11 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
     .state('editarPerfil', {
         url: '/editarPerfil',
         templateUrl: 'templates/editarPerfil.html',
-        
         controller: 'EditarPerfilCtrl'
     })
     .state('trocarSenha', {
         url: '/trocarSenha',
         templateUrl: 'templates/trocarSenha.html',
-        cache:false,
         controller: 'TrocarSenhaCtrl'
     });
       if(window.localStorage.getItem("stat") == 1){

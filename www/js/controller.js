@@ -63,9 +63,10 @@ appN2M.controller('LoginCtrl', function($scope,$state, $location, $http,$ionicSl
 })
 appN2M.controller('CadastroCtrl', function($scope, $http, $ionicPopup, $location, $ionicLoading, $timeout) {
     $scope.cadastrarTurista = function(usuario) {
+
             $ionicLoading.show({
                 content: 'Loading',
-                template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+                template: '<ion-spinner class="spinner-loading spinner-royal" icon="lines"></ion-spinner>',
                 animation: 'fade-in',
                 showBackdrop: true,
                 maxWidth: 200,
@@ -223,8 +224,8 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
                             '<div>' + markertitle + '</div>' +
                             '<div>' +
                                 "<ion-spinner id='spinnerquiz' class='spinner-loading spinner-calm' icon='lines'></ion-spinner>" +
-                                "</br><button id='botãoquiz' class='btn' style='display:none' ng-click='buttonQuiz()'>Quiz</button>" +
-                                "<p id='errorquiz' style='display:none'>Sem quiz no momento</p>" +
+                                "</br><button id='botãoquiz' class='btn' style='display:none' ng-click='buttonQuiz()'>Ofertas</button>" +
+                                "<p id='errorquiz' style='display:none'>Sem ofertas no momento</p>" +
                                 "<button id='botãorota' class='btn' ng-click='buttonRota()'>Rota</button>" +
                             '</div>'+ 
                           '</div>' ;
@@ -254,6 +255,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
                                     }).success(function(success) {
                                                 
                                         if(success) {
+                                            console.log(success);
                                             oferta = success;
                                             lengthOferta = success.length;
                                             if (lengthOferta > 0){
@@ -389,7 +391,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
 appN2M.controller('QuizCtrl', function($scope, $http, $ionicLoading, $ionicPopup, $location, $ionicModal) {
     $ionicLoading.show({
         content: 'Loading',
-        template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+        template: '<ion-spinner class="spinner-loading spinner-royal" icon="lines"></ion-spinner>',
         animation: 'fade-in',
         showBackdrop: true,
         maxWidth: 200,
@@ -437,7 +439,7 @@ $scope.$on('$ionicView.beforeLeave', function(){
                 $scope.finalizaQuiz = function(choice){
                     $ionicLoading.show({
                         content: 'Loading',
-                        template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+                        template: '<ion-spinner class="spinner-loading spinner-royal" icon="lines"></ion-spinner>',
                         animation: 'fade-in',
                         showBackdrop: true,
                         maxWidth: 200,
@@ -505,7 +507,7 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout,
         
     $ionicLoading.show({
         content: 'Loading',
-        template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+        template: '<ion-spinner class="spinner-loading spinner-royal" icon="lines"></ion-spinner>',
         animation: 'fade-in',
         showBackdrop: true,
         maxWidth: 200,
@@ -672,7 +674,7 @@ appN2M.controller('InfoOfertaCtrl',  function($scope,$state,$ionicPopup, $http, 
             if (res) {
                 $ionicLoading.show({
                     content: 'Loading',
-                    template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+                    template: '<ion-spinner class="spinner-loading spinner-royal" icon="lines"></ion-spinner>',
                     animation: 'fade-in',
                     showBackdrop: true,
                     maxWidth: 200,
@@ -761,7 +763,7 @@ appN2M.controller('EditarPerfilCtrl',  function($scope,$state, $http, $ionicLoad
     $scope.editarTurista = function(usuarioEdit) {
         $ionicLoading.show({
                     content: 'Loading',
-                    template: '<ion-spinner class="spinner-loading spinner-calm" icon="lines"></ion-spinner>',
+                    template: '<ion-spinner class="spinner-loading spinner-royal" icon="lines"></ion-spinner>',
                     animation: 'fade-in',
                     showBackdrop: true,
                     maxWidth: 200,
@@ -804,5 +806,13 @@ appN2M.controller('EditarPerfilCtrl',  function($scope,$state, $http, $ionicLoad
     });
 })
 appN2M.controller('TrocarSenhaCtrl',  function($scope,$state) {
-
+    $scope.editarTurista = function(usuarioEdit) {
+        if(usuarioEdit.senha == usuarioEdit.new_senha){
+            document.getElementById('error-box-senha').classList.remove("ng-hide");
+            document.getElementById('senhasIguais').style.display = 'block';
+        }else{
+            console.log(usuarioEdit.senha);
+            console.log(usuarioEdit.new_senha);
+        }
+    }
 })
