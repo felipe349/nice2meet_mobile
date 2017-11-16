@@ -1,6 +1,6 @@
 angular.module('nice2meet')
 
-.directive('map', function($ionicLoading) {
+.directive('map', function() {
 
 
     return {

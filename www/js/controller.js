@@ -91,9 +91,15 @@ appN2M.controller('CadastroCtrl', function($scope, $http, $ionicPopup, $location
 })
 var marcadores = {};
 var markerArray = [];
-var perguntasQuiz = {};
 appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $rootScope, $ionicLoading, $timeout, $http, $location, $cordovaGeolocation) {
-    
+    $scope.$on('$ionicView.beforeEnter', function(){
+        if(reloadHome == 1){
+            $window.location.reload(true);
+        }
+    });
+    $scope.$on('$ionicView.enter', function(){
+        google.maps.event.trigger(this.map, 'resize');
+    });
     var drivingLine;
     var directionsService = new google.maps.DirectionsService();
     $ionicLoading.show({
@@ -116,7 +122,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
     $scope.mapCreated = function(map) {
         var options = { timeout: 10000, enableHighAccuracy: true};
         $timeout(function () {
-        $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+        var testi = $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
             $scope.map = map;
             circle = new google.maps.Circle({
                 strokeColor: '#3398ff',
@@ -164,15 +170,54 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
                 position: map.center,
                 icon: imageCliente
             });
-            var infoWindowCliente = "Estou aqui!" 
 
-            google.maps.event.addListener(marcadorCliente,'click', (function(marcadorCliente,infoWindowCliente,infowindow){ 
-                        
-                        return function() {
-                                   infowindow.setContent(infoWindowCliente);
-                                   infowindow.open(map,marcadorCliente);
-                                };
-                        })(marcadorCliente,infoWindowCliente,infowindow));
+
+             infoBubble = new InfoBubble({
+                  map: map,
+                  shadowStyle: 0,
+                  padding: 10,
+                  maxWidth:300,
+                  minWidth:100,
+                  minHeight: 100,
+                  backgroundColor: 'white',
+                  borderRadius: 5,
+                  arrowSize: 10,
+                  borderWidth: 1,
+                  borderColor: '#bbb',
+                  arrowPosition: 50,
+                  backgroundClassName: 'transparent',
+                  arrowStyle: 0,
+                  closeSrc: 'img/close-info.png'
+            });
+             var contentString = '<div id="content">'+
+        '<h1>Uluru</h1>'+
+        '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
+        'sandstone rock formation in the southern part of the '+
+        'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
+        'south west of the nearest large town, Alice Springs; 450&#160;km '+
+        '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
+        'features of the Uluru - Kata Tjuta National Park. Uluru is '+
+        'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
+        'Aboriginal people of the area. It has many springs, waterholes, '+
+        'rock caves and ancient paintings. Uluru is listed as a World '+
+        'Heritage Site.</p>'+
+        '<p>Attribution: Uluru, <a href="http://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
+        'http://en.wikipedia.org/w/index.php?title=Uluru</a> '+
+        '(last visited June 22, 2009).</p>'+
+        '</div>';
+            var div = document.createElement('DIV');
+            div.innerHTML = 'Hello';
+            var infoWindowCliente = "<p>Estou aqui!<p>" 
+            infoBubble.addTab('A Tab', div);
+            infoBubble.addTab('Uluru', contentString);
+
+            google.maps.event.addListener(marcadorCliente, 'click', function() {
+                infoBubble.open(map, marcadorCliente);
+            });
+            google.maps.event.addListener(map, "click", function () { 
+                infoBubble.close();
+            });
+
             
             $http({
                 method: "post",
@@ -239,8 +284,12 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
                             icon: imagePonto,
                             store_id: marcadores[i].id_ponto_turistico
                         });
+                        
+                        
                         marker.metadata = {type: "point", id: 1, lat: latJson, lng: lngJson};
                         markerArray.push(marker);
+                        var markerCluster = new MarkerClusterer(map, marker,
+                            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
                         google.maps.event.addListener(marker,'click', (function(marker,contentInfoWindow,infowindow){ 
                         
                         return function() {
@@ -255,18 +304,25 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
                                     }).success(function(success) {
                                                 
                                         if(success) {
-                                            console.log(success);
                                             oferta = success;
                                             lengthOferta = success.length;
+                                            
                                             if (lengthOferta > 0){
                                                 document.getElementById('errorquiz').style.display = 'none';
                                                 document.getElementById('spinnerquiz').style.display = 'none';
                                                 document.getElementById('botãoquiz').style.display = 'block';
                                             };
-                                            for (var i = 0; i < success.length; i++) {
-                                                success[i] = success[i][0];
+                                            var xCount = 0;
+                                            for (var i = 0; i < lengthOferta; i++) {
+                                                for (var j = 0; j < success[xCount].length; j++) {
+                                                    dadosOfertas[i] = success[xCount][j];
+                                                    if(success[xCount].length > j+1){
+                                                        lengthOferta++;
+                                                        i++;
+                                                    }
+                                                };
+                                                xCount++;
                                             };
-                                            dadosOfertas = success;
                                         }else{
                                             console.log("erro");
                                             document.getElementById('botãoquiz').style.display = 'none';
@@ -337,6 +393,7 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
               }
               var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 2000 });
         }, function(error) {
+            testi();
             console.log(error);
         });});
     };
@@ -447,7 +504,6 @@ $scope.$on('$ionicView.beforeLeave', function(){
                     });
                     if(choice == data_quiz[6]){
                         ifexitquiz=0;
-                        console.log('1');
                                     $http({
                                         method: "post",
                                         url: "https://nice2meettcc.herokuapp.com/api/cupom",
@@ -457,7 +513,6 @@ $scope.$on('$ionicView.beforeLeave', function(){
                                                 flag: retorno_api_quiz
                                         }
                                     }).success(function(success) {
-                                        console.log('1');
                                         if(success) {
                                             $ionicLoading.hide();
                                                 var confirmPopup = $ionicPopup.confirm({

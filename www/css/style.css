@@ -712,3 +712,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e32b8d', end
   margin-top:0px !important;
   opacity:1;
 }
+img.js-info-bubble-close{
+  margin-top: -20px;
+  margin-right: -13px;
+  border-radius:50% !important;
+  background: white;
+  padding: 1px;
+  border-top: 1px solid #999 !important;
+  border-right: 1px solid #999 !important;
+  width: 20px;
+}
+ ._ibani_2032{
+  color: #777;
+  border-radius: 5px;
+ }
