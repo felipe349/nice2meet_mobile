@@ -120,9 +120,9 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
     //CÍRCULO ANIMADO
     var circle = null;
     $scope.mapCreated = function(map) {
-        var options = { timeout: 10000, enableHighAccuracy: true};
+        var options = { maximumAge: 0,timeout: 20000, enableHighAccuracy: true};
         $timeout(function () {
-        var testi = $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+        $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
             $scope.map = map;
             circle = new google.maps.Circle({
                 strokeColor: '#3398ff',
@@ -138,7 +138,10 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
             var rMin = 20;
             var rMax = 50;
             var lengthOferta = 0;
-            var infowindow = new google.maps.InfoWindow({maxWidth: 350});
+            var infowindow = new google.maps.InfoWindow({Height:50});
+            $scope.$on('$ionicView.beforeLeave', function(){
+              infowindow.close();
+            });
             var positionCliente = '';
             var positionPonto = '';
             var to = '';
@@ -169,55 +172,15 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
                 animation: google.maps.Animation.DROP,
                 position: map.center,
                 icon: imageCliente
-            });
-
-
-             infoBubble = new InfoBubble({
-                  map: map,
-                  shadowStyle: 0,
-                  padding: 10,
-                  maxWidth:300,
-                  minWidth:100,
-                  minHeight: 100,
-                  backgroundColor: 'white',
-                  borderRadius: 5,
-                  arrowSize: 10,
-                  borderWidth: 1,
-                  borderColor: '#bbb',
-                  arrowPosition: 50,
-                  backgroundClassName: 'transparent',
-                  arrowStyle: 0,
-                  closeSrc: 'img/close-info.png'
-            });
-             var contentString = '<div id="content">'+
-        '<h1>Uluru</h1>'+
-        '<p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large ' +
-        'sandstone rock formation in the southern part of the '+
-        'Northern Territory, central Australia. It lies 335&#160;km (208&#160;mi) '+
-        'south west of the nearest large town, Alice Springs; 450&#160;km '+
-        '(280&#160;mi) by road. Kata Tjuta and Uluru are the two major '+
-        'features of the Uluru - Kata Tjuta National Park. Uluru is '+
-        'sacred to the Pitjantjatjara and Yankunytjatjara, the '+
-        'Aboriginal people of the area. It has many springs, waterholes, '+
-        'rock caves and ancient paintings. Uluru is listed as a World '+
-        'Heritage Site.</p>'+
-        '<p>Attribution: Uluru, <a href="http://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194">'+
-        'http://en.wikipedia.org/w/index.php?title=Uluru</a> '+
-        '(last visited June 22, 2009).</p>'+
-        '</div>';
-            var div = document.createElement('DIV');
-            div.innerHTML = 'Hello';
+            });            
             var infoWindowCliente = "<p>Estou aqui!<p>" 
-            infoBubble.addTab('A Tab', div);
-            infoBubble.addTab('Uluru', contentString);
-
-            google.maps.event.addListener(marcadorCliente, 'click', function() {
-                infoBubble.open(map, marcadorCliente);
-            });
-            google.maps.event.addListener(map, "click", function () { 
-                infoBubble.close();
-            });
-
+            google.maps.event.addListener(marcadorCliente,'click', (function(marcadorCliente,infoWindowCliente,infowindow){ 
+                         
+                         return function() {
+                                    infowindow.setContent(infoWindowCliente);
+                                    infowindow.open(map,marcadorCliente);
+                                 };
+            })(marcadorCliente,infoWindowCliente,infowindow));
             
             $http({
                 method: "post",
@@ -264,14 +227,21 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
                             }
                                 
                         };
+                        $scope.closeInfoW = function(){
+                            infowindow.close();
+                        };
                         
                         var contentInfoWindow = '<div>' +
-                            '<div>' + markertitle + '</div>' +
+                            '<span style="text-align:center; font-size:20px;">' + markertitle + '</span>' + 
+                            "<img src='img/rota.png' id='botãorota' style='float:right;' title='Rota até o ponto turistico.' ng-click='buttonRota()' class='rotaImg'></img>"+
                             '<div>' +
-                                "<ion-spinner id='spinnerquiz' class='spinner-loading spinner-calm' icon='lines'></ion-spinner>" +
-                                "</br><button id='botãoquiz' class='btn' style='display:none' ng-click='buttonQuiz()'>Ofertas</button>" +
-                                "<p id='errorquiz' style='display:none'>Sem ofertas no momento</p>" +
-                                "<button id='botãorota' class='btn' ng-click='buttonRota()'>Rota</button>" +
+                                "<div style='text-align:center'>" +
+                                    
+                                    "<ion-spinner id='spinnerquiz' class='spinner-loading spinner-calm' icon='lines'></ion-spinner>" +
+                                    "<button id='botãoquiz' class='btn' style='display:none' ng-click='buttonQuiz()'>Ofertas</button>" +
+                                    "<span id='errorquiz' style='display:none'>Sem ofertas no momento</span>" +
+                                "</div>"+
+                                "<p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.</p>" +
                             '</div>'+ 
                           '</div>' ;
 
@@ -306,38 +276,33 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
                                         if(success) {
                                             oferta = success;
                                             lengthOferta = success.length;
-                                            
+                                            dadosOfertas = [];
                                             if (lengthOferta > 0){
                                                 document.getElementById('errorquiz').style.display = 'none';
                                                 document.getElementById('spinnerquiz').style.display = 'none';
-                                                document.getElementById('botãoquiz').style.display = 'block';
+                                                document.getElementById('botãoquiz').style.display = 'inline-block';
                                             };
-                                            var xCount = 0;
+                                            
                                             for (var i = 0; i < lengthOferta; i++) {
-                                                for (var j = 0; j < success[xCount].length; j++) {
-                                                    dadosOfertas[i] = success[xCount][j];
-                                                    if(success[xCount].length > j+1){
-                                                        lengthOferta++;
-                                                        i++;
-                                                    }
+                                                for (var j = 0; j < success[i].length; j++) {
+                                                    dadosOfertas.push(success[i][j]);
                                                 };
-                                                xCount++;
                                             };
                                         }else{
                                             console.log("erro");
                                             document.getElementById('botãoquiz').style.display = 'none';
                                             document.getElementById('spinnerquiz').style.display = 'none';
-                                            document.getElementById('errorquiz').style.display = 'block';
+                                            document.getElementById('errorquiz').style.display = 'inline-block';
                                         }
                                     }).error(function(error){
                                         document.getElementById('botãoquiz').style.display = 'none';
                                         document.getElementById('spinnerquiz').style.display = 'none';
-                                        document.getElementById('errorquiz').style.display = 'block';
+                                        document.getElementById('errorquiz').style.display = 'inline-block';
                                     });
                                     infowindow.setContent(contentInfoWindow);
                                     infowindow.open(map,marker);
                                     document.getElementById('errorquiz').style.display = 'none';
-                                    document.getElementById('spinnerquiz').style.display = 'block';
+                                    document.getElementById('spinnerquiz').style.display = 'inline-block';
                                     document.getElementById('botãoquiz').style.display = 'none';
                                     $scope.buttonRota = function(){
                                         infowindow.close();
@@ -360,16 +325,19 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
                 document.getElementById('rota-box').style.display = "none";
                 map.setZoom(17); 
                 $scope.map.setCenter(positionCliente);
-                drivingRoute();
+                drivingLine.setMap(null);
             };
             var countZoom = 0;
             function onSuccess(position) {
                 var lat = position.coords.latitude
                 var long = position.coords.longitude
-                countZoom++;
-                if(countZoom <=1){
+                
+                if(countZoom <1){
                     $scope.map.setCenter(new google.maps.LatLng(lat, long));
+                }else if(countZoom == 5){
+                    countZoom = 0;
                 }
+                countZoom++;
                 latLng = new google.maps.LatLng(lat, long);
                 positionCliente = latLng;
                 if(to != ''){
@@ -387,27 +355,75 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
             }
             
               function onError(error) {
- -            console.log("Não foi possível conseguir a Geolocalização.");
- +            console.log("Erro de geolocalização");
- +            navigator.geolocation.watchPosition(onSuccess, onError);
+                console.log("Erro de geolocalização");
+                console.log(error);
+                $ionicLoading.hide();
+                var messageErrorMapa;
+                if(error.code == 1){
+                    messageErrorMapa = "Localização desabilitada, ative a localização para encontrarmos sua localização.";
+                }
+                if(error.code == 2){
+                    messageErrorMapa = "Sem internet, ligue a internet e tente novamente";
+                }
+                if(error.code == 3){
+                    messageErrorMapa = "Internet lenta, vá a um lugar onde a internet funcione melhor.";
+                }
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Tentar novamente?',
+                    template: "<div class='centralizar'>" +
+                    messageErrorMapa +
+                    "</div>",
+                    buttons: [{ text: 'Não', type: 'button-gradient' },
+                              { text: 'Sim', type: 'button-gradient', onTap: function() { return true; }}]
+                });
+                confirmPopup.then(function(res) {
+                    if (res) {
+                        $window.location.reload(true);
+                    } else {
+                                                        
+                    }
+                });
+                navigator.geolocation.watchPosition(onSuccess, onError);
               }
               var watchID = navigator.geolocation.watchPosition(onSuccess, onError, { timeout: 2000 });
         }, function(error) {
-            testi();
-            console.log(error);
+            console.log(error.code);
+            $ionicLoading.hide();
+            var messageErrorMapa;
+            if(error.code == 1){
+                messageErrorMapa = "Localização desabilitada, ative a localização para encontrarmos sua localização.";
+            }
+            if(error.code == 2){
+                messageErrorMapa = "Sem internet, ligue a internet e tente novamente";
+            }
+            if(error.code == 3){
+                messageErrorMapa = "Internet lenta, vá a um lugar onde a internet funcione melhor.";
+            }
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Tentar novamente?',
+                template: "<div class='centralizar'>" +
+                messageErrorMapa +
+                "</div>",
+                buttons: [{ text: 'Não', type: 'button-gradient' },
+                          { text: 'Sim', type: 'button-gradient', onTap: function() { return true; }}]
+            });
+            confirmPopup.then(function(res) {
+                if (res) {
+                    $window.location.reload(true);
+                } else {
+                                                        
+                }
+            });
         });});
     };
     
-        $scope.centerOnMe = function() {
-            if (!$scope.map) {
-                return;
-            }
-            navigator.geolocation.getCurrentPosition(function(pos) {
-                $scope.map.setCenter(new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude));
-            }, function(error) {
-           
-            });
-        };
+        
+        drivingLine = new google.maps.Polyline({
+          strokeColor: "#ff6820",
+          strokeOpacity: .75,
+          strokeWeight: 5,
+          geodesic: true
+        });
     function drivingRoute(from, to) {
     var request = {
       origin: from,
@@ -415,7 +431,6 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
       travelMode: google.maps.DirectionsTravelMode.DRIVING,
       unitSystem: google.maps.UnitSystem.METRIC
     };
-    if(typeof(drivingLine) !== 'undefined') drivingLine.setMap(null);
     directionsService.route(request, function(response, status){
       if(status == google.maps.DirectionsStatus.OK){
         var totalKM = (response.routes[0].legs[0].distance.value / 1000);
@@ -429,12 +444,8 @@ appN2M.controller('HomeCtrl', function($scope, $compile, $window, $ionicPopup, $
             document.getElementById('rota-box').style.display = "block";
             document.getElementById('distanceRota').innerHTML = distanceText;
         }
-        drivingLine = new google.maps.Polyline({
-          path: response.routes[0].overview_path,
-          strokeColor: "#ff6820",
-          strokeOpacity: .75,
-          strokeWeight: 5
-        });
+        var path = response.routes[0].overview_path;
+        drivingLine.setPath(path);
         drivingLine.setMap($scope.map);
         $scope.map.fitBounds(response.routes[0].bounds);
       }
