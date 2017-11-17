@@ -1,5 +1,43 @@
 <ion-view view-title="Ajuda" hide-back-button = "false">
     <ion-content>
-        ajuda
+        <div class="list">
+		    <div class="item item-icon-left item_cpm item-text-wrap"  ng-model="Help1" ng-click="Help1 = !Help1;" >
+		        	<i class="icon ion-ios-pricetag-outline" ></i>
+		          	<p >Qual a duração de um cupom após ser criado?</p>
+			        <div ng-if="Help1">
+			            <b>R: 24h, após esse tempo ele é removido.</b>
+			        </div>
+		    </div>
+		    <div class="item item-icon-left item_cpm item-text-wrap"  ng-model="Help2" ng-click="Help2 = !Help2;" >
+		        	<i class="icon ion-ios-pricetag-outline" ></i>
+		          	<p >Como usar o cupom?</p>
+			        <div ng-if="Help2">
+			            <b>R: Na pagina de cupons, clique sobre o cupom que deseja utilizar, e mostre o codigo no estabelecimento correspondente.</b>
+			        </div>
+		    </div>
+		    <div class="item item-icon-left item_cpm item-text-wrap"  ng-model="Help3" ng-click="Help3 = !Help3;" >
+		        	<i class="icon ion-ios-pricetag-outline" ></i>
+		          	<p >Como ganhar um cupom?</p>
+			        <div ng-if="Help3">
+			            <b>R: Clique em algum ponto turistico, e se disponivel, selecione o botão de ofertas, escolha a oferta desejada e inicie o quiz, ao acertar ganha-se o cupom para a oferta escolhida.</b>
+			        </div>
+		    </div>
+		    <div class="item item-icon-left item_cpm item-text-wrap"  ng-model="Help4" ng-click="Help4 = !Help4;" >
+		        	<i class="icon ion-bag" ></i>
+		          	<p >Quantas vezes um turista pode responder um quiz para a mesma oferta?</p>
+			        <div ng-if="Help4">
+			            <b>R: Apenas 1.</b>
+			        </div>
+		    </div>
+		    <div class="item item-icon-left item_cpm item-text-wrap"  ng-model="Help5" ng-click="Help5 = !Help5;" >
+		        	<i class='icon ion-android-pin'></i>
+		          	<p >Como criar uma rota para um ponto turistico?</p>
+			        <div ng-if="Help5">
+			            <b>R: Clique sobre o ponto turistico que deseja criar a rota, e clique no icone abaixo, a rota será gerada automaticamente.</b>
+			            <img class="rotaImgHelp centralizar" src="img/rota.png"></img>
+			        </div>
+		    </div>
+		</div>
+		
     </ion-content>
 </ion-view>
