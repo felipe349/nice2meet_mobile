@@ -32,16 +32,19 @@
                         
             
                 <form name="editar" ng-submit="editar.$valid && editarTurista(senhaEdit)"  novalidate>
-                    <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (editar.senha.$touched || editar.$submitted) && editar.senha.$invalid}">
+                    <label class="item item-input input-cadastro item-floating-label" ng-class="{ 'has-error' : (editar.senha.$touched || editar.$submitted) && editar.senha.$invalid}">
+                    <span class="input-label color-gray" >Senha atual</span>
                     <input placeholder="Senha atual"  ng-minlength="8" ng-maxlength="16" id="senha" maxlength="17" ng-model="senhaEdit.senha" name="senha" type="password" ng-pattern="/^[a-zA-Z0-9._@-]+$/" required>
                 </label>
 
-                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (editar.newSenha.$touched || editar.$submitted) && editar.newSenha.$invalid}">
+                <label class="item item-input input-cadastro item-floating-label" ng-class="{ 'has-error' : (editar.newSenha.$touched || editar.$submitted) && editar.newSenha.$invalid}">
+                    <span class="input-label color-gray" >Nova senha</span>
                     <input placeholder="Nova senha"  ng-minlength="8" ng-maxlength="16" id="senha" maxlength="17" ng-model="senhaEdit.new_senha" name="newSenha" type="password" ng-pattern="/^[a-zA-Z0-9._@-]+$/" required>
                 </label>
                 
 
-                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (editar.conSenha.$touched || editar.$submitted) && editar.conSenha.$invalid}">
+                <label class="item item-input input-cadastro item-floating-label" ng-class="{ 'has-error' : (editar.conSenha.$touched || editar.$submitted) && editar.conSenha.$invalid}">
+                    <span class="input-label color-gray" >Confirmar nova senha</span>
                     <input placeholder="Confirmar nova senha" ng-pattern="senhaEdit.new_senha" maxlength="17"  ng-model="confirmaSenha"   name="conSenha" type="password"    required>
                 </label>  
 

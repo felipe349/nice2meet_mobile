@@ -18,7 +18,7 @@ appNice.run(function($ionicPlatform) {
         
 appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,$httpProvider) {
     $ionicConfigProvider.scrolling.jsScrolling(false);
-    $ionicConfigProvider.backButton.previousTitleText(false).text('Voltar');
+    $ionicConfigProvider.backButton.previousTitleText(false).text(false);
     $ionicConfigProvider.views.swipeBackEnabled(false);
     $ionicConfigProvider.tabs.position('bottom');
     $ionicConfigProvider.tabs.style('standard');
@@ -84,7 +84,12 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
         templateUrl: 'templates/trocarSenha.html',
         controller: 'TrocarSenhaCtrl'
     });
-      if(window.localStorage.getItem("stat") == 1){
+    localforage.setDriver([
+          localforage.INDEXEDDB,
+          localforage.WEBSQL,
+          localforage.LOCALSTORAGE
+          ])
+    if(window.localStorage.getItem("stat") == 1){
         if(window.localStorage.getItem("turista.ic_tutorial") == 0){
           $urlRouterProvider.otherwise('/home');
         }else{
