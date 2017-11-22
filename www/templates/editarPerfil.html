@@ -1,19 +1,22 @@
 <ion-view view-title="Editar Perfil">
 <ion-content>
         <div class="list" style="margin-top:0;padding:0">
-                
+                <form name="fotoEdit" ng-submit="editar.$valid && editarFoto()" >
                         <div class="item box-info-perfil">
                             <div class="centralizar">
                                 <span class="add-photo">
                                     
                                     <i class="ion-plus-round alert-msg" style="font-size:1.5rem; color:white;"></i>
-                                    <input type="file" accept="image/*" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
+                                    <input type="file" accept="image/*" id="file" ng-model="fotoEdt" class="file-upload" data-cloudinary-field="image_id"
+   data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
                                 </span>
 
                                 <img id="blah" src="img/edit-photo.jpg" class="img_avatar">
-
+<button  class="button button-full button-balanced"  type="submit" >Salvar</button>
                             </div>
                         </div>
+                        
+                </form>
             <div id="error-box" class="row cadastro-errors" ng-if="editar.$dirty && (editar.nm_turista.$invalid || editar.dataNasc.$invalid)">
                 <div class="col col-25 alert-box">
                     <img class="alert-msg" src="img/alert.png" ></img>
@@ -27,15 +30,15 @@
                     <div class="cadastro-error" ng-if="editar.dataNasc.$invalid">• O nascimento é obrigatório.<br></div>
                 </div>
         </div>
+
                 <form name="editar" ng-submit="editar.$valid && editarTurista(edit)"  novalidate>
-                <label class="item item-input input-editar" ng-class="{ 'has-error' : (editar.nm_turista.$touched || editar.$submitted) && editar.nm_turista.$invalid }">
-                    <span class="input-label">Nome</span>
-    
+               
+                <label class="item item-input input-editar item-floating-label" ng-class="{ 'has-error' : (editar.nm_turista.$touched || editar.$submitted) && editar.nm_turista.$invalid }">
+                    <span class="input-label color-gray" >Nome</span>
                     <input  placeholder="Nome" name="nm_turista" ng-model="edit.nome_perfil" ng-change="buttonsEdit(edit)" ng-pattern="/^[a-zA-ZÀ-ú\s]+$/" type="text" required>
                 </label>
-                
-                <label class="item item-input input-editar" ng-class="{ 'has-error' : (editar.dataNasc.$touched || editar.$submitted) && editar.dataNasc.$invalid}">
-                    <span class="input-label">Nascimento</span>
+                <label class="item item-input input-editar item-floating-label" ng-class="{ 'has-error' : (editar.dataNasc.$touched || editar.$submitted) && editar.dataNasc.$invalid}">
+                    <span class="input-label color-gray">Nascimento</span>
                     <input placeholder="Data de Nascimento" type="text" onfocus="(this.type='date')" ng-change="buttonsEdit(edit)" name="dataNasc" ng-model="edit.dt_nascimento_perfil" required>
                 </label>
                 
@@ -50,7 +53,6 @@
                 
             </form>
         </div>
-        
         
     
 </ion-content>

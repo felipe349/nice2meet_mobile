@@ -37,29 +37,35 @@
        
         <div class="list">
             <form name="cadastro" ng-submit="cadastro.$valid && cadastrarTurista(usuario)" novalidate>
-                <label class="item item-input input-cadastro ng-invalid" ng-class="{ 'has-error' : (cadastro.nm_turista.$touched || cadastro.$submitted) && cadastro.nm_turista.$invalid }">
+                <label class="item item-input input-cadastro item-floating-label " ng-class="{ 'has-error' : (cadastro.nm_turista.$touched || cadastro.$submitted) && cadastro.nm_turista.$invalid }">
+                    <span class="input-label color-gray" >Nome</span>
                     <input placeholder="Nome"  name="nm_turista" ng-model="usuario.nm_turista" ng-pattern="/^[a-zA-ZÀ-ú\s]+$/" type="text"  required>
                 </label>
                 
 
                 
 
-                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid}">
+                <label class="item item-input input-cadastro item-floating-label" ng-class="{ 'has-error' : (cadastro.dataNasc.$touched || cadastro.$submitted) && cadastro.dataNasc.$invalid}">
+
+                    <span class="input-label color-gray" >Data de nascimento</span>
                     <input placeholder="Data de Nascimento" type="text" onfocus="(this.type='date')"  name="dataNasc" ng-model="usuario.dt_nascimento" required>
                 </label>
                 
 
-                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.email.$touched || cadastro.$submitted) && cadastro.email.$invalid}">
+                <label class="item item-input input-cadastro item-floating-label" ng-class="{ 'has-error' : (cadastro.email.$touched || cadastro.$submitted) && cadastro.email.$invalid}">
+                    <span class="input-label color-gray" >Email</span>
                     <input placeholder="Email" maxlength="150" name="email" ng-model="usuario.email" type="email" required>
                 </label>
                 
  
-                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.senha.$touched || cadastro.$submitted) && cadastro.senha.$invalid}">
+                <label class="item item-input input-cadastro item-floating-label" ng-class="{ 'has-error' : (cadastro.senha.$touched || cadastro.$submitted) && cadastro.senha.$invalid}">
+                    <span class="input-label color-gray" >Senha</span>
                     <input placeholder="Senha"  ng-minlength="8" ng-maxlength="16" id="senha" maxlength="17" ng-model="usuario.password" name="senha" type="password" ng-pattern="/^[a-zA-Z0-9._@-]+$/"  required>
                 </label>
                 
 
-                <label class="item item-input input-cadastro" ng-class="{ 'has-error' : (cadastro.conSenha.$touched || cadastro.$submitted) && cadastro.conSenha.$invalid}">
+                <label class="item item-input input-cadastro item-floating-label" ng-class="{ 'has-error' : (cadastro.conSenha.$touched || cadastro.$submitted) && cadastro.conSenha.$invalid}">
+                    <span class="input-label color-gray" >Confirmar senha</span>
                     <input placeholder="Confirmar Senha" ng-pattern="usuario.password" maxlength="17"  ng-model="confirmaSenha"   name="conSenha" type="password"    required>
                 </label>
                 
