@@ -29,6 +29,7 @@ appN2M.controller('LoginCtrl', function($scope,$state, $location, $window, $http
                         document.getElementById("login__submit").classList.add("success");
                         localforage.setItem('status', success.logado);
                         window.localStorage.setItem("stat", success.logado);
+                        window.localStorage.setItem("turista.img", success.turista.img);
                         window.localStorage.setItem("turista.nm_turista", success.turista.nm_turista);
                         window.localStorage.setItem("turista.dt_nascimento", success.turista.dt_nascimento);
                         window.localStorage.setItem("turista.id_turista", success.turista.id_turista);
@@ -219,7 +220,8 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                         var latJson = marcadores[i].cd_latitude;
                         var lngJson = marcadores[i].cd_longitude;
                         var markertitle = marcadores[i].nm_ponto_turistico;
-                        
+                        var markerDescricao = marcadores[i].ds_ponto_turistico;
+                        var markerId = marcadores[i].id_ponto_turistico;
                         $scope.buttonQuiz = function(){
                             var rad = function(x) {
                                 return x * Math.PI / 180;
@@ -255,16 +257,45 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                         };
                         
                         var contentInfoWindow = '<div>' +
-                            '<span style="text-align:center; font-size:20px;">' + markertitle + '</span>' + 
+                            '<span class="nm_ponto_iw" >' + markertitle + '</span>' + 
                             "<img src='img/rota.png' id='botãorota' style='float:right;' title='Rota até o ponto turistico.' ng-click='buttonRota()' class='rotaImg'></img>"+
                             '<div>' +
-                                "<div style='text-align:center'>" +
+                               "<div style='text-align:center'>" +
                                     
-                                    "<ion-spinner id='spinnerquiz' class='spinner-loading spinner-calm' icon='lines'></ion-spinner>" +
-                                    "<button id='botãoquiz' class='btn' style='display:none' ng-click='buttonQuiz()'>Ofertas</button>" +
-                                    "<span id='errorquiz' style='display:none'>Sem ofertas no momento</span>" +
+                                    
+                                    /*"<button id='botãoquiz' class='btn' style='display:none' ng-click='buttonQuiz()'>Ofertas</button>" +*/
+                                    
+                                    "<div class='list'>"+
+                                            "<a class='item  item_oferta item-text-wrap'  ng-model='Historia' ng-click='Historia = !Historia'>"+    
+                                                "<b>História do Ponto Turistico</b>" + 
+                                                    "<div ng-if='Historia'>"+
+                                                        "<p >"+markerDescricao+" a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a </p>" + 
+                                                    "</div>"+
+
+                                            "</a>"+
+                                            "<a class='item  item_oferta' ng-click='Testette = !Testette' ng-model='Oferta' >"+    
+                                                "<b>Ofertas</b>" + 
+                                                    
+                                            "</a>"+
+                                            "<ion-spinner id='spinnerquiz' class='spinner-loading spinner-calm' ng-show='Testette' icon='lines'></ion-spinner>" +
+                                            "<span id='errorquiz' style='display:none'>Sem ofertas no momento</span>" +
+                                            "<a class='item  item_ofertas'  ng-show='Testette' ng-model='Oferta' ng-repeat='x in ofertaJson' ng-class=''ofertaAberta' : Testette' ng-click='Oferta = !Oferta'>"+
+                                                    
+                                                "{{ x.nm_oferta }}" + 
+                                                    "<div ng-if='Oferta'>"+
+                                                        "<br>"+
+                                                        "<p >Descrição: {{ x.ds_oferta }}</p>"+
+                                                        "<br>"+ 
+                                                        "<p ng-show='{{ x.flag }}' style='float:right'>Oferta já realizada.</p>"+
+                                                        "<button class='button button-positive button-oferta' ng-hide='{{ x.flag }}' ng-click='showConfirm($index)'>"+
+                                                            "Quiz"+
+                                                        "</button>" +
+                                                    "</div>"+
+                                            "</a>"+
+                                        
+                                    "</div>"+
                                 "</div>"+
-                                "<p class='seeMore'>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.</p>" +
+                                
                             '</div>'+ 
                           '</div>' ;
 
@@ -278,7 +309,8 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                             store_id: marcadores[i].id_ponto_turistico
                         });
                         
-                        
+
+
                         marker.metadata = {type: "point", id: 1, lat: latJson, lng: lngJson};
                         markerArray.push(marker);
                         var markerCluster = new MarkerClusterer(map, marker,
@@ -292,7 +324,8 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                                         url: "http://nice2meettcc.herokuapp.com/api/oferta",
                                         data: {
                                                 lat : marker.metadata.lat,
-                                                long : marker.metadata.lng
+                                                long : marker.metadata.lng,
+                                                id_turista : window.localStorage.getItem("turista.id_turista")
                                         }
                                     }).success(function(success) {
                                                 
@@ -303,7 +336,7 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                                             if (lengthOferta > 0){
                                                 document.getElementById('errorquiz').style.display = 'none';
                                                 document.getElementById('spinnerquiz').style.display = 'none';
-                                                document.getElementById('botãoquiz').style.display = 'inline-block';
+                                                $scope.ofertaJson = dadosOfertas; 
                                             };
                                             
                                             for (var i = 0; i < lengthOferta; i++) {
@@ -313,20 +346,21 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                                             };
                                         }else{
                                             console.log("erro");
-                                            document.getElementById('botãoquiz').style.display = 'none';
+                                            
                                             document.getElementById('spinnerquiz').style.display = 'none';
                                             document.getElementById('errorquiz').style.display = 'inline-block';
                                         }
                                     }).error(function(error){
-                                        document.getElementById('botãoquiz').style.display = 'none';
+                                        
                                         document.getElementById('spinnerquiz').style.display = 'none';
                                         document.getElementById('errorquiz').style.display = 'inline-block';
                                     });
                                     infowindow.setContent(contentInfoWindow);
                                     infowindow.open(map,marker);
+                                    $scope.ofertaJson = ''; 
                                     document.getElementById('errorquiz').style.display = 'none';
                                     document.getElementById('spinnerquiz').style.display = 'inline-block';
-                                    document.getElementById('botãoquiz').style.display = 'none';
+                                    
                                     $scope.buttonRota = function(){
                                         infowindow.close();
                                         var from = positionCliente;
@@ -747,7 +781,31 @@ appN2M.controller('PerfilCtrl',  function($scope,$state,$ionicHistory, $ionicPop
     };
 })
 appN2M.controller('InfoOfertaCtrl',  function($scope,$state,$ionicPopup, $http, $ionicLoading, $window) {
-    $scope.ofertaJson = dadosOfertas;
+    var ids_ofertas = [];
+    for (var i = 0; i < dadosOfertas.length; i++) {
+        ids_ofertas[i] = dadosOfertas[i].id_oferta;     
+    };
+    
+    $http({
+                                        method: "post",
+                                        url: "https://nice2meettcc.herokuapp.com/api/cupom",
+                                        data: {
+                                                id_oferta : ids_ofertas,
+                                                id_turista : window.localStorage.getItem("turista.id_turista"),
+                                                flag: 1
+                                        }
+                                    }).success(function(success) {
+                                        if(success) {
+                                            for (var i = 0; i < dadosOfertas.length; i++) {
+                                                dadosOfertas[i].ic_status = success[i];     
+                                            };
+                                            console.log(dadosOfertas)
+                                            $scope.ofertaJson = dadosOfertas; 
+                                            console.log(success);  
+                                        }else{console.log("erro");}
+                                    }).error(function(error){console.log("net");
+                                    });
+    
     function ofertaEscolhida($index){
         id_oferta_escolhida = dadosOfertas[$index].id_oferta;
         $state.go('quiz');
