@@ -179,20 +179,20 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                 circle.setRadius(radius + direction * 0.1);
             }, 2);
             var imageCliente = new google.maps.MarkerImage(
-    "img/s.svg",
-    null,
-    null,
-    /* Offset x axis 33% of overall size, Offset y axis 100% of overall size */
-    new google.maps.Point(25, 50), 
-    new google.maps.Size(50, 50)); 
+                "img/markerCliente.svg",
+                null,
+                null,
+                /* Offset x axis 33% of overall size, Offset y axis 100% of overall size */
+                new google.maps.Point(25, 50), 
+                new google.maps.Size(50, 50)); 
 
             var imagePonto = new google.maps.MarkerImage(
-    "img/v.svg",
-    null,
-    null,
-    /* Offset x axis 33% of overall size, Offset y axis 100% of overall size */
-    new google.maps.Point(25, 50), 
-    new google.maps.Size(50, 50)); 
+                "img/markerPonto.svg",
+                null,
+                null,
+                /* Offset x axis 33% of overall size, Offset y axis 100% of overall size */
+                new google.maps.Point(25, 50), 
+                new google.maps.Size(50, 50)); 
             marcadorCliente = new google.maps.Marker({
                 map: $scope.map,
                 animation: google.maps.Animation.DROP,
