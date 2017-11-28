@@ -8,11 +8,11 @@
                                     
                                     <i class="ion-plus-round alert-msg" style="font-size:1.5rem; color:white;"></i>
                                     <input type="file" accept="image/*" id="file" ng-model="fotoEdt" class="file-upload" data-cloudinary-field="image_id"
-   data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
+   data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0]);document.getElementById('buttonEditar').style.display = 'block';document.getElementById('buttonEditar2').style.display = 'block'" >
                                 </span>
 
                                 <img id="blah" src="img/edit-photo.jpg" class="img_avatar">
-<button  class="button button-full button-balanced"  type="submit" >Salvar</button>
+
                             </div>
                         </div>
                         

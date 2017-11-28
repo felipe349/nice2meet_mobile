@@ -54,11 +54,6 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
         cache:false,
         controller: 'QuizCtrl'
     })
-    .state('infoOferta', {
-        url: '/infoOferta',
-        templateUrl: 'templates/infoOferta.html',
-        controller: 'InfoOfertaCtrl'
-    })
     .state('tutorial', {
         url: '/tutorial',
         templateUrl: 'templates/tutorial.html',
