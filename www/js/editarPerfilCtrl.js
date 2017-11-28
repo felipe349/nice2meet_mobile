@@ -1,12 +1,3 @@
-var appN2M = angular.module('nice2meet')
-var id_ponto_quiz = 0;
-var dadosOfertas = [];
-var id_oferta_escolhida = 0;
-var reloadHome = 0;
-var reScopePerfil = 0;
-var retorno_api_quiz = 0;
-var marcadores = {};
-var markerArray = [];
 appN2M.controller('EditarPerfilCtrl',  function($scope,$state, $http, $ionicLoading, $window) {
     
     $scope.$on('$ionicView.enter', function(){
@@ -142,32 +133,4 @@ appN2M.controller('EditarPerfilCtrl',  function($scope,$state, $http, $ionicLoad
         
     }
     });
-})
-appN2M.controller('TrocarSenhaCtrl',  function($scope,$state, $http, $window) {
-
-    $scope.editarTurista = function(usuarioEdit) {
-        if(usuarioEdit.senha == usuarioEdit.new_senha){
-            document.getElementById('error-box-senha').classList.remove("ng-hide");
-            document.getElementById('senhasIguais').style.display = 'block';
-        }else{
-            $http({
-            method: "post",
-            url: "https://nice2meettcc.herokuapp.com/api/editarSenha",
-            data: {
-                    id_turista : window.localStorage.getItem("turista.id_turista"),
-                    password: usuarioEdit.senha,
-                    newPassword: usuarioEdit.new_senha
-            }
-        }).success(function(success) {
-            if(success) {
-                console.log(success + "a")
-            }else{
-                console.log("erro");
-            }
-        }).error(function(error){
-            console.log("net");
-        });
-            console.log(usuarioEdit.senha);
-        }
-    }
 })
