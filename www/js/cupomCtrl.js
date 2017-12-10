@@ -16,7 +16,7 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout,
     var oferta_array = [];
     $http({
         method: "post",
-        url: "https://nice2meettcc.herokuapp.com/api/getCupom",
+        url: "https://nice2meet-claiohm.c9users.io/api/getCupom",
         data: {
             id_turista : window.localStorage.getItem("turista.id_turista")
         }
@@ -25,6 +25,7 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout,
             document.getElementById('error-cupom').classList.add("error-cupom-none");
             document.getElementById('error-cupom').classList.remove("error-cupom-block");
             cupom_array = success;
+            parceiro_array = cupom_array.pop();
             oferta_array = cupom_array.pop();
             cupom_array = cupom_array[0];
             horarioServidor = cupom_array.pop();
@@ -34,6 +35,8 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout,
                 cupom_array[i].nm_oferta = oferta_array[i].nm_oferta;
                 cupom_array[i].ds_oferta = oferta_array[i].ds_oferta;
                 cupom_array[i].count = i;
+                cupom_array[i].nm_parceiro = parceiro_array[i].nm_parceiro;
+                cupom_array[i].end_parceiro = parceiro_array[i].nm_endereco;
             };
             $scope.cupons = cupom_array; 
             if(success.length < listLengthCupom){

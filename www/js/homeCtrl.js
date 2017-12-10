@@ -210,11 +210,28 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                             }
                                 
                         };
-                        $scope.addClassOfertaAberta = function($this){
-                            console.log(this);
-                            this.classList.add("ofertaAberta");
+                        var markerr;
+                        $scope.centralizaIW = function(){
+                            if($scope.Testette){
+                                if(document.getElementById('item_ofertas') != null){
+                                    infowindow.open(map,markerr);
+                                }else{
+                                    var countCenterIW = setInterval(function() {
+                                        if(document.getElementById('item_ofertas') != null){
+                                            clearInterval(countCenterIW);
+                                            infowindow.open(map,markerr);
+                                        }
+
+                                    }, 5);  
+                                }
+                            }else if($scope.Historia || $scope.Oferta){
+                                infowindow.open(map,markerr);
+                            }
+                            
+                            
+
+                           
                         };
-                        
                         var contentInfoWindow = "<div >" +"<img src='img/rota.png' id='botãorota' style='float:right;' title='Rota até o ponto turistico.' ng-click='buttonRota()' class='rotaImg'></img>"+
                             
                             "<span class='nm_ponto_iw' style='display:relative;' >" + markertitle + "</span>" + 
@@ -225,7 +242,7 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                                     /*"<button id='botãoquiz' class='btn' style='display:none' ng-click='buttonQuiz()'>Ofertas</button>" +*/
                                     
                                     "<div class='list'>"+
-                                            "<a class='item  item_oferta item-text-wrap'  ng-model='Historia' ng-click='Historia = !Historia'>"+    
+                                            "<a class='item  item_oferta item-text-wrap'  ng-model='Historia' ng-click='Historia = !Historia;centralizaIW()'>"+    
                                                 "<b>História do Ponto Turistico</b>" + 
                                                     "<div ng-if='Historia'>"+
                                                         "<br>"+
@@ -234,13 +251,13 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                                                     "</div>"+
 
                                             "</a>"+
-                                            "<a class='item  item_oferta' ng-click='Testette = !Testette' ng-model='Oferta' >"+    
+                                            "<a class='item  item_oferta' ng-click='Testette = !Testette;centralizaIW()' ng-model='Oferta' >"+    
                                                 "<b>Ofertas</b>" + 
                                                     
                                             "</a>"+
                                             "<ion-spinner id='spinnerquiz' class='spinner-loading spinner-calm' ng-show='Testette' icon='lines'></ion-spinner>" +
                                             "<span id='errorquiz' style='display:none'>Sem ofertas no momento</span>" +
-                                            "<a class='item  item_ofertas'  ng-show='Testette' ng-model='Oferta' ng-repeat='x in ofertaJson | orderBy : flag' ng-click='Oferta = !Oferta'>"+
+                                            "<a id=\"item_ofertas\" class=\"item  item_ofertas ofertaStatus{{x.flag}} \"  ng-show=\"Testette\" ng-model=\"Oferta\" ng-repeat=\"x in ofertaJson | orderBy: 'flag' \" ng-click=\"Oferta = !Oferta;centralizaIW()\" >"+
                                                     
                                                 "{{ x.nm_oferta }}" + 
                                                     "<div ng-if='Oferta'>"+
@@ -248,7 +265,7 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                                                         "<p >Descrição: {{ x.ds_oferta }}</p>"+
                                                         "<br>"+ 
                                                         "<p ng-show='{{ x.flag }}' style='float:right'>Oferta já realizada.</p>"+
-                                                        "<button class='button button-positive button-oferta' ng-hide='{{ x.flag }}' ng-click='buttonQuiz($index)'>"+
+                                                        "<button class='button button-positive button-oferta' ng-hide='{{ x.flag }}' ng-click='buttonQuiz({{x.position}})'>"+
                                                             "Quiz"+
                                                         "</button>" +
                                                     "</div>"+
@@ -274,12 +291,12 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
 
                         marker.metadata = {type: "point", id: 1, lat: latJson, lng: lngJson};
                         markerArray.push(marker);
-                        var markerCluster = new MarkerClusterer(map, marker,
-                            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+                        
                         google.maps.event.addListener(marker,'click', (function(marker,contentInfoWindow,infowindow){ 
                         
                         return function() {
-
+                            markerr = marker;
+                            
                                     $http({
                                         method: "post",
                                         url: "http://nice2meettcc.herokuapp.com/api/oferta",
@@ -291,23 +308,27 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                                     }).success(function(success) {
                                                 
                                         if(success) {
+                                            
                                             oferta = success;
                                             lengthOferta = success.length;
                                             dadosOfertas = [];
-                                            if (lengthOferta > 0){
-                                                document.getElementById('errorquiz').style.display = 'none';
-                                                document.getElementById('spinnerquiz').style.display = 'none';
-                                                $scope.ofertaJson = dadosOfertas; 
-                                            };
-                                            
+                                            dadosOfertas;
                                             for (var i = 0; i < lengthOferta; i++) {
                                                 for (var j = 0; j < success[i].length; j++) {
                                                     dadosOfertas.push(success[i][j]);
                                                 };
                                             };
+                                            for(var i=0; i< dadosOfertas.length;i++){
+                                                dadosOfertas[i].position = i;
+                                            }
+                                            if (lengthOferta > 0){
+                                                document.getElementById('spinnerquiz').style.display = 'none';
+                                                $scope.ofertaJson = dadosOfertas; 
+                                            };
+                                            
+                                            
                                         }else{
                                             console.log("erro");
-                                            
                                             document.getElementById('spinnerquiz').style.display = 'none';
                                             document.getElementById('errorquiz').style.display = 'inline-block';
                                         }
@@ -318,10 +339,12 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                                     });
                                     infowindow.setContent(contentInfoWindow);
                                     infowindow.open(map,marker);
-                                    $scope.ofertaJson = ''; 
+                                    $scope.ofertaJson = '';
+                                    $scope.Testette = 0;
+                                    $scope.Historia = 0;
                                     document.getElementById('errorquiz').style.display = 'none';
                                     document.getElementById('spinnerquiz').style.display = 'inline-block';
-                                    
+                                    console.log($scope.map.getCenter());
                                     $scope.buttonRota = function(){
                                         infowindow.close();
                                         var from = positionCliente;

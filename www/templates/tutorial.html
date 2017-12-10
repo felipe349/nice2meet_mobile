@@ -2,18 +2,18 @@
         <ion-content >
         <ion-slide-box class="tutorial-slide centralizar" on-slide-changed="slideChanged(index)" >
           <ion-slide >
-            <br><h3 class="gradient-primary">Bem-vindo ao Nice2meet!</h3>
+            <br><h3 class="gradient-primary"><b>Bem-vindo ao Nice2meet!</b></h3>
             <div class="login-content">
                 <div class="container-login">
-                    <img src="img/swipe.png" width="80%">
-                    <h4>Deslize para a direita para avançar o tutorial.</h4>
+                    <img src="img/swipe.jpg" width="100%">
+                    <h4>Deslize para a esquerda para avançar o tutorial.</h4>
                 </div>
             </div>
           </ion-slide>
           <ion-slide>     
             <div class="login-content">
                 <div class="container-login">
-                    <img src="img/tuto1.png" width="80%">
+                    <img src="img/tuto1.jpg" width="100%">
                     <h4>Escolha um ponto turistico e abra a parte de ofertas.</h4>
                 </div>
             </div>
@@ -21,7 +21,7 @@
           <ion-slide> 
             <div class="login-content">
                 <div class="container-login">
-                    <img src="img/tuto2.png" width="80%">
+                    <img src="img/tuto2.jpg" width="100%">
                     <h4>Escolha uma oferta e inicie o quiz.</h4>
                 </div>
             </div>   
@@ -29,7 +29,7 @@
           <ion-slide>            
             <div class="login-content">
                 <div class="container-login">
-                    <img src="img/tuto3.png" width="80%">
+                    <img src="img/tuto3.jpg" width="100%">
                     <h4>Responda o quiz corretamente e receba seu cupom.</h4>
                 </div>
             </div>
@@ -37,16 +37,18 @@
           <ion-slide>  
             <div class="login-content">
                 <div class="container-login">
-                    <img src="img/tuto4.png" width="80%">
+                    <img src="img/clock-tuto.jpg" width="100%">
                     <h4>Mas cuidado com o tempo, o cupom tem duração de 24h.</h4>
                 </div>
             </div>
           </ion-slide>
           <ion-slide>
             <div class="login-content">
+              <h3 class="gradient-primary"><b>Vamos começar?</b></h3>
                 <div class="container-login">
-                    <h3 class="gradient-primary">Vamos começar?</h3>
-                    <button ng-click="startApp()" class="button button-positive button-full">Começar</button>
+                    
+                    <img src="img/start-nice.jpg" width="60%">
+                    <button ng-click="startApp()" class="button button-positive button-full button-start">Começar</button>
                 </div>
             </div>
             
@@ -56,15 +58,15 @@
         <div class = "bar header-tutorial" >
             <button class="button button-positive button-clear no-animation"
                   ng-click="startApp()" ng-if="!slideIndex" style="color:#bbb;">
-            Pular
+            <b>Pular</b>
           </button>
           <button class="button button-positive button-clear no-animation"
                   ng-click="previous()" ng-if="slideIndex > 0" style="color:#aaa">
-            Anterior
+            <b>Anterior</b>
           </button> 
           <button class="button button-positive button-clear no-animation"
                   ng-click="next()" ng-if="slideIndex != 5" style="color:#aaa;">
-            Próximo
+            <b>Próximo</b>
           </button>
         </div>
     </ion-content>

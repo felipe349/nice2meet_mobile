@@ -1,9 +1,8 @@
-appN2M.controller('LoginCtrl', function($scope,$state, $location, $window, $http,$ionicSlideBoxDelegate,$ionicHistory, $ionicLoading, $timeout, $ionicPlatform, $cordovaSplashscreen) {
-    document.getElementById('idTabs').style.display='none';
-    
+appN2M.controller('LoginCtrl', function($scope,$state, $location, $window, $http,$ionicSlideBoxDelegate,$ionicHistory, $ionicLoading, $timeout) {
     $scope.$on('$ionicView.enter', function(event, viewData) {
         $ionicHistory.clearCache();
     });
+    document.getElementById('idTabs').style.display='none';
     $scope.login = function(u) {
         if (u == undefined || u.login == undefined || u.senha == undefined) {
             document.getElementById('error').innerHTML = "Digite o login e senha.";
@@ -19,6 +18,7 @@ appN2M.controller('LoginCtrl', function($scope,$state, $location, $window, $http
                 }
             }).success(function(success,turista) {
                 if(success.logado == 1) {
+                    console.log(success.turista.ic_tutorial);
                         document.getElementById("login__submit").classList.add("success");
                         localforage.setItem('status', success.logado);
                         window.localStorage.setItem("stat", success.logado);

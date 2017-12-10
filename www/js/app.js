@@ -78,6 +78,10 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
         url: '/trocarSenha',
         templateUrl: 'templates/trocarSenha.html',
         controller: 'TrocarSenhaCtrl'
+    })
+    .state('infoWindow', {
+        url: '/infoWindow',
+        templateUrl: 'templates/infoWindow.html'
     });
     localforage.setDriver([
           localforage.INDEXEDDB,
@@ -86,11 +90,11 @@ appNice.config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider,
           ])
     if(window.localStorage.getItem("stat") == 1){
         if(window.localStorage.getItem("turista.ic_tutorial") == 0){
-          $urlRouterProvider.otherwise('/home');
+          $urlRouterProvider.otherwise('/tutorial');
         }else{
           $urlRouterProvider.otherwise('/home');
         }
-      }else{
-           $urlRouterProvider.otherwise('/login');
-      }
+    }else{
+        $urlRouterProvider.otherwise('/login');
+    }
 });
