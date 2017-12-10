@@ -16,7 +16,7 @@ appN2M.controller('CupomCtrl',  function($scope, $http, $ionicLoading, $timeout,
     var oferta_array = [];
     $http({
         method: "post",
-        url: "https://nice2meet-claiohm.c9users.io/api/getCupom",
+        url: "https://nice2meettcc.herokuapp.com/api/getCupom",
         data: {
             id_turista : window.localStorage.getItem("turista.id_turista")
         }
