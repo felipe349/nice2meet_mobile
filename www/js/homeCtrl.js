@@ -145,7 +145,7 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                                 return d; 
                             };
                             var distancia = getDistance(positionCliente, positionPonto);
-                            if(distancia < 200){
+                            if(distancia < 300){
                                 var confirmPopup = $ionicPopup.confirm({
                                     title: 'Fazer o quiz para a oferta ' + dadosOfertas[$index].nm_oferta +'?',
                                     template: 'Após clicar no ok a chance será utilizada, conclua sua tentativa com sabedoria.',
@@ -257,12 +257,12 @@ appN2M.controller('HomeCtrl', function($scope,$state, $compile, $cacheFactory,$i
                                             "</a>"+
                                             "<ion-spinner id='spinnerquiz' class='spinner-loading spinner-calm' ng-show='Testette' icon='lines'></ion-spinner>" +
                                             "<span id='errorquiz' style='display:none'>Sem ofertas no momento</span>" +
-                                            "<a id=\"item_ofertas\" class=\"item  item_ofertas ofertaStatus{{x.flag}} \"  ng-show=\"Testette\" ng-model=\"Oferta\" ng-repeat=\"x in ofertaJson | orderBy: 'flag' \" ng-click=\"Oferta = !Oferta;centralizaIW()\" >"+
+                                            "<a id=\"item_ofertas\" class=\"item  item_ofertas item-text-wrap ofertaStatus{{x.flag}} \"  ng-show=\"Testette\" ng-model=\"Oferta\" ng-repeat=\"x in ofertaJson | orderBy: 'flag' \" ng-click=\"Oferta = !Oferta;centralizaIW()\" >"+
                                                     
                                                 "{{ x.nm_oferta }}" + 
                                                     "<div ng-if='Oferta'>"+
                                                         "<br>"+
-                                                        "<p >Descrição: {{ x.ds_oferta }}</p>"+
+                                                        "<p>Descrição: {{ x.ds_oferta }}</p>"+
                                                         "<br>"+ 
                                                         "<p ng-show='{{ x.flag }}' style='float:right'>Oferta já realizada.</p>"+
                                                         "<button class='button button-positive button-oferta' ng-hide='{{ x.flag }}' ng-click='buttonQuiz({{x.position}})'>"+

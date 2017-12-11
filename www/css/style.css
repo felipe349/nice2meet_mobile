@@ -173,7 +173,9 @@ label.item.has-error {
 }
 
 .button-oferta{
-  float:right;
+  position: relative !important;
+  
+
   line-height: 30px !important;
   min-height: 30px;
   background: rgba(30,30,30,1) !important;
